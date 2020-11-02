@@ -1,0 +1,26 @@
+name: Netlify Build and Deploy V1
+
+on:
+  push:
+    branches:
+      - v1
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Deploy to Netlify
+        uses: nwtgck/actions-netlify@v1.1
+        with:
+          publish-dir: './'
+          production-branch: v1
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: "Deploying at aditya-mitra-v1.netlify.app - ${{ github.event.head_commit.message }}"
+          enable-pull-request-comment: false
+          enable-commit-comment: true
+          overwrites-pull-request-comment: true
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN_V1 }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID_V1 }}
+        timeout-minutes: 1
