@@ -4,4 +4,4 @@
 
 Built with HTML, CSS, JS.
 
-Live at [netlify - ]()
+Live at [netlify - https://aditya-mitra-v1.netlify.app/](https://aditya-mitra-v1.netlify.app/)
