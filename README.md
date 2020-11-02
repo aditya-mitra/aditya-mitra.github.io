@@ -1,5 +1,7 @@
-# Portfolio Website
+# Aditya Mitra's Portfolio Site V1
 
-### I have created this portfolio website in hurry.
+*This is my old portfolio site.*
 
-### It is not complete fully. But soon I will upload a new and fresh one.
+Built with HTML, CSS, JS.
+
+Live at [netlify - ]()
