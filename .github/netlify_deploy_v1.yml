@@ -1,9 +1,7 @@
 name: Netlify Build and Deploy V1
 
-on:
-  push:
-    branches:
-      - v1
+on: push
+
 jobs:
   build:
     runs-on: ubuntu-latest
