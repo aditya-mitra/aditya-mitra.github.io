@@ -1,0 +1,23 @@
+{
+    "name": "Aditya Mitra's Portfolio",
+    "short_name": "Aditya",
+    "description": "The Portfolio Site of Aditya Mitra.",
+    "lang": "en",
+    "start_url": "/",
+    "display": "standalone",
+    "theme_color": "#000",
+    "background_color": "#fff",
+    "icons": [
+        {
+            "src": "/manifest/siteIcon512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        },
+        {
+            "src": "/manifest/siteIcon120.png",
+            "sizes": "120x120",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ]
+}
