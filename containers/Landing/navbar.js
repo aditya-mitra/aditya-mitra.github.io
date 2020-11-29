@@ -16,7 +16,7 @@ export default function Navbar() {
                 {styles}
             </style>
             <nav
-                className="navbar fixed-navbar"
+                className="navbar"
                 style={{ backgroundColor: colorMode === "dark" ? "#2eb82e" : "#00cc00" }}
                 id="navbar"
             >

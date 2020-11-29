@@ -1,9 +1,9 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import dynamic from 'next/dynamic';
 
 import Header from './header';
-import Navbar from './navbar';
 
-import styles from "@/styles/landing";
+import styles from '@/styles/landing';
 
 function handleInView(entries, container) {
     const isShown = entries[0].isIntersecting;
@@ -16,20 +16,27 @@ function handleInView(entries, container) {
     }
 }
 
-export default function LandingContainer() {
+export default function LandingIndex() {
     const containerRef = useRef(null);
+    const [Navbar, setNavbar] = useState(null);
 
     useEffect(() => {
         const container = containerRef.current;
+        const navbar = dynamic(() => import('./navbar'));
+        setNavbar(navbar);
 
-        const observer = new IntersectionObserver(
-            (entries) => handleInView(entries, container),
-            {
-                root: null,
-                rootMargin: '0px',
-                threshold: 0.01
-            });
-        observer.observe(container);
+        const observeNavbar = () => {
+            const observer = new IntersectionObserver(
+                (entries) => handleInView(entries, container),
+                {
+                    root: null,
+                    rootMargin: '0px',
+                    threshold: 0.01
+                });
+            observer.observe(container);
+        }
+        setTimeout(observeNavbar, 1000);
+
     }, []);
 
     return (
@@ -43,7 +50,7 @@ export default function LandingContainer() {
                 ref={containerRef}
             >
                 <Header />
-                <Navbar />
+                {Navbar ? <Navbar /> : null}
             </div>
         </>
     );
