@@ -1,7 +1,7 @@
 import { useColorMode } from "@chakra-ui/react";
 import styles from "@/styles/fire.js";
 
-export default function () {
+export default function fireAnimation () {
     const { colorMode } = useColorMode();
     return (
         <>
@@ -9,7 +9,7 @@ export default function () {
                 {styles}
             </style>
             <div
-                className={`container ${colorMode === "dark"?"dark":null}`}
+                className={`container ${colorMode === "dark" ? "dark" : null}`}
             >
                 <div className="fire-container">
                     <div className="fire-left">

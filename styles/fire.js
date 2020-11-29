@@ -3,20 +3,33 @@ import css from "styled-jsx/css";
 export default css`
 .container{
   width: auto;
-  height: 100%;
+  height: auto;
 
   display: flex;
   justify-content: center;
   align-items: center;
 }
 .dark.container {
-  filter: hue-rotate(180deg); /*just hue-rotate and do not invert*/
+  filter: hue-rotate(180deg);
+}
+@media screen and (max-width: 768px) {
+  .container {
+    margin: 2rem 0;
+    padding-top: 1.5rem;
+  }
 }
 
 .fire-container {
   position: relative;
   width: 250px;
   height: 250px;
+  padding-top: 1rem;
+}
+@media screen and (max-width: 450px) {
+  .fire-container {
+    height: 200px;
+    width: 200px;
+  }
 }
 
 .fire-main {
