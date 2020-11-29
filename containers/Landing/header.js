@@ -1,17 +1,22 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
 
-import unanimatedHeader from './unanimatedHeader';
+import UnanimatedBox from './unanimatedBox';
 
 import { landing as landingClass } from '@/styles/extras.module.css';
 import { mouser } from '@/styles/header';
 
 export default function Header() {
 
-    const [isMounted, setMounted] = useState(false);
+    const [AnimatedBox, setAnimatedBox] = useState(null);
 
     useEffect(() => {
         setTimeout(() => {
-            setMounted(true);
+            const animatedBox = dynamic(
+                () => import('./animatedBox'),
+                { loading: () => <UnanimatedBox /> }
+            );
+            setAnimatedBox(animatedBox);
         }, 2000);
     }, []);
 
@@ -29,7 +34,8 @@ export default function Header() {
     return (
         <>
             <div className={landingClass}>
-                {unanimatedHeader}
+                {AnimatedBox ?
+                    <AnimatedBox /> : <UnanimatedBox />}
             </div>
         </>
     );
