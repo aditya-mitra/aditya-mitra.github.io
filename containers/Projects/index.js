@@ -4,6 +4,10 @@ import constants from "./constants";
 import Card from "./card";
 import { showSwipeGuide } from "./cardMouseMovements";
 
+import {
+    containerHeader as headerClass
+} from "@/styles/extras.module.css";
+
 export default function Projects() {
 
     const containerRef = useRef(null);
@@ -34,7 +38,7 @@ export default function Projects() {
         <div
             ref={containerRef}
         >
-            <h1 id="myProjects" className="container-header">My Projects</h1>
+            <h1 id="myProjects" className={headerClass}>My Projects</h1>
             {cards}
         </div>
     );

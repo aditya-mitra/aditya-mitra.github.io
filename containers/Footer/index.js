@@ -4,6 +4,9 @@ import constants from "./constants";
 
 import {useColorMode, Link, Icon } from "@chakra-ui/react";
 import styles from "@/styles/footer";
+import {
+    highlight as hightlightClass
+} from "@/styles/extras.module.css";
 
 
 export default function Footer() {
@@ -11,14 +14,14 @@ export default function Footer() {
 
     useEffect(() => {
         const highlighter = document.createElement('span');
-        highlighter.classList.add('highlight');
+        highlighter.classList.add(hightlightClass);
+        highlighter.id = 'highlighter';
         highlighter.style.display = "block";
-        document.body.append(highlighter);
+        document.body.appendChild(highlighter);
     }, []);
 
     const highlightLink = event => {
-
-        const highlighter = document.querySelector(".highlight");
+        const highlighter = document.getElementById('highlighter');
         const linkCoords = event.target.getBoundingClientRect();
 
         const coords = {
@@ -55,7 +58,9 @@ export default function Footer() {
             <style jsx>
                 {styles}
             </style>
-            <footer className={`footer ${colorMode==="dark"?"dark":null}`}>
+            <footer
+                className={`footer ${colorMode === "dark" ? "dark" : null}`}
+            >
                 <div className="contact-container">
                     <span className="header">Talk With Me</span>
                     <div className="contact-icons">{finds}</div>

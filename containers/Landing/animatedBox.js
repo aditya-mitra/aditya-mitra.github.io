@@ -1,15 +1,18 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 import animateWord from './animationControllers';
 import { headerBoxStyes } from '@/styles/header';
 
 export default function animatedBox() {
+
+    const wordAditya = useRef(null);
+    const wordMitra = useRef(null);
+
     useEffect(() => {
-        const wordAditya = document.querySelector("#word-aditya");
-        const wordMitra = document.getElementById("word-mitra");
-        animateWord(wordAditya);
-        animateWord(wordMitra);
+        animateWord(wordAditya.current);
+        animateWord(wordMitra.current);
     }, []);
+
     return (
         <>
             <style jsx>
@@ -21,8 +24,9 @@ export default function animatedBox() {
                         viewBox="0 0 855 184"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
-                        id="word-aditya"
                         preserveAspectRatio="xMinYMin meet"
+                        id="word-aditya"
+                        ref={wordAditya}
                     >
                         <path
                             d="M0.000976562 184L72.751 0.5H73.251L146.001 184H140.501L114.751 118.25H31.001L5.00098 184H0.000976562ZM33.001 113.75H112.751L73.001 12.75L33.001 113.75Z"
@@ -68,8 +72,9 @@ export default function animatedBox() {
                         viewBox="0 0 719 184"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
-                        id="word-mitra"
                         preserveAspectRatio="xMinYMin meet"
+                        id="word-mitra"
+                        ref={wordMitra}
                     >
                         <path
                             d="M0.158203 184V5.5H0.408203L82.1582 122L164.158 5.5H164.408V184H159.408V20.75L82.4082 129H81.9082L5.1582 21V184H0.158203Z"

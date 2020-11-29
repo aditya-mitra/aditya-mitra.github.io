@@ -20,3 +20,22 @@
     transform: scale(1) !important;
     transition: transform 1s linear;
 }
+
+.highlight {
+    transition: all 0.4s;
+    position: absolute;
+    top: 0;
+    background: #ffffe6;
+    left: 0;
+    order: 5;
+    border-radius: 20px;
+    display: none;
+    opacity: 0.4;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+.containerHeader {
+    font-size: 3.5rem;
+    font-family: 'Montserrat', sans-serif;
+    margin: 1rem 0;
+}

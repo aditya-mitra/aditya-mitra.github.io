@@ -4,6 +4,9 @@ import constants from "./constants";
 import SkillCards from "./skillCard";
 
 import styles from "@/styles/skillsContainer";
+import {
+    containerHeader as headerClass
+} from "@/styles/extras.module.css";
 
 function handleInView(entries, container, hasShown, observer) {
     if (entries[0].isIntersecting && !hasShown) {
@@ -50,7 +53,7 @@ export default function Skills() {
 
     return (
         <>
-            <h1 id="myTechSkills" className="container-header">My Tech Skills</h1>
+            <h1 id="myTechSkills" className={headerClass}>My Tech Skills</h1>
             <style jsx>
                 {styles}
             </style>
