@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 
-import styles, { mouser } from '@/styles/header';
+import unanimatedHeader from './unanimatedHeader';
+
+import { landing as landingClass } from '@/styles/extras.module.css';
+import { mouser } from '@/styles/header';
 
 export default function Header() {
 
@@ -22,23 +25,11 @@ export default function Header() {
             </div>
         </>;
 
+
     return (
         <>
-            <style jsx>
-                {styles}
-            </style>
-            <div className="container">
-                <div className="box">
-                    <div className="title">
-                        <span className="block" />
-                        <h1>Aditya Mitra<span /></h1>
-                    </div>
-                    <div className="role">
-                        <div className="block" />
-                        <p>UInstinct</p>
-                    </div>
-                </div>
-                {isMounted ? mouseTrans : null}
+            <div className={landingClass}>
+                {unanimatedHeader}
             </div>
         </>
     );
