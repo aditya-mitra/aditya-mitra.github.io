@@ -58,7 +58,7 @@ export default function Card({ sourceItems, links, stacks }) {
             {
                 root: null,
                 rootMargin: '0px',
-                threshold: 0.8
+                threshold: 0.65
             });
         observer.observe(container);
         const item = container.querySelector(`#item${uniqueMark}`);

@@ -28,7 +28,6 @@ export default function Projects() {
             showSwipeGuide();
             container.removeEventListener('mouseenter', handleEvent);
             container.removeEventListener('touchend', handleEvent);
-
         }
         container.addEventListener('mouseenter', handleEvent);
         container.addEventListener('touchend', handleEvent);

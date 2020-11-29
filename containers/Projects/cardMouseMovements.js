@@ -54,9 +54,9 @@ export function handleTouchEnd(
     const shiftX = endX - originalPosX;
 
     const relativeCurrent = currentItem - uniqueMark;
-    if (shiftX < -100 && relativeCurrent < totalItems - 1) {
+    if (shiftX < -50 && relativeCurrent < totalItems - 1) {
         changeCard(displayCard, currentItem + 1);
-    } else if (shiftX > 100 && relativeCurrent > 0) {
+    } else if (shiftX > 50 && relativeCurrent > 0) {
         changeCard(displayCard, currentItem - 1);
     }
 }
