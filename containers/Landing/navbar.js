@@ -7,7 +7,6 @@ import {
 } from "@chakra-ui/react";
 import styles from "@/styles/navbar";
 
-
 export default function Navbar() {
     const { colorMode } = useColorMode();
 
