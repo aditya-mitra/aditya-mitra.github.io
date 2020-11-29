@@ -1,14 +1,6 @@
 import css from "styled-jsx/css";
 
 export const headerBoxStyes = css`
-.landing {
-  width: 100%;
-  height: 100vh;
-  background-color: black;
-  background-size: cover;
-
-  position: relative;
-}
 .box {
   position: absolute;
   top: 47%;
@@ -27,16 +19,19 @@ export const headerBoxStyes = css`
 }
 
 .wrapper{
-  width: auto;
+  width: 100%;
+  height: auto;
   display: flex;
   justify-content: center;
 }
 
 .box svg {
-  width: auto;
+  align-self: center;
+  width: 100%;
   height: auto;
   background-size: cover;
 }
+  
 
 #word-mitra{
   margin-top: 2rem;
