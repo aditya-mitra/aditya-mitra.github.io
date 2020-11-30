@@ -27,10 +27,10 @@ export default function Projects() {
         const handleEvent = () => {
             showSwipeGuide();
             container.removeEventListener('mouseenter', handleEvent);
-            container.removeEventListener('touchend', handleEvent);
+            container.removeEventListener('touchstart', handleEvent);
         }
         container.addEventListener('mouseenter', handleEvent);
-        container.addEventListener('touchend', handleEvent);
+        container.addEventListener('touchstart', handleEvent);
     }, []);
 
     return (

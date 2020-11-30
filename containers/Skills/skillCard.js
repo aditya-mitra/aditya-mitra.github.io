@@ -47,6 +47,9 @@ export default function SkillBar({ heading, topics, id }) {
                 onMouseMove={(event) =>
                     handleMouseMove(event, containerRef.current)}
                 onMouseLeave={() => handleMouseLeave(containerRef.current)}
+                onTouchMove={(event) =>
+                    handleMouseMove(event, containerRef.current)}
+                onTouchEnd={() => handleMouseLeave(containerRef.current)}
             >
                 <div className="skill-header">{heading}</div>
                 {topicsDisplay}
