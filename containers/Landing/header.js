@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 
 import UnanimatedBox from './unanimatedBox';
 
 import { landing as landingClass } from '@/styles/extras.module.css';
 
-export default function Header() {
+export default memo(function Header() {
 
     const [AnimatedBox, setAnimatedBox] = useState(null);
 
@@ -27,4 +27,4 @@ export default function Header() {
             </div>
         </>
     );
-}
+});

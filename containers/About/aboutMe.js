@@ -1,15 +1,16 @@
+import { memo } from 'react';
 import { useColorMode } from "@chakra-ui/react";
 
 import styles from "@/styles/aboutMe";
 
-export default function AboutMe({title, subTitle, description, image, status}) {
+export default memo(function AboutMe({ title, subTitle, description, image, status }) {
     const { colorMode } = useColorMode();
     return (
         <>
             <style jsx>
                 {styles}
             </style>
-            <div className={`container ${colorMode === "dark"?"dark":null}`} id="myAbout">
+            <div className={`container ${colorMode === "dark" ? "dark" : null}`} id="myAbout">
                 <div className="column">
                     <div className="module">
                         <div className="thumbnail">
@@ -28,4 +29,4 @@ export default function AboutMe({title, subTitle, description, image, status}) {
             </div>
         </>
     );
-}
+});

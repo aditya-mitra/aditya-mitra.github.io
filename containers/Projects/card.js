@@ -1,11 +1,11 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 
 import {
     handleDragStart, handleDrag, handleDragEnd,
     handleTouchStart, handleTouchEnd
 } from "./cardMouseMovements";
 import {
-    LinkButtons, StackTags, CardItems, RadioBullets
+    LinkButtons, StackTags, CardItems, RadioBullets, mountObserverCard
 } from './cardComponents';
 
 import {
@@ -16,11 +16,11 @@ import {
 import { allStyles } from "@/styles/card";
 import { scaleOut as scaleClass } from '@/styles/extras.module.css';
 
-
 export default function Card({ sourceItems, links, stacks }) {
 
     const { colorMode } = useColorMode();
     const containerRef = useRef(null);
+    const [hasScaledOut, setHasScaledOut] = useState(false);
 
     const uniqueMark = sourceItems[0].id;
     const [currentItem, setCurrentItem] = useState(uniqueMark);
@@ -53,33 +53,20 @@ export default function Card({ sourceItems, links, stacks }) {
     }, [currentItem]);
 
     useEffect(() => {
-        const container = containerRef.current;
-
-        const observer = new IntersectionObserver(
-            (entries) => {
-                if (entries[0].isIntersecting) {
-                    container.classList.add(scaleClass);
-                    observer.disconnect();
-                }
-            },
-            {
-                root: null,
-                rootMargin: '0px',
-                threshold: 0.65
-            });
-        observer.observe(container);
-        const item = container.querySelector(`#item${uniqueMark}`);
-        item.classList.add("visible");
-        if (totalItems > 1) {
-            const tap = container.querySelector(`#tap${uniqueMark}`);
-            tap.classList.add("checked");
-        }
+        mountObserverCard(containerRef.current, uniqueMark, totalItems, setHasScaledOut);
     }, []);
 
-    const Links = LinkButtons(links, colorMode);
-    const Stacks = StackTags(stacks);
-    const Items = CardItems(sourceItems, colorMode, uniqueMark);
-    const Bullets = RadioBullets(sourceItems, uniqueMark, currentItem, totalItems, displayCard);
+    useEffect(() => {
+        if (hasScaledOut === true) {
+            const container = containerRef.current;
+            container.classList.add(scaleClass);
+        }
+    }, [hasScaledOut, colorMode]);
+
+    const Links = useMemo(() => LinkButtons(links, colorMode), [links, colorMode]);
+    const Stacks = useMemo(() => StackTags(stacks), [stacks]);
+    const Items = useMemo(() => CardItems(sourceItems, colorMode, uniqueMark), [sourceItems, colorMode, uniqueMark]);
+    const Bullets = useMemo(() => RadioBullets(sourceItems, currentItem, totalItems, displayCard), [sourceItems, currentItem, uniqueMark, totalItems, displayCard]);
 
     return (
         <>

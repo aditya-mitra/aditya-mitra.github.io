@@ -1,6 +1,8 @@
+import { memo } from 'react';
+
 import { headerBoxStyes } from '@/styles/header';
 
-export default function unAnimatedBox() {
+export default memo( function unAnimatedBox() {
     return (
         <>
             <style jsx>
@@ -29,4 +31,4 @@ export default function unAnimatedBox() {
             </div>
         </>
     );
-}
+})

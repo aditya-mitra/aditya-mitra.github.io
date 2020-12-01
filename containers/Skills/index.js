@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 
 import constants from "./constants";
 import SkillCards from "./skillCard";
@@ -21,12 +21,12 @@ function handleInView(entries, container, hasShown, observer) {
 
 export default function Skills() {
 
-    const skillCards = constants.map((constant, idx) =>
+    const skillCards = useMemo(() => constants.map((constant, idx) =>
         <SkillCards
             key={idx} id={idx}
             heading={constant.heading} topics={constant.topics}
         />
-    )
+    ), [constants]);
 
     const containerRef = useRef(null);
 

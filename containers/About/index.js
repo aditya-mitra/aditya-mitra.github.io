@@ -31,8 +31,11 @@ export default function About() {
     return (
         <div className={classes}>
             {Fire ? <Fire /> : null}
-            <AboutMe title={constants.title} subTitle={constants.subTitle}
-                description={constants.description} image={constants.image}
+            <AboutMe
+                title={constants.title}
+                subTitle={constants.subTitle}
+                description={constants.description}
+                image={constants.image}
                 status={constants.status}
             />
         </div>
