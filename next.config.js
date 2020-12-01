@@ -2,7 +2,11 @@ const DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack
 
 const isProduction = process.env.NODE_ENV === 'production';
 
-module.exports = {
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+    enabled: isProduction,
+});
+
+module.exports = withBundleAnalyzer({
     webpack: (config, { dev }) => {
         if (isProduction) {
             config.optimization.minimize = true;
@@ -21,4 +25,4 @@ module.exports = {
         return { ...defaultPathMap, };
     },
     reactStrictMode: !isProduction,
-}
+});
