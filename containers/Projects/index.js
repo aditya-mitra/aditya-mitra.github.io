@@ -2,7 +2,6 @@ import { useEffect, useRef } from 'react';
 
 import constants from "./constants";
 import Card from "./card";
-import { showSwipeGuide } from "./cardMouseMovements";
 
 import {
     containerHeader as headerClass

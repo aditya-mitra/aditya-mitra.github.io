@@ -1,3 +1,6 @@
+/** set the card back to original transformation after a timeout
+ * @param {HTMLDivElement} skillCardEl
+ */
 export function handleMouseLeave(skillCardEl) {
     setTimeout(() => {
         skillCardEl.style.transform = "none";
@@ -5,6 +8,11 @@ export function handleMouseLeave(skillCardEl) {
     }, 650);
 }
 
+/** 3d transforms the card towards the screen
+ *  at the point where the mouse is present
+ * @param {import('react').MouseEvent} event
+ * @param {HTMLDivElement} skillCardEl
+ */
 export function handleMouseMove(event, skillCardEl) {
     const { offsetX, offsetY } = event.nativeEvent;
     skillCardEl = skillCardEl ?? event.target;

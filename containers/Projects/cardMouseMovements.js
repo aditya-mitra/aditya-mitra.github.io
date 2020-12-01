@@ -1,15 +1,30 @@
-import { createStandaloneToast, Box, Icon } from "@chakra-ui/react";
-import { GiSideswipe } from "react-icons/gi";
-
+/** tracks whether the mouseClick is held
+ * @type boolean
+ */
 let willDrag = false;
+
+/** holds the original position where the mouseClick
+ *  or the touch started
+ * @type number
+ */
 let originalPosX = 0;
 
+
+/**
+ * @private
+ * @param {Function} displayCard
+ * @param {Number} value
+ */
 function changeCard(displayCard, value) {
     const event = { target: { value } };
     displayCard(event);
     willDrag = false;
 }
 
+/** tracks the starting point when the mouse was clicked
+ * @param {MouseEvent} event
+ * @param {Number} totalItems
+ */
 export function handleDragStart(event, totalItems) {
     if (totalItems > 1) {
         willDrag = true;
@@ -17,6 +32,14 @@ export function handleDragStart(event, totalItems) {
     }
 }
 
+/** get the position of the mouse when held and dragged
+ *  change the card content if drag is more than 50
+ * @param {import('react').MouseEvent} event
+ * @param {Number} uniqueMark
+ * @param {Number} totalItems
+ * @param {Number} currentItem
+ * @param {Function} displayCard
+ */
 export function handleDrag(
     event, uniqueMark, totalItems,
     currentItem, displayCard
@@ -35,10 +58,15 @@ export function handleDrag(
     }
 }
 
+/** releases the track if the mouseClick was held
+ */
 export function handleDragEnd() {
     willDrag = false;
 }
 
+/** track the original position when the touch began
+ * @param {TouchEvent} event
+ */
 export function handleTouchStart(event) {
     const { touches } = event;
     if (touches && touches.length === 1) {
@@ -46,6 +74,13 @@ export function handleTouchStart(event) {
     }
 }
 
+/** change the card content when the touch ends if shift is greater than 50
+ * @param {import('react').TouchEvent} event
+ * @param {Number} uniqueMark
+ * @param {Number} totalItems
+ * @param {Number} currentItem
+ * @param {Function} displayCard
+ */
 export function handleTouchEnd(
     event, uniqueMark, totalItems,
     currentItem, displayCard
@@ -59,27 +94,4 @@ export function handleTouchEnd(
     } else if (shiftX > 50 && relativeCurrent > 0) {
         changeCard(displayCard, currentItem - 1);
     }
-}
-
-
-export async function showSwipeGuide() {
-
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    const toast = createStandaloneToast();
-    toast({
-        position: "bottom-left",
-        render: () => (
-            <Box
-                p={1} maxWidth="sm"
-                color="white" bg="orange.400" opacity="0.9"
-                borderRadius="lg" textAlign="center"
-            >
-                <pre style={{ fontFamily: "Fugaz One, cursive" }}>Hey, try swiping
-                    <Icon as={GiSideswipe} margin="0 0.3rem" />
-                    on my card!
-                </pre>
-            </Box>
-        ),
-        duration: 5000,
-    });
 }

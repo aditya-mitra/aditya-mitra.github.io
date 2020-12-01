@@ -26,6 +26,13 @@ export default function Card({ sourceItems, links, stacks }) {
     const [currentItem, setCurrentItem] = useState(uniqueMark);
     const totalItems = sourceItems.length;
 
+    /**
+     * changes the state of the currentItem of the card
+     * @param {Object} event value of the card content to change into
+     * @param {Object} event.target
+     * @param {String} event.target.value
+     */
+
     const displayCard = event => {
         const container = containerRef.current;
         const preItem = container.querySelector(`#item${currentItem}`);
