@@ -12,9 +12,7 @@ export default function IndexPage() {
                 id="all-containers"
             >
                 <Landing />
-                <div>
-                    <About />
-                </div>
+                <About />
                 <Skills />
                 <Cards />
                 <Footer />

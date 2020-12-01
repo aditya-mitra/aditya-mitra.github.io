@@ -1,9 +1,9 @@
-import { useEffect, useRef } from 'react';
+import { memo, useEffect, useRef } from 'react';
 
 import animateWord from './animationControllers';
 import { headerBoxStyes } from '@/styles/header';
 
-export default function animatedBox() {
+export default memo(function animatedBox() {
 
     const wordAditya = useRef(null);
     const wordMitra = useRef(null);
@@ -111,4 +111,4 @@ export default function animatedBox() {
             </div>
         </>
     );
-}
+});

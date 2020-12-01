@@ -7,17 +7,22 @@ import { glossColour, glossIcon } from "./constants";
 
 import { tag as tagClass } from '@/styles/extras.module.css';
 import { itemStyles, bulletStyles } from '@/styles/card';
+import { scaleOut as scaleClass } from '@/styles/extras.module.css';
 
-
+/**
+ * links to the sites and repos of the project
+ * @param {Array<{link:String,provider:String,darkModeColour:String}>} links
+ * @param {String} colorMode
+ */
 export const LinkButtons = (links, colorMode) =>
     links.map((link, idx) => {
         const icon = <Icon as={glossIcon[link.provider]} />;
         let colour = glossColour[link.provider];
-
+        
         if ('darkModeColour' in link && colorMode === "dark") {
             colour = link.darkModeColour;
         }
-
+        
         return (
             <Link isExternal href={link.link} key={idx}>
                 <IconButton
@@ -29,6 +34,10 @@ export const LinkButtons = (links, colorMode) =>
         );
     });
 
+/**
+ * stacks used for the project
+ * @param {Array<String>} stacks
+ */
 export const StackTags = (stacks) =>
     stacks.map((stack, idx) => {
         const icon = glossIcon[stack] || glossIcon["other"];
@@ -46,9 +55,15 @@ export const StackTags = (stacks) =>
         );
     });
 
+/**
+ * title, description,image of the projects
+ * @param {Array<{title:String,description:String,imgSrc:String}>} sourceItems
+ * @param {string} colorMode
+ * @param {Number} uniqueMark
+ */
 export const CardItems = (sourceItems, colorMode, uniqueMark) =>
     sourceItems.map((sourceItem, idx) => {
-        const { id } = sourceItem;
+        const { id, } = sourceItem;
         return (
             <div key={idx}>
                 <style jsx>
@@ -75,8 +90,16 @@ export const CardItems = (sourceItems, colorMode, uniqueMark) =>
         );
     });
 
+/**
+ * display current acitve card item
+ * click on the radio to the card content
+ * @param {Array<{id:Number,}>} sourceItems
+ * @param {Number} currentItem
+ * @param {Number} totalItems
+ * @param {Function} displayCard
+ */
 export const RadioBullets =
-    (sourceItems, uniqueMark, currentItem, totalItems, displayCard) =>
+    (sourceItems, currentItem, totalItems, displayCard) =>
         totalItems > 1 ? sourceItems.map((sourceItem, idx) => {
             const { id } = sourceItem;
             return (
@@ -86,7 +109,7 @@ export const RadioBullets =
                     </style>
                     <label
                         htmlFor={`tapInput${id}`} id={`tap${id}`}
-                        className="tap tap-${uniqueMark}"
+                        className="tap"
                     >
                         <input type="radio" id={`tapInput${id}`}
                             value={id}
@@ -98,3 +121,37 @@ export const RadioBullets =
             );
         })
             : null;
+
+
+/**
+ * sets the intersection observer for the card
+ * and makes the first item of the project content visible
+ * and the first radio button checked
+ * @param {HTMLDivElement} container
+ * @param {Number} uniqueMark
+ * @param {Number} totalItems
+ * @param {Object} hasScaledOut
+ */
+export function mountObserverCard(container, uniqueMark, totalItems, setHasScaledOut) {
+
+    const observer = new IntersectionObserver(
+        (entries) => {
+            if (entries[0].isIntersecting) {
+                setHasScaledOut(true);
+                observer.disconnect();
+            }
+        },
+        {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.65
+        });
+    observer.observe(container);
+
+    const item = container.querySelector(`#item${uniqueMark}`);
+    item.classList.add("visible");
+    if (totalItems > 1) {
+        const tap = container.querySelector(`#tap${uniqueMark}`);
+        tap.classList.add("checked");
+    }
+}

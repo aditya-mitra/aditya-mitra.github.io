@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 import styles from "@/styles/progressBar";
 
 const level = width => {
@@ -6,7 +8,7 @@ const level = width => {
     else { return "becoming expert";}
 }
 
-export default function ProgressBar({ progress }) {
+export default memo(function ProgressBar({ progress }) {
     const width = progress;
     return (
         <>
@@ -20,4 +22,4 @@ export default function ProgressBar({ progress }) {
             </div>
         </>
     );
-}
+});

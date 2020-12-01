@@ -24,7 +24,6 @@ export default function Projects() {
     useEffect(() => {
         const container = containerRef.current;
         const handleEvent = () => {
-            showSwipeGuide();
             container.removeEventListener('mouseenter', handleEvent);
             container.removeEventListener('touchstart', handleEvent);
         }

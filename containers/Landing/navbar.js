@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import ModeSwitch from './modeSwitch';
 
 import {
@@ -7,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import styles from "@/styles/navbar";
 
-export default function Navbar() {
+export default memo(function Navbar() {
     const { colorMode } = useColorMode();
 
     return (
@@ -52,4 +54,4 @@ export default function Navbar() {
             </nav>
         </>
     );
-}
+});
