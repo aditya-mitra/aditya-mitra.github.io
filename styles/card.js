@@ -180,7 +180,6 @@ const itemStyles = css`
   flex-shrink: 0;
   height: 300px;
   background: #fc4a1a;
-  background: linear-gradient(to right, #f7b733, #fc4a1a);
 
   box-shadow: 4px 13px 30px 1px rgba(252, 56, 56, 0.2);
   border-radius: 20px;
@@ -191,11 +190,6 @@ const itemStyles = css`
   animation-duration: 0.6s;
   animation-fill-mode: forwards;
   animation-timing-function: ease-in;
-}
-.dark .imageContainer{
-  filter: invert(1) hue-rotate(180deg);
-  background: #4776E6;
-  background: linear-gradient(to right, #8E54E9, #4776E6);
 }
 @keyframes appearImage{
   0%{
@@ -214,7 +208,7 @@ const itemStyles = css`
   display: block;
   border-radius: 20px;
 
-  font-size: 3rem;
+  color: transparent;
 }
 .imageContainer > img:after {
   content: " ";

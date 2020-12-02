@@ -3,6 +3,7 @@ import {
     Tag, TagLabel, TagRightIcon
 } from '@chakra-ui/react';
 
+import placeholders from "./placeholders";
 import { glossColour, glossIcon } from "./constants";
 
 import { tag as tagClass } from '@/styles/extras.module.css';
@@ -63,13 +64,25 @@ export const StackTags = (stacks) =>
  * @param {Boolean} hasScaledOut
  */
 export const CardItems =
-    (codex, sourceItems, colorMode, uniqueMark, hasScaledOut) =>
-        sourceItems.map((sourceItem, idx) => {
-            const { id } = sourceItem;
-            let { imgSrc } = sourceItem;
-            if (hasScaledOut === false) {
-                imgSrc = null;
+    (codex, sourceItems, colorMode, uniqueMark, hasScaledOut) => {
+        let bgStyles = placeholders[codex]
+            || placeholders["default"];
+
+        if (hasScaledOut === true) {
+            bgStyles = {
+                ...bgStyles,
+                filter: "none",
+                transform: "none",
+            };
+            if (colorMode === "dark") {
+                bgStyles.filter = "invert(1) hue-rotate(180deg)";
             }
+        }        
+
+        return sourceItems.map((sourceItem, idx) => {
+            const { id } = sourceItem;
+            const imgSrc = hasScaledOut === true ?
+                sourceItem.imgSrc : null;
             return (
                 <div key={idx}>
                     <style jsx>
@@ -80,7 +93,10 @@ export const CardItems =
                             key={idx} id={`item${id}`}
                             className={`source-item-${uniqueMark} item item-${idx + 1}`}
                         >
-                            <div className="imageContainer">
+                            <div
+                                className="imageContainer"
+                                style={bgStyles}
+                            >
                                 <img
                                     src={imgSrc}
                                     alt={sourceItem.title}
@@ -101,6 +117,7 @@ export const CardItems =
                 </div>
             );
         });
+    };
 
 /**
  * display current acitve card item
@@ -133,7 +150,6 @@ export const RadioBullets =
             );
         })
             : null;
-
 
 /**
  * sets the intersection observer for the card
