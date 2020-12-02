@@ -7,7 +7,6 @@ import { glossColour, glossIcon } from "./constants";
 
 import { tag as tagClass } from '@/styles/extras.module.css';
 import { itemStyles, bulletStyles } from '@/styles/card';
-import { scaleOut as scaleClass } from '@/styles/extras.module.css';
 
 /**
  * links to the sites and repos of the project
@@ -57,38 +56,51 @@ export const StackTags = (stacks) =>
 
 /**
  * title, description,image of the projects
+ * @param {String} codex
  * @param {Array<{title:String,description:String,imgSrc:String}>} sourceItems
  * @param {string} colorMode
  * @param {Number} uniqueMark
+ * @param {Boolean} hasScaledOut
  */
-export const CardItems = (sourceItems, colorMode, uniqueMark) =>
-    sourceItems.map((sourceItem, idx) => {
-        const { id, } = sourceItem;
-        return (
-            <div key={idx}>
-                <style jsx>
-                    {itemStyles}
-                </style>
-                <div className={`wrapper ${colorMode === "dark" ? "dark" : null}`}>
-                    <div
-                        key={idx} id={`item${id}`}
-                        className={`source-item-${uniqueMark} item item-${idx + 1}`}
-                    >
-                        <div className="imageContainer">
-                            <img
-                                src={sourceItem.imgSrc} alt={sourceItem.title}
-                                loading="lazy" height="300" width="300"
-                            />
-                        </div>
-                        <div className="content">
-                            <div className="title">{sourceItem.title}</div>
-                            <div className="description">{sourceItem.description}</div>
+export const CardItems =
+    (codex, sourceItems, colorMode, uniqueMark, hasScaledOut) =>
+        sourceItems.map((sourceItem, idx) => {
+            const { id } = sourceItem;
+            let { imgSrc } = sourceItem;
+            if (hasScaledOut === false) {
+                imgSrc = null;
+            }
+            return (
+                <div key={idx}>
+                    <style jsx>
+                        {itemStyles}
+                    </style>
+                    <div className={`wrapper ${colorMode === "dark" ? "dark" : null}`}>
+                        <div
+                            key={idx} id={`item${id}`}
+                            className={`source-item-${uniqueMark} item item-${idx + 1}`}
+                        >
+                            <div className="imageContainer">
+                                <img
+                                    src={imgSrc}
+                                    alt={sourceItem.title}
+                                    loading="lazy"
+                                    height="300" width="300"
+                                />
+                            </div>
+                            <div className="content">
+                                <div className="title">
+                                    {sourceItem.title}
+                                </div>
+                                <div className="description">
+                                    {sourceItem.description}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        );
-    });
+            );
+        });
 
 /**
  * display current acitve card item
