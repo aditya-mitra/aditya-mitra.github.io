@@ -5,7 +5,8 @@ import {
     handleTouchStart, handleTouchEnd
 } from "./cardMouseMovements";
 import {
-    LinkButtons, StackTags, CardItems, RadioBullets, mountObserverCard
+    LinkButtons, StackTags, CardItems, RadioBullets,
+    mountObserverCard
 } from './cardComponents';
 
 import {
@@ -16,13 +17,13 @@ import {
 import { allStyles } from "@/styles/card";
 import { scaleOut as scaleClass } from '@/styles/extras.module.css';
 
-export default function Card({ sourceItems, links, stacks }) {
+export default function Card({ codex, sourceItems, links, stacks }) {
 
     const { colorMode } = useColorMode();
     const containerRef = useRef(null);
     const [hasScaledOut, setHasScaledOut] = useState(false);
 
-    const uniqueMark = sourceItems[0].id;
+    const uniqueMark = sourceItems[0].id; // both are same
     const [currentItem, setCurrentItem] = useState(uniqueMark);
     const totalItems = sourceItems.length;
 
@@ -32,7 +33,6 @@ export default function Card({ sourceItems, links, stacks }) {
      * @param {Object} event.target
      * @param {String} event.target.value
      */
-
     const displayCard = event => {
         const container = containerRef.current;
         const preItem = container.querySelector(`#item${currentItem}`);
@@ -53,7 +53,7 @@ export default function Card({ sourceItems, links, stacks }) {
     }, [currentItem]);
 
     useEffect(() => {
-        mountObserverCard(containerRef.current, uniqueMark, totalItems, setHasScaledOut);
+        mountObserverCard(containerRef.current, uniqueMark, totalItems, setHasScaledOut)
     }, []);
 
     useEffect(() => {
@@ -63,10 +63,18 @@ export default function Card({ sourceItems, links, stacks }) {
         }
     }, [hasScaledOut, colorMode]);
 
-    const Links = useMemo(() => LinkButtons(links, colorMode), [links, colorMode]);
-    const Stacks = useMemo(() => StackTags(stacks), [stacks]);
-    const Items = useMemo(() => CardItems(sourceItems, colorMode, uniqueMark), [sourceItems, colorMode, uniqueMark]);
-    const Bullets = useMemo(() => RadioBullets(sourceItems, currentItem, totalItems, displayCard), [sourceItems, currentItem, uniqueMark, totalItems, displayCard]);
+    const Links = useMemo(() => LinkButtons
+        (links, colorMode),
+        [links, colorMode]);
+    const Stacks = useMemo(() => StackTags
+        (stacks),
+        [stacks]);
+    const Items = useMemo(() => CardItems
+        (codex, sourceItems, colorMode, uniqueMark, hasScaledOut),
+        [codex, sourceItems, colorMode, uniqueMark, hasScaledOut]);
+    const Bullets = useMemo(() => RadioBullets
+        (sourceItems, currentItem, totalItems, displayCard),
+        [sourceItems, currentItem, uniqueMark, totalItems, displayCard]);
 
     return (
         <>

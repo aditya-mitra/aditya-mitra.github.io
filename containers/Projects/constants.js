@@ -72,6 +72,7 @@ export const glossColour = {
 
 export default [
     {
+        codex: "cr",
         items: [
             {
                 title: "Code Rush",
@@ -103,6 +104,7 @@ export default [
         stacks: ["nextjs", "nodejs", "mongodb", "markdown",],
     },
     {
+        codex: "ccb",
         items: [
             {
                 title: "Character Card Builder",
@@ -134,6 +136,7 @@ export default [
         stacks: ["nodejs", "reactjs", "postgresql", "redux",],
     },
     {
+        codex: "whatster",
         items: [
             {
                 title: "Whatster",
@@ -170,6 +173,7 @@ export default [
     },
 
     {
+        codex: "pjs",
         items: [
             {
                 title: "Power JS",
@@ -196,6 +200,7 @@ export default [
         stacks: ["html","css","javascript"],
     },
     {
+        codex: "ssw",
         items: [
             {
                 title: "Socio Students",
