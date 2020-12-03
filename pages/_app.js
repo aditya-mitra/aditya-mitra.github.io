@@ -24,7 +24,7 @@ function MyApp({ Component, pageProps }) {
                 <meta httpEquiv="content-type" content="text/html;charset=UTF-8" />
                 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
                 <meta name="Description" content="The portfolio site of Aditya Mitra." />
-
+                <link rel="canonical" href="https://aditya-mitra.github.io/" />
 
                 {/*Manifest*/}
                 <link rel="manifest" href="/manifest/manifest.json" />
