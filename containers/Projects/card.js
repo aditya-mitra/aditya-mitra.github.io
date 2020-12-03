@@ -81,7 +81,7 @@ export default function Card({ codex, sourceItems, links, stacks }) {
             <style jsx>
                 {allStyles}
             </style>
-            <div
+            <article
                 className={`card ${colorMode === "dark" ? "dark" : null}`}
                 ref={containerRef}
 
@@ -120,7 +120,7 @@ export default function Card({ codex, sourceItems, links, stacks }) {
                         {Stacks}
                     </div>
                 </LightMode>
-            </div>
+            </article>
         </>
     );
 }
