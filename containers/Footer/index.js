@@ -6,7 +6,7 @@ import {useColorMode, Link, Icon } from "@chakra-ui/react";
 import styles from "@/styles/footer";
 import {
     highlight as hightlightClass
-} from "@/styles/extras.module.css";
+} from "@/styles/utils.module.css";
 
 export default function Footer() {
     const { colorMode } = useColorMode();

@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic';
 
 import UnanimatedBox from './unanimatedBox';
 
-import { landing as landingClass } from '@/styles/extras.module.css';
+import { header as headerClass } from '@/styles/containers.module.css';
 
 export default memo(function Header() {
 
@@ -20,11 +20,9 @@ export default memo(function Header() {
     }, []);
 
     return (
-        <>
-            <div className={landingClass}>
-                {AnimatedBox ?
-                    <AnimatedBox /> : <UnanimatedBox />}
-            </div>
-        </>
+        <div className={headerClass}>
+            {AnimatedBox ?
+                <AnimatedBox /> : <UnanimatedBox />}
+        </div>
     );
 });

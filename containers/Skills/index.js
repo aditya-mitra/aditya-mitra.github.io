@@ -3,10 +3,10 @@ import { useEffect, useMemo, useRef } from "react";
 import constants from "./constants";
 import SkillCards from "./skillCard";
 
-import styles from "@/styles/skillsContainer";
 import {
-    containerHeader as headerClass
-} from "@/styles/extras.module.css";
+    containerHeader as headerClass,
+    skillMain as skillMainClass
+} from "@/styles/containers.module.css";
 
 function handleInView(entries, container, hasShown, observer) {
     if (entries[0].isIntersecting && !hasShown) {
@@ -53,12 +53,11 @@ export default function Skills() {
 
     return (
         <>
-            <h1 id="myTechSkills" className={headerClass}>My Tech Skills</h1>
-            <style jsx>
-                {styles}
-            </style>
+            <h1 id="myTechSkills" className={headerClass}>
+                My Tech Skills
+            </h1>
             <div
-                className="skill-main-container"
+                className={skillMainClass}
                 ref={containerRef}
             >
                 {skillCards}

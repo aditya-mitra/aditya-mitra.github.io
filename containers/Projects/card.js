@@ -15,7 +15,7 @@ import {
 } from '@chakra-ui/react';
 
 import { allStyles } from "@/styles/card";
-import { scaleOut as scaleClass } from '@/styles/extras.module.css';
+import { scaleOut as scaleClass } from '@/styles/utils.module.css';
 
 export default function Card({ codex, sourceItems, links, stacks }) {
 

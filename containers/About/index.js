@@ -6,10 +6,8 @@ import { useColorMode } from "@chakra-ui/react";
 import AboutMe from "./aboutMe";
 import constants from "./constants";
 
-import {
-    aboutContainer as containerClass,
-    dark as darkClass
-} from "@/styles/extras.module.css";
+import { aboutContainer as containerClass } from "@/styles/containers.module.css";
+import { dark as darkClass } from "@/styles/utils.module.css";
 
 export default function About() {
 
