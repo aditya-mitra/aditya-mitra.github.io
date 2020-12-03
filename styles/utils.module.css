@@ -29,3 +29,8 @@
 .dark {
     filter: invert(1) hue-rotate(180deg);
 }
+
+.invisibleText{
+    font-size: 1px;
+    color: transparent;
+}
