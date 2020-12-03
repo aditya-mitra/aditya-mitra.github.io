@@ -1,8 +1,8 @@
 const CACHE_NAME = "portfolio-cache";
 const urlsToCache =
     [
-        "/",
-        "_next",
+        "/index.html",
+        "/_next",
         "/favicons",
         "/fonts",
         "/images",
@@ -39,9 +39,9 @@ self.addEventListener("fetch", event => {
     event.respondWith(response);
 });
 
-self.addEventListener('activate', event=> {
+self.addEventListener('activate', event => {
 
-    const activates = caches.keys().then(cacheNames => 
+    const activates = caches.keys().then(cacheNames =>
         Promise.all(
             cacheNames.map(cacheName => {
                 if (cacheAllowlist.indexOf(cacheName) === -1) {
