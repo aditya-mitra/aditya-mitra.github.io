@@ -5,7 +5,8 @@ import constants from "./constants";
 import {useColorMode, Link, Icon } from "@chakra-ui/react";
 import styles from "@/styles/footer";
 import {
-    highlight as hightlightClass
+    highlight as hightlightClass,
+    invisibleText as invisibleTextClass
 } from "@/styles/utils.module.css";
 
 export default function Footer() {
@@ -47,6 +48,9 @@ export default function Footer() {
                 as={constant.icon} color={constant.colour}
                 boxSize={8} margin="0 1rem" position="relative" order={4}
             />
+            <span className={invisibleTextClass}>
+                {constant.provider}
+            </span>
         </Link>
     ));
 

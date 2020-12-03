@@ -10,7 +10,7 @@ export default memo(function AboutMe({ title, subTitle, description, image, stat
             <style jsx>
                 {styles}
             </style>
-            <div className={`container ${colorMode === "dark" ? "dark" : null}`} id="myAbout">
+            <main className={`container ${colorMode === "dark" ? "dark" : null}`} id="myAbout">
                 <div className="column">
                     <div className="module">
                         <div className="thumbnail">
@@ -18,15 +18,15 @@ export default memo(function AboutMe({ title, subTitle, description, image, stat
                                 loading="lazy"
                             />
                         </div>
-                        <div className="content">
+                        <article className="content">
                             <h1 className="title">{title}</h1>
                             <h2 className="sub-title">{subTitle}</h2>
                             <p className="description">{description}</p>
                             <div className="meta-status">{status}</div>
-                        </div>
+                        </article>
                     </div>
                 </div>
-            </div>
+            </main>
         </>
     );
 });
