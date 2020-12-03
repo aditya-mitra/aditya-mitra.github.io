@@ -55,7 +55,7 @@ export default css`
   height: 215px;
   overflow: hidden;
   
-  background: url("/about-fallback.webp") whitesmoke;
+  background: url("/images/about-fallback.webp") whitesmoke;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

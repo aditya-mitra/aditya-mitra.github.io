@@ -52,7 +52,7 @@ function MyApp({ Component, pageProps }) {
                 <meta property="og:site_name" content="Aditya Mitra" />
                 <meta property="og:url" content="https://aditya-mitra.netlify.app/" />
                 <meta property="og:description" content="The portfolio site of Aditya Mitra." />
-                <meta property="og:image" content="/me.jpg" />
+                <meta property="og:image" content="/images/me.jpg" />
             </Head>
             <ChakraProvider theme={theme}>
                 <Component {...pageProps} />
