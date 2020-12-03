@@ -1,12 +1,20 @@
 {
+    "author": "Aditya Mitra",
+    "background_color": "#fff",
+    "description": "The Portfolio Site of Aditya Mitra.",
+    "developer": {
+        "name": "Aditya Mitra",
+        "url": "https://aditya-mitra.github.io/"
+    },
+    "default_locale": "en",
+    "display": "fullscreen",
+    "homepage_url": "https://aditya-mitra.github.io/",
+    "lang": "en",
     "name": "Aditya Mitra's Portfolio",
     "short_name": "Aditya",
-    "description": "The Portfolio Site of Aditya Mitra.",
-    "lang": "en",
     "start_url": "/",
-    "display": "standalone",
     "theme_color": "#000",
-    "background_color": "#fff",
+    "version": "2.3",
     "icons": [
         {
             "src": "/manifest/siteIcon512.png",
