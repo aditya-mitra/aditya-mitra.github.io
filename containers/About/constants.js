@@ -12,6 +12,6 @@ export default {
     description:
         `I am Aditya. A developer.
          I like to build useful apps with JavaScript.`,
-    image: "/me.jpg",
+    image: "/images/me.jpg",
     status: "hover here ",
 }
