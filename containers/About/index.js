@@ -23,21 +23,23 @@ export default function About() {
         setMounted(true);
     }, []);
 
-
     const { colorMode } = useColorMode();
     let classes = containerClass;
-    let displayingAnimation = <BorderChanger.current />;
+    let DisplayingAnimation = BorderChanger.current;
 
     if (colorMode === "dark") {
         classes += " " + darkClass;
-        displayingAnimation = <Fire.current />;
+        DisplayingAnimation = Fire.current;
     }
 
     return (
         <div className={classes}>
-            {mounted ? displayingAnimation : null}
-            <AboutMe title={constants.title} subTitle={constants.subTitle}
-                description={constants.description} image={constants.image}
+            {mounted ? <DisplayingAnimation />: null}
+            <AboutMe
+                title={constants.title}
+                subTitle={constants.subTitle}
+                description={constants.description}
+                image={constants.image}
                 status={constants.status}
             />
         </div>

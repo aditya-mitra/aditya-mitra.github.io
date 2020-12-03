@@ -10,12 +10,13 @@ export default css`
     height: 2.2rem;
     border-radius: 0;
 
-    position: absolute;
+    position: sticky;
+    top: 0;
+
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-around;
-    will-change: bottom;
 
     animation-name: mount;
     animation-duration: 1.5s;
@@ -29,11 +30,5 @@ export default css`
     100%{
         bottom: 0.4rem;
     }
-}
-
-.fixed-navbar{
-    top: 0;
-    margin-top: 0;
-    position: fixed;
 }
 `;
