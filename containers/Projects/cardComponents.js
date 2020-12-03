@@ -6,7 +6,7 @@ import {
 import placeholders from "./placeholders";
 import { glossColour, glossIcon } from "./constants";
 
-import { tag as tagClass } from '@/styles/extras.module.css';
+import { tag as tagClass } from '@/styles/utils.module.css';
 import { itemStyles, bulletStyles } from '@/styles/card';
 
 /**

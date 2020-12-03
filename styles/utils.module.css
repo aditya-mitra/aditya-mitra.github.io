@@ -1,0 +1,31 @@
+.tag {
+    will-change: transform;
+    transition: transform 0.6s;
+}
+
+    .tag:hover {
+        transform: scale(1.15);
+        z-index: 99;
+    }
+
+.scaleOut {
+    transform: scale(1) !important;
+    transition: transform 1s linear;
+}
+
+.highlight {
+    transition: all 0.4s;
+    position: absolute;
+    top: 0;
+    background: #ffffe6;
+    left: 0;
+    order: 5;
+    border-radius: 20px;
+    display: none;
+    opacity: 0.4;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+.dark {
+    filter: invert(1) hue-rotate(180deg);
+}

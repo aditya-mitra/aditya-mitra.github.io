@@ -3,7 +3,7 @@ import Card from "./card";
 
 import {
     containerHeader as headerClass
-} from "@/styles/extras.module.css";
+} from "@/styles/containers.module.css";
 
 export default function Projects() {
 
