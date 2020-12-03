@@ -1,11 +1,7 @@
 const CACHE_NAME = "portfolio-cache";
 const urlsToCache =
     [
-        "/index.html",
-        "/_next",
-        "/favicons",
-        "/fonts",
-        "/images",
+        "/",
     ];
 const cacheAllowlist = ['portfolio-v2-3'];
 
@@ -17,29 +13,11 @@ self.addEventListener("install", event => {
 
 self.addEventListener("fetch", event => {
     const response = caches.match(event.request)
-        .then(match => match
-            || fetch(event.request).then(response => {
-                if (!response
-                    || response.status !== 200
-                    || response.type !== 'basic') {
-                    return response;
-                }
-                const responseToCache = response.clone();
-
-                caches
-                    .open(CACHE_NAME)
-                    .then(function (cache) {
-                        cache.put(event.request, responseToCache);
-                    });
-
-                return response;
-            })
-        );
-
+        .then(match => match || fetch(event.request));
     event.respondWith(response);
 });
 
-self.addEventListener('activate', event => {
+self.addEventListener("activate", event => {
 
     const activates = caches.keys().then(cacheNames =>
         Promise.all(
