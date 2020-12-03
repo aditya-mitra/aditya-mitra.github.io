@@ -4,13 +4,11 @@ export default css`
 .container{
   width: auto;
   height: auto;
+  filter: hue-rotate(180deg);
 
   display: flex;
   justify-content: center;
   align-items: center;
-}
-.dark.container {
-  filter: hue-rotate(180deg);
 }
 @media screen and (max-width: 768px) {
   .container {

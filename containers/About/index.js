@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
 
 import { useColorMode } from "@chakra-ui/react";
@@ -8,34 +8,36 @@ import constants from "./constants";
 
 import {
     aboutContainer as containerClass,
-    dark
+    dark as darkClass
 } from "@/styles/extras.module.css";
 
 export default function About() {
 
-    const [Fire, setFire] = useState(null);
+    const [mounted, setMounted] = useState(false);
+    const Fire = useRef(null);
+    const BorderChanger = useRef(null);
 
     useEffect(() => {
-        const loadFire = () => {
-            const fire = dynamic(() => import('./fireAnimation'));
-            setFire(fire);
-            window.removeEventListener('load', loadFire);
-        }
-        window.addEventListener('load', loadFire);
+        Fire.current = dynamic(() => import('./fireAnimation'));
+        BorderChanger.current = dynamic(() => import('./borderChanger'));
+        setMounted(true);
     }, []);
 
 
     const { colorMode } = useColorMode();
-    const darkClass = colorMode === "dark" ? dark : null;
-    const classes = containerClass + " " + darkClass;
+    let classes = containerClass;
+    let displayingAnimation = <BorderChanger.current />;
+
+    if (colorMode === "dark") {
+        classes += " " + darkClass;
+        displayingAnimation = <Fire.current />;
+    }
+
     return (
         <div className={classes}>
-            {Fire ? <Fire /> : null}
-            <AboutMe
-                title={constants.title}
-                subTitle={constants.subTitle}
-                description={constants.description}
-                image={constants.image}
+            {mounted ? displayingAnimation : null}
+            <AboutMe title={constants.title} subTitle={constants.subTitle}
+                description={constants.description} image={constants.image}
                 status={constants.status}
             />
         </div>
