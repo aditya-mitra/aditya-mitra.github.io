@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /*.js$
+Disallow: /_next/
+Disallow: /favicons/
+Disallow: /fonts/
+Disallow: /images/
+Disallow: /manifest/
