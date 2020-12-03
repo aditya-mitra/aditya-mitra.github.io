@@ -104,14 +104,14 @@ export const CardItems =
                                     height="300" width="300"
                                 />
                             </div>
-                            <div className="content">
+                            <section className="content">
                                 <div className="title">
                                     {sourceItem.title}
                                 </div>
                                 <div className="description">
                                     {sourceItem.description}
                                 </div>
-                            </div>
+                            </section>
                         </div>
                     </div>
                 </div>
