@@ -1,12 +1,13 @@
 {
   "name": "aditya-mitra-portfolio",
-  "version": "2.3.5",
+  "version": "2.4.1",
   "private": true,
   "scripts": {
     "dev": "next dev --port=5",
     "build": "next build",
     "start": "next start",
-    "deploy": "cross-env NODE_ENV=production && next build && next export -o portfolio"
+    "deploy": "cross-env NODE_ENV=production && next build && next export -o portfolio",
+    "export": "next export"
   },
   "dependencies": {
     "@chakra-ui/react": "^1.0.1",

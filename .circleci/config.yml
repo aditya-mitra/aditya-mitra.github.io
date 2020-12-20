@@ -9,11 +9,15 @@ jobs:
         - run:
             name: Install dependencies
             command: |
-                npm install
+                npm ci
         - run:
             name: Build NEXT.JS
             command: |
                 npm run build
+        - run:
+            name: Check export possible
+            command: |
+                npm run export
 workflows:
     build_app:
         jobs:
