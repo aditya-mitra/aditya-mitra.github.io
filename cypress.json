@@ -1,4 +1,5 @@
 {
-    "baseUrl": "http://localhost:5/",
-    "integrationFolder": "cypress/e2e"
+    "baseUrl": "http://localhost:5000/",
+    "integrationFolder": "cypress/e2e",
+    "chromeWebSecurity": false
 }

@@ -31,7 +31,7 @@ export default function About() {
     }
 
     return (
-        <div className={classes}>
+        <div className={classes} data-cy="about-container">
             {mounted ? <DisplayingAnimation />: null}
             <AboutMe
                 title={constants.title}
