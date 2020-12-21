@@ -1,16 +1,18 @@
 # deployment to github pages might take longer and for the effects might not appear as soon as the action build and deploys
-# it can make more than 2 build and deploys to properly set the site
+# it can take more than 2 build and deploys to properly set the site
 # the static assets might also not take effect as soon as the action completes
 
-name: Build and Deploy Main
+name: Build_and_Deploy_Main
 
 on:
   push:
     branches:
       - main
+      - circleci
 
 jobs:
-  build-and-deploy:
+
+  setup_build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -21,18 +23,66 @@ jobs:
       - name: Get Node
         uses: actions/setup-node@v1
 
-      - name: Build and Deploy
+      - name: Install dependencies
         run: |
           npm ci
-          npm run deploy
-          touch portfolio/.nojekyll
-        env:
-            NODE_ENV: production
 
-      - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@3.7.1
+      - name: Build
+        run: |
+          npm run deploy
+
+      - name: Cache all of the above
+        uses: actions/cache@v2
+        id: cache-p
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: gh-pages
-          FOLDER: portfolio
-          CLEAN: true
+          path: ./*
+          key: ${{github.sha}}
+
+  github_pages_deploy:
+    runs-on: ubuntu-latest
+    needs: setup_build
+    steps:
+        - name: restore cache
+          uses: actions/cache@v2
+          id: restore-p
+          with:
+            path: ./*
+            key: ${{github.sha}}
+
+        - name: disable jekyll
+          run: |
+            ls -a
+            touch portfolio/.nojekyll
+
+        - name: deploy to github pages
+          uses: JamesIves/github-pages-deploy-action@3.7.1
+          with:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            BRANCH: gh-pages
+            FOLDER: portfolio
+            CLEAN: true
+
+  netlify_deploy:
+    runs-on: ubuntu-latest
+    needs: setup_build
+    steps:
+      - name: restore cache
+        id: restore-p
+        with:
+          path: ./*
+          key: ${{github.sha}}
+
+      - name: Deploy to Netlify
+        uses: nwtgck/actions-netlify@v1.1
+        with:
+          publish-dir: './portfolio'
+          production-branch: main
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: "Deploying at aditya-mitra.netlify.app - ${{ github.event.head_commit.message }}"
+          enable-pull-request-comment: false
+          enable-commit-comment: true
+          overwrites-pull-request-comment: true
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN_V2 }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID_V2 }}
+        timeout-minutes: 1
