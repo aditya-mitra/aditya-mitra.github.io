@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "deploy": "cross-env NODE_ENV=production && next build && next export -o portfolio",
-    "export": "next export"
+    "export": "next export",
+    "testo": "./node_modules/.bin/cypress open"
   },
   "dependencies": {
     "@chakra-ui/react": "^1.0.1",

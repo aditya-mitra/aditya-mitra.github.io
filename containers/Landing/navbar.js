@@ -32,7 +32,7 @@ export default memo(function Navbar() {
                     color: colorMode === "dark" ? "#e2e8f0" : "#e6e6e6",
                 }}>
                     Browse More
-                    </MenuButton>
+                </MenuButton>
                 <MenuList style={{
                     fontSize: "1.2rem",
                     fontFamily: "Righteous",

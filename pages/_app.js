@@ -9,7 +9,7 @@ import theme from "@/styles/themes/theme";
 function MyApp({ Component, pageProps }) {
 
     useEffect(() => {
-        if ('serviceWorker' in navigator) {
+        if ('serviceWorker' in navigator && process.env.NODE_ENV!=='development') {
             window.addEventListener('load', function () {
                 navigator.serviceWorker.register("/serviceWorker.js")
                     .catch(err => console.log("service worker not supported"))
