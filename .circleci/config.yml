@@ -1,27 +1,62 @@
 version: 2.1
 
 jobs:
-  run_build:
+  run_setup:
     docker:
         - image: circleci/node:latest
+          auth:
+            username: gamersinstinct7
+            password: $DOCKERHUB_PASSWORD
     steps:
         - checkout
+        - restore_cache:
+            keys:
+                # change to v2/v3 if dependencies change
+                # changing this will build a new cache
+                - v2-deps-{{checksum "package.json"}}
         - run:
             name: Install dependencies
             command: |
-                npm ci
+                npm install
+                # `npm ci` command will install all the dependencies again
+                # `npm install` will install only those which are not installed (also better to use this to install missing dependencies)
+
+        - save_cache:
+            paths:
+                - node_modules
+            key: v2-deps-{{checksum "package.json"}}
+        - persist_to_workspace:
+              root: .
+              paths:
+                  - '*'
+
+  run_build:
+    docker:
+        - image: circleci/node:latest
+          auth:
+            username: gamersinstinct7
+            password: $DOCKERHUB_PASSWORD
+    steps:
+        - attach_workspace:
+            at: .
         - run:
-            name: Build NEXT.JS
-            command: |
-                npm run build
+            name: check whether all the contents exist
+            command: ls -a
         - run:
-            name: Check export possible
-            command: |
-                npm run export
+            name: do Next.JS build
+            command: npm run deploy
+
 workflows:
-    build_app:
+    build_test:
         jobs:
-            - run_build
+            - run_setup:
+                context:
+                    - Docker
+            - run_build:
+                requires:
+                    - run_setup
+                context:
+                    - Docker
 
 #orbs:
 #   node: circleci/node@3.0.0
