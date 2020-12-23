@@ -42,4 +42,17 @@ context("navbar", () => {
             .should('have.attr', 'data-theme', 'dark');
     });
 
+    it('persists the color mode when page is reloaded', () => {
+        cy
+            .get('#modeSwitch')
+            .click({ force: true })
+            .get('body')
+            .should('have.attr', 'data-theme', 'light');
+
+        cy
+            .reload()
+            .get('body')
+            .should('have.attr', 'data-theme', 'light');
+    });
+
 });
