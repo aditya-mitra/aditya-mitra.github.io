@@ -1,7 +1,12 @@
 context("navbar", () => {
+    before(() => {
+        cy.visit('/');
+        localStorage.setItem('chakra-ui-color-mode', 'dark');
+    });
 
     beforeEach(() => {
-        cy.visit('/', {
+        cy.visit('/');
+        /*cy.visit('/', {
             onBeforeLoad(windw) {
                 cy
                     .stub(windw, 'matchMedia')
@@ -10,7 +15,7 @@ context("navbar", () => {
                         matches: false,
                     });
             },
-        });
+        });*/
     });
 
     it('click the browse more button and get it contents',() => {

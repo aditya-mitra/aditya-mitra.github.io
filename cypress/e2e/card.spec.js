@@ -10,6 +10,7 @@ context("card", () => {
         cy
             .get('article')
             .contains('Character Card Builder')
+            .scrollIntoView()
             .parentsUntil('article')
             .parent()
             .as('testArticle');
@@ -81,7 +82,7 @@ context("card", () => {
                 .get('@testArticle')
                 .find('[id^=item]')
                 .as('cardContents');
-        })
+        });
 
         it('contains 3 card content items', () => {
             cy
@@ -104,6 +105,101 @@ context("card", () => {
                 .get('@cardContents').eq(2)
                 .should('not.have.class', 'visible');
         });
+    });
+
+    describe('swiping over the card works', () => {
+
+        beforeEach(() => {
+
+            cy
+                .get('@testArticle')
+                .find('[id^=item]')
+                .as('cardContents');
+
+            cy
+                .get('@testArticle')
+                .find('[type="radio"]')
+                .as('radios');
+        });
+
+        const checkCard = (a, b) => {
+            cy
+                .get('@cardContents').eq(a)
+                .should('not.have.class', 'visible')
+                .get('@cardContents').eq(b)
+                .should('have.class', 'visible');
+
+            cy
+                .get('@radios').eq(a)
+                .should('not.be.checked')
+                .get('@radios').eq(b)
+                .should('be.checked');
+        }
+
+        it('mousemove changes the card content', () => {
+
+            const swipeLeft = () => {
+                cy
+                    .get('@testArticle').eq(0)
+                    .trigger('mouseup', { force: true })
+                    .trigger('mousedown')
+                    .trigger('mousemove', 'left');
+            }
+
+            const swipeRight = () => {
+                cy
+                    .get('@testArticle').eq(0)
+                    .trigger('mouseup', { force: true })
+                    .trigger('mousedown')
+                    .trigger('mousemove', 'right');
+            }
+
+            swipeLeft();
+            checkCard(0, 1);
+
+            swipeLeft();
+            checkCard(1, 2);
+
+            swipeLeft();
+            checkCard(1, 2);
+
+            swipeRight();
+            checkCard(2, 1);                                   
+        });
+/*
+        it('touch changes card content', () => {
+            const pointerEvent = {
+                force: true,
+                pointerType: 'touch',
+            }
+
+            const swipeLeft = () => {
+                cy
+                    .get('@testArticle').eq(0)
+                    .trigger('touchstart')
+            }
+
+            const swipeRight = () => {
+                cy
+                    .get('@testArticle').eq(0)
+                    .trigger('touchstart')
+                    .trigger('touchmove', 'right')
+                    .trigger('touchend', { force: true });
+            }
+
+            swipeLeft();
+            checkCard(0, 1);
+
+            swipeLeft();
+            checkCard(1, 2);
+
+            swipeLeft();
+            checkCard(1, 2);
+
+            swipeRight();
+            checkCard(2, 1);
+        });*/
+
     });
 
 });
