@@ -42,7 +42,7 @@ export default function SkillBar({ heading, topics, id }) {
             </style>
             <div
                 className={`skill-container ${colorMode === "dark" ? "dark" : null}`}
-                id={`skillbar-${id}`}
+                id={`skillcard-${id}`}
                 ref={containerRef}
                 onMouseMove={(event) =>
                     handleMouseMove(event, containerRef.current)}
