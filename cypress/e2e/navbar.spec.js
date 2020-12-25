@@ -1,21 +1,21 @@
 context("navbar", () => {
-    before(() => {
-        cy.visit('/');
-        localStorage.setItem('chakra-ui-color-mode', 'dark');
-    });
-
     beforeEach(() => {
+        //cy.visit('/', {
+        //    onBeforeLoad(win) {
+        //        cy
+        //            .stub(win, 'matchMedia')
+        //            .withArgs('(prefers-color-scheme: dark)')
+        //            .returns({
+        //                matches: false,
+        //            })
+        //    },
+        //});
+
         cy.visit('/');
-        /*cy.visit('/', {
-            onBeforeLoad(windw) {
-                cy
-                    .stub(windw, 'matchMedia')
-                    .withArgs('(prefers-color-scheme: dark)')
-                    .returns({
-                        matches: false,
-                    });
-            },
-        });*/
+        localStorage.setItem('chakra-ui-color-mode', 'light');
+        cy
+            .wait(100)
+            .reload();
     });
 
     it('click the browse more button and get it contents',() => {
@@ -38,13 +38,12 @@ context("navbar", () => {
             .get('#modeSwitch')
             .click({ force: true })
             .get('body')
-            .should('have.attr', 'data-theme', 'light');
-
+            .should('have.attr', 'data-theme', 'dark')
         cy
             .get('#modeSwitch')
             .click({ force: true })
             .get('body')
-            .should('have.attr', 'data-theme', 'dark');
+            .should('have.attr', 'data-theme', 'light');
     });
 
     it('persists the color mode when page is reloaded', () => {
@@ -52,12 +51,11 @@ context("navbar", () => {
             .get('#modeSwitch')
             .click({ force: true })
             .get('body')
-            .should('have.attr', 'data-theme', 'light');
-
+            .should('have.attr', 'data-theme', 'dark');
         cy
             .reload()
             .get('body')
-            .should('have.attr', 'data-theme', 'light');
+            .should('have.attr', 'data-theme', 'dark');
     });
 
 });

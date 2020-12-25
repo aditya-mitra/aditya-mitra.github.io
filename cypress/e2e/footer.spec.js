@@ -91,9 +91,7 @@ context('footer', () => {
                     const translates = getTranslates(el[0]);
                     lastTranslateX = translates.X;
                     lastTranslateY = translates.Y;
-                });
-
-            cy
+                })
                 .viewport('ipad-2')
                 .get('@anchors').eq(0)
                 .trigger('mouseover')
@@ -106,10 +104,7 @@ context('footer', () => {
                     expect(curY).not.to.equal(lastTranslateY);
                     lastTranslateX = curX;
                     lastTranslateY = curY;
-                });
-
-
-            cy
+                })
                 .viewport('iphone-x')
                 .get('@anchors').eq(1)
                 .trigger('mouseover')

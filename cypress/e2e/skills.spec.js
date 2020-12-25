@@ -17,6 +17,7 @@ context("skills", () => {
             .scrollIntoView()
             .find('.progress .bar')
             .eq(0)
+            .wait(2000)
             .should('not.have.css', 'width', '0px')
             .should('not.have.class', 'inactive');
     });

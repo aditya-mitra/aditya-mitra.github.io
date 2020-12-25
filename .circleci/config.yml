@@ -1,7 +1,10 @@
 version: 2.1
 
+#orbs:
+#    cypress: cypress-io/cypress@1
+
 jobs:
-  run_setup:
+  run_build:
     docker:
         - image: circleci/node:latest
           auth:
@@ -11,9 +14,11 @@ jobs:
         - checkout
         - restore_cache:
             keys:
-                # change to v2/v3 if dependencies change
+                # cache will auto invalidate if package.json changers
+                # change to v2/v3 if you need to forcefully install the dependencies
                 # changing this will build a new cache
-                - v2-deps-{{checksum "package.json"}}
+                # also change at save_cache step
+                - v3-deps-{{checksum "package-lock.json"}}
         - run:
             name: Install dependencies
             command: |
@@ -24,43 +29,60 @@ jobs:
         - save_cache:
             paths:
                 - node_modules
-            key: v2-deps-{{checksum "package.json"}}
+            key: v3-deps-{{checksum "package-lock.json"}}
+        - run:
+            name: do Next.JS build
+            command: npm run deploy
+        - run:
+            name: check whether all the contents exist
+            command: ls -a
         - persist_to_workspace:
               root: .
               paths:
                   - '*'
+        - store_artifacts:
+            path: .next/analyze/server.html
+        - store_artifacts:
+            path: .next/analyze/client.html
 
-  run_build:
+  run_test:
     docker:
-        - image: circleci/node:latest
+        - image: cypress/browsers
           auth:
             username: gamersinstinct7
             password: $DOCKERHUB_PASSWORD
     steps:
         - attach_workspace:
             at: .
+        - restore_cache:
+            key: cy-bin-v1
         - run:
-            name: check whether all the contents exist
-            command: ls -a
+            name: install cypress if verification fails
+            command: npx cypress install
+        - save_cache:
+            paths:
+                - /root/.cache/Cypress
+            key: cy-bin-v1
         - run:
-            name: do Next.JS build
-            command: npm run deploy
+            name: reverify cypress
+            command: npx cypress verify
+            when: always
+        - run:
+            name: do cypress tests
+            command: npm run ci:test
+            when: always
+        - store_artifacts:
+            path: cypress/videos
+        
 
 workflows:
     build_test:
         jobs:
-            - run_setup:
-                context:
-                    - Docker
             - run_build:
-                requires:
-                    - run_setup
                 context:
                     - Docker
-
-#orbs:
-#   node: circleci/node@3.0.0
-#workflows:
-#  node-tests:
-#    jobs:
-#      - node/test
+            - run_test:
+                requires:
+                    - run_build
+                context:
+                    - Docker
