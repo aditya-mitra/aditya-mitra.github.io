@@ -11,7 +11,7 @@ export default function fireAnimation () {
             <div
                 className={`container ${colorMode === "dark" ? "dark" : null}`}
             >
-                <div className="fire-container">
+                <div className="fire-container" data-cy="fire-animation">
                     <div className="fire-left">
                         <div className="main-fire"></div>
                         <div className="particle-fire"></div>

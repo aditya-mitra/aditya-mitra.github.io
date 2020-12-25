@@ -6,7 +6,7 @@ export default function BorderChanger() {
             <style jsx>
                 {styles}
             </style>
-            <div className="container">
+            <div className="container" data-cy="border-animation">
                 <div className="border-changer"/>
             </div>
         </>
