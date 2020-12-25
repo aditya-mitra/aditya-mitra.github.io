@@ -1,6 +1,6 @@
 {
   "name": "aditya-mitra-portfolio",
-  "version": "2.3.6",
+  "version": "2.3.7",
   "private": true,
     "scripts": {
         "dev": "next dev --port=5",

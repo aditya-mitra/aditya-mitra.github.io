@@ -1,10 +1,14 @@
 version: 2.1
 
+
+# use orbs when it is available in circleci orb market
+# passing few paramters in orb will also do the job
+
 #orbs:
 #    cypress: cypress-io/cypress@1
 
 jobs:
-  run_build:
+  build:
     docker:
         - image: circleci/node:latest
           auth:
@@ -31,10 +35,10 @@ jobs:
                 - node_modules
             key: v3-deps-{{checksum "package-lock.json"}}
         - run:
-            name: do Next.JS build
+            name: run Next.JS build
             command: npm run deploy
         - run:
-            name: check whether all the contents exist
+            name: print all contents at the current working directory
             command: ls -a
         - persist_to_workspace:
               root: .
@@ -45,7 +49,7 @@ jobs:
         - store_artifacts:
             path: .next/analyze/client.html
 
-  run_test:
+  test:
     docker:
         - image: cypress/browsers
           auth:
@@ -55,34 +59,34 @@ jobs:
         - attach_workspace:
             at: .
         - restore_cache:
-            key: cy-bin-v1
+            key: cy-bin-v1-{{arch}}
         - run:
             name: install cypress if verification fails
             command: npx cypress install
         - save_cache:
             paths:
                 - /root/.cache/Cypress
-            key: cy-bin-v1
+            key: cy-bin-v1-{{arch}}
         - run:
-            name: reverify cypress
+            name: verify cypress
             command: npx cypress verify
             when: always
         - run:
-            name: do cypress tests
+            # starting the server on a different step does not work
+            name: run cypress tests
             command: npm run ci:test
-            when: always
         - store_artifacts:
             path: cypress/videos
         
 
 workflows:
-    build_test:
+    build_and_test:
         jobs:
-            - run_build:
+            - build:
                 context:
                     - Docker
-            - run_test:
+            - test:
                 requires:
-                    - run_build
+                    - build
                 context:
                     - Docker
