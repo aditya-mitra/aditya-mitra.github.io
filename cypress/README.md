@@ -16,3 +16,9 @@ Try to make the tests platform independent or specify the platform on CI
 #### Serving on PORT
 
 - Ensure that the port responds **before** cypress even runs.
+
+
+#### Contexts
+
+`before` only runs **once** before all the tests in that context start
+Setting a variable in **localStorage** in `before` will not if `cy.visit` again runs on `beforeEach`.
