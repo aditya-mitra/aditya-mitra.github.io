@@ -71,6 +71,7 @@ export default function Footer() {
                     <div className="border" />
                     My Portfolio Site Built With
                     <Link
+                        zIndex={50}
                         isExternal
                         href="https://github.com/aditya-mitra/aditya-mitra.github.io/"
                     >
