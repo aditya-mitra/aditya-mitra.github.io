@@ -77,6 +77,8 @@ jobs:
         - run:
             name: run cypress tests on chrome
             command: npm run ci:test:chrome
+        - store_test_results:
+            path: test_reports
         - store_artifacts:
             path: cypress/videos
 

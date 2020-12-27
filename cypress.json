@@ -4,6 +4,6 @@
     "chromeWebSecurity": false,
     "reporter": "junit",
     "reporterOptions": {
-        "mochaFile": "results/test-output-[hash].xml"
+        "mochaFile": "test_reports/test-report-[hash].xml"
     }
 }
