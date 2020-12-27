@@ -28,7 +28,7 @@ jobs:
 
       - name: Build
         run: |
-          npm run ci:deploy
+          npm run ci:build
 
       - name: Cache all of the above
         uses: actions/cache@v2
@@ -67,7 +67,7 @@ jobs:
     steps:
       - name: restore cache
         id: restore-p
-        uses: action/cache@v2
+        uses: actions/cache@v2
         with:
           path: ./*
           key: ${{github.sha}}
