@@ -11,6 +11,8 @@
 
 - If tests passes locally and fails on CI, it indicates that **configuration for the tests depends on system**
 
+- Same can happen for fonts. Font can vary on linux systems and windows.
+
 Try to make the tests platform independent or specify the platform on CI
 
 #### Serving on PORT

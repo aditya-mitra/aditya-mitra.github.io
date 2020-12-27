@@ -6,6 +6,20 @@ context('footer', () => {
             .scrollIntoView();
     });
 
+    const getDimensions = (element) => {
+        const win = element.ownerDocument.defaultView;
+
+        const height = win
+            .getComputedStyle(element)
+            .getPropertyValue('height');
+
+        const width = win
+            .getComputedStyle(element)
+            .getPropertyValue('width');
+
+        return { height, width };
+    }
+
     describe('anchor links functioning', () => {
         beforeEach(() => {
             cy
@@ -34,20 +48,6 @@ context('footer', () => {
         it('highlighter changes height and width on hovering', () => {
             let lastHeight = '';
             let lastWidth = '';
-
-            const getDimensions = (element) => {
-                const win = element.ownerDocument.defaultView;
-
-                const height = win
-                    .getComputedStyle(element)
-                    .getPropertyValue('height');
-
-                const width = win
-                    .getComputedStyle(element)
-                    .getPropertyValue('width');
-
-                return { height, width };
-            }
 
             cy
                 .get('#highlighter')
@@ -95,7 +95,7 @@ context('footer', () => {
                 .viewport('ipad-2')
                 .get('@anchors').eq(0)
                 .trigger('mouseover')
-                .wait(1000)
+                .wait(2000)
                 // wait for the highlighter to move and appear over the link
                 .get('#highlighter')
                 .then(el => {
@@ -114,9 +114,48 @@ context('footer', () => {
                     const { X: curX, Y: curY } = getTranslates(el[0]);
                     expect(curX).not.to.equal(lastTranslateX);
                     expect(curY).not.to.equal(lastTranslateY);
-                });
+                })
         });
 
+    });
+
+    describe('built with functioning', () => {
+        beforeEach(() => {
+            cy
+                .get('div')
+                .contains(/my portfolio site built with/gi)
+                .as('builtWith');
+        })
+
+        it.only('has the github url', () => {
+            cy
+                .get('@builtWith')
+                .find('a')
+                .should('have.attr', 'href', 'https://github.com/aditya-mitra/aditya-mitra.github.io/');
+        });
+
+        it.only('highlighter changes dimensions on hovering', () => {
+            let lastHeight = '';
+            let lastWidth = '';
+
+            cy
+                .get('#highlighter')
+                .then(el => {
+                    const dimensions = getDimensions(el[0]);
+                    lastHeight = dimensions.height;
+                    lastWidth = dimensions.width;
+                })
+                .get('@builtWith')
+                .find('a').eq(0)
+                .trigger('mouseover')
+                .wait(2000)
+                .get('#highlighter')
+                .then(el => {
+                    const { height: curHeight, width: curWidth } = getDimensions(el[0]);
+                    expect(curHeight).not.to.equal(lastHeight);
+                    expect(curWidth).not.to.equal(lastWidth);
+                });
+        });
     });
 
 })

@@ -6,11 +6,11 @@
         "dev": "next dev --port=5",
         "build": "next build",
         "start": "next start",
-        "deploy": "cross-env NODE_ENV=production && next build && next export -o portfolio",
         "export": "next export",
         "cyopen": "./node_modules/.bin/cypress open",
         "cyrun": "cypress run || ./node_modules/.bin/cypress run",
         "serve": "serve -l 5004 portfolio",
+        "ci:build": "cross-env NODE_ENV=production && next build && next export -o portfolio",
         "ci:test": "start-server-and-test serve http://localhost:5004 cyrun"
     },
   "dependencies": {

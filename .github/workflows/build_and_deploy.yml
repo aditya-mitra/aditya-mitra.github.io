@@ -28,7 +28,7 @@ jobs:
 
       - name: Build
         run: |
-          npm run deploy
+          npm run ci:deploy
 
       - name: Cache all of the above
         uses: actions/cache@v2
