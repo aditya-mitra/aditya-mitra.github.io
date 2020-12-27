@@ -127,14 +127,14 @@ context('footer', () => {
                 .as('builtWith');
         })
 
-        it.only('has the github url', () => {
+        it('has the github url', () => {
             cy
                 .get('@builtWith')
                 .find('a')
                 .should('have.attr', 'href', 'https://github.com/aditya-mitra/aditya-mitra.github.io/');
         });
 
-        it.only('highlighter changes dimensions on hovering', () => {
+        it('highlighter changes dimensions on hovering', () => {
             let lastHeight = '';
             let lastWidth = '';
 
@@ -145,16 +145,27 @@ context('footer', () => {
                     lastHeight = dimensions.height;
                     lastWidth = dimensions.width;
                 })
+
+            //cy
+            //    .get('@builtWith')
+            //    .parent()
+            //    .matchImageSnapshot('before-builtWith-highlight');
+
+            cy
                 .get('@builtWith')
                 .find('a').eq(0)
                 .trigger('mouseover')
-                .wait(2000)
                 .get('#highlighter')
                 .then(el => {
                     const { height: curHeight, width: curWidth } = getDimensions(el[0]);
                     expect(curHeight).not.to.equal(lastHeight);
                     expect(curWidth).not.to.equal(lastWidth);
                 });
+
+            //cy
+            //    .get('@builtWith')
+            //    .parent()
+            //    .matchImageSnapshot('after-builtWith-highlight');
         });
     });
 

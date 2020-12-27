@@ -22,7 +22,7 @@ jobs:
                 # change to v2/v3 if you need to forcefully install the dependencies
                 # changing this will build a new cache
                 # also change at save_cache step
-                - v4-deps-{{checksum "package.json"}}
+                - v4-deps-{{checksum "package-lock.json"}}
         - run:
             name: Install dependencies
             command: |
@@ -33,7 +33,7 @@ jobs:
         - save_cache:
             paths:
                 - node_modules
-            key: v4-deps-{{checksum "package.json"}}
+            key: v4-deps-{{checksum "package-lock.json"}}
         - run:
             name: run Next.JS build
             command: npm run ci:build
@@ -61,7 +61,7 @@ jobs:
         - restore_cache:
             key: cy-bin-v1-{{arch}}
         - run:
-            name: install cypress if verification fails
+            name: install cypress if no cache found
             command: npx cypress install
         - save_cache:
             paths:

@@ -10,6 +10,7 @@
 /coverage
 debug.log
 cypress/videos/
+__diff_output__
 
 # next.js
 /.next/

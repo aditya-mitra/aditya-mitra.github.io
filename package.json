@@ -2,17 +2,18 @@
   "name": "aditya-mitra-portfolio",
   "version": "2.3.7",
   "private": true,
-    "scripts": {
-        "dev": "next dev --port=5",
-        "build": "next build",
-        "start": "next start",
-        "export": "next export",
-        "cyopen": "./node_modules/.bin/cypress open",
-        "cyrun": "cypress run || ./node_modules/.bin/cypress run",
-        "serve": "serve -l 5004 portfolio",
-        "ci:build": "cross-env NODE_ENV=production && next build && next export -o portfolio",
-        "ci:test": "start-server-and-test serve http://localhost:5004 cyrun"
-    },
+  "scripts": {
+    "dev": "next dev --port=5",
+    "build": "next build",
+    "start": "next start",
+    "export": "next export",
+    "serve": "serve -l 5004 portfolio",
+    "cyopen": "./node_modules/.bin/cypress open",
+    "testl": "start-server-and-test serve http://localhost:5004 cyopen",
+    "cyrun": "cypress run || ./node_modules/.bin/cypress run",
+    "ci:build": "cross-env NODE_ENV=production && next build && next export -o portfolio",
+    "ci:test": "start-server-and-test serve http://localhost:5004 cyrun"
+  },
   "dependencies": {
     "@chakra-ui/react": "^1.0.1",
     "@emotion/react": "^11.1.1",
@@ -28,6 +29,7 @@
     "@next/bundle-analyzer": "^10.0.3",
     "cross-env": "^7.0.2",
     "cypress": "^6.0.1",
+    "cypress-image-snapshot": "^4.0.0",
     "duplicate-package-checker-webpack-plugin": "^3.0.0",
     "serve": "^11.3.2",
     "start-server-and-test": "^1.11.6"
