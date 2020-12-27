@@ -12,6 +12,7 @@ debug.log
 cypress/videos/
 screenshots/
 __diff_output__/
+results/
 
 # next.js
 /.next/

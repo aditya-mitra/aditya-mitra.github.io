@@ -93,7 +93,7 @@ jobs:
             key: netlify-v3-{{arch}}
         - run:
             name: install netlify-cli on node_modules
-            command: sudo npm install netlify-cli
+            command: npm install netlify-cli
         - save_cache:
               paths:
                   - node_modules

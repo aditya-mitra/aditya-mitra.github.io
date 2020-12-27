@@ -1,5 +1,9 @@
 {
     "baseUrl": "http://localhost:5004/",
     "integrationFolder": "cypress/e2e",
-    "chromeWebSecurity": false
+    "chromeWebSecurity": false,
+    "reporter": "junit",
+    "reporterOptions": {
+        "mochaFile": "results/test-output-[hash].xml"
+    }
 }
