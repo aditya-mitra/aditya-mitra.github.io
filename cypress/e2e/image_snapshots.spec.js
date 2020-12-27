@@ -1,15 +1,15 @@
 context('image snapshots', () => {
 
-    describe('snapshot tests on light mode', () => {
+    beforeEach('set darkmode and viewport', () => {
+        cy.visit('/');
+        localStorage.setItem('chakra-ui-color-mode', 'light');
+        cy
+            .wait(100)
+            .reload()
+            .viewport('macbook-16');
+    });
 
-        beforeEach('set darkmode and viewport', () => {
-            cy.visit('/');
-            localStorage.setItem('chakra-ui-color-mode', 'light');
-            cy
-                .wait(100)
-                .reload()
-                .viewport('macbook-16');
-        })
+    describe('snapshot tests on containers in light mode', () => {
 
         it('about container', () => {
             cy
@@ -54,4 +54,30 @@ context('image snapshots', () => {
 
     });
 
-})
+    describe('full page snapshot tests', () => {
+        it('in light mode', () => {
+            cy
+                .get('body')
+                .matchImageSnapshot();
+        });
+
+        it('in dark mode', () => {
+            cy
+                .get('#modeSwitch')
+                .click({ force: true });
+
+            cy
+                .get('body')
+                .matchImageSnapshot();
+
+        });
+
+        it.only('mobile view', () => {
+            cy
+                .viewport('iphone-x')
+                .get('body')
+                .matchImageSnapshot();
+        });
+    });
+
+});
