@@ -11,8 +11,10 @@
     "cyopen": "./node_modules/.bin/cypress open",
     "testl": "start-server-and-test serve http://localhost:5004 cyopen",
     "cyrun": "cypress run || ./node_modules/.bin/cypress run",
+    "cyrun:chrome": "cypress run --browser chrome || ./node_modules/.bin/cypress run --browser chrome",
     "ci:build": "cross-env NODE_ENV=production && next build && next export -o portfolio",
-    "ci:test": "start-server-and-test serve http://localhost:5004 cyrun"
+    "ci:test": "start-server-and-test serve http://localhost:5004 cyrun",
+    "ci:test:chrome": "start-server-and-test serve http://localhost:5004 cyrun:chrome"
   },
   "dependencies": {
     "@chakra-ui/react": "^1.0.1",

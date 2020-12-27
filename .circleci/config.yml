@@ -1,6 +1,5 @@
 version: 2.1
 
-
 # use orbs when it is available in circleci orb market
 # passing few paramters in orb will also do the job
 
@@ -22,7 +21,7 @@ jobs:
                 # change to v2/v3 if you need to forcefully install the dependencies
                 # changing this will build a new cache
                 # also change at save_cache step
-                - v4-deps-{{checksum "package-lock.json"}}
+                - v4-deps-{{checksum "package.json"}}
         - run:
             name: Install dependencies
             command: |
@@ -33,7 +32,7 @@ jobs:
         - save_cache:
             paths:
                 - node_modules
-            key: v4-deps-{{checksum "package-lock.json"}}
+            key: v4-deps-{{checksum "package.json"}}
         - run:
             name: run Next.JS build
             command: npm run ci:build
@@ -73,8 +72,11 @@ jobs:
             when: always
         - run:
             # starting the server on a different step does not work
-            name: run cypress tests
+            name: run cypress tests on electron
             command: npm run ci:test
+        - run:
+            name: run cypress tests on chrome
+            command: npm run ci:test:chrome
         - store_artifacts:
             path: cypress/videos
 
@@ -87,12 +89,19 @@ jobs:
     steps:
         - attach_workspace:
             at: .
+        - restore_cache:
+            key: netlify-v3-{{arch}}
         - run:
-            name: install netlify globally
-            command: sudo npm install -g netlify
+            name: install netlify-cli on node_modules
+            command: sudo npm install netlify-cli
+        - save_cache:
+              paths:
+                  - node_modules
+             # cache this path for globally installed node_modules
+              key: netlify-v3-{{arch}}
         - run:
             name: run netlify deploy
-            command: netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN --prod --dir=portfolio
+            command: ./node_modules/.bin/netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN --dir portfolio --prod
 
 
 workflows:
@@ -117,14 +126,14 @@ workflows:
                         only:
                             - main
                             - testing
-            # - netlify_deploy:
-            #     requires:
-            #         - build
-            #     context:
-            #         - Docker
-            #         - Netlify
-            #     filters:
-            #         branches:
-            #             only:
-            #                 - main
-            #                 - testing
+            - netlify_deploy:
+                requires:
+                    - build
+                context:
+                    - Docker
+                    - Netlify
+                filters:
+                    branches:
+                        only:
+                            - main
+                            - testing

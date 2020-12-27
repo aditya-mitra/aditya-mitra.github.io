@@ -146,11 +146,6 @@ context('footer', () => {
                     lastWidth = dimensions.width;
                 })
 
-            //cy
-            //    .get('@builtWith')
-            //    .parent()
-            //    .matchImageSnapshot('before-builtWith-highlight');
-
             cy
                 .get('@builtWith')
                 .find('a').eq(0)
@@ -160,12 +155,7 @@ context('footer', () => {
                     const { height: curHeight, width: curWidth } = getDimensions(el[0]);
                     expect(curHeight).not.to.equal(lastHeight);
                     expect(curWidth).not.to.equal(lastWidth);
-                });
-
-            //cy
-            //    .get('@builtWith')
-            //    .parent()
-            //    .matchImageSnapshot('after-builtWith-highlight');
+                })
         });
     });
 
