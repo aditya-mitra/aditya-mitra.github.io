@@ -20,6 +20,12 @@ jobs:
 
             - name: Get Node
               uses: actions/setup-node@v1
+              with:
+                  node-version: 14.x
+
+            - name: Use npm version 7
+              run: |
+                  npm install -g npm@7
 
             - name: Install dependencies
               run: |
