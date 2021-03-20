@@ -19,6 +19,11 @@ jobs:
             command: |
                 node -v
                 npm -v
+        - run:
+            name: get the npm version 7
+            command: |
+                sudo npm install -g npm@7
+                npm -v
         - checkout
         - restore_cache:
             keys:
