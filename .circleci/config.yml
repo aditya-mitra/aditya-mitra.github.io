@@ -9,11 +9,21 @@ version: 2.1
 jobs:
   build:
     docker:
-        - image: circleci/node:latest
+        - image: circleci/node:14
           auth:
             username: gamersinstinct7
             password: $DOCKERHUB_PASSWORD
     steps:
+        - run:
+            name: get current nodejs and npm version
+            command: |
+                node -v
+                npm -v
+        - run:
+            name: upgrade npm version to 7
+            command: |
+                sudo npm install -g npm@7
+                npm -v
         - checkout
         - restore_cache:
             keys:
@@ -21,7 +31,7 @@ jobs:
                 # change to v2/v3 if you need to forcefully install the dependencies
                 # changing this will build a new cache
                 # also change at save_cache step
-                - v4-deps-{{checksum "package.json"}}
+                - v5-deps-{{checksum "package.json"}}
         - run:
             name: Install dependencies
             command: |
@@ -32,7 +42,7 @@ jobs:
         - save_cache:
             paths:
                 - node_modules
-            key: v4-deps-{{checksum "package.json"}}
+            key: v5-deps-{{checksum "package.json"}}
         - run:
             name: run Next.JS build
             command: npm run ci:build
@@ -58,14 +68,14 @@ jobs:
         - attach_workspace:
             at: .
         - restore_cache:
-            key: cy-bin-v1-{{arch}}
+            key: cy-bin-v2-{{arch}}
         - run:
             name: install cypress if no cache found
             command: npx cypress install
         - save_cache:
             paths:
                 - /root/.cache/Cypress
-            key: cy-bin-v1-{{arch}}
+            key: cy-bin-v2-{{arch}}
         - run:
             name: verify cypress
             command: npx cypress verify
@@ -92,7 +102,7 @@ jobs:
         - attach_workspace:
             at: .
         - restore_cache:
-            key: netlify-v3-{{arch}}
+            key: netlify-v4-{{arch}}
         - run:
             name: install netlify-cli on node_modules
             command: npm install netlify-cli
@@ -100,7 +110,7 @@ jobs:
               paths:
                   - node_modules
              # cache this path for globally installed node_modules
-              key: netlify-v3-{{arch}}
+              key: netlify-v4-{{arch}}
         - run:
             name: run netlify deploy
             command: ./node_modules/.bin/netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN --dir portfolio --prod
@@ -113,21 +123,11 @@ workflows:
             - build:
                 context:
                     - Docker
-                filters:
-                    branches:
-                        only:
-                            - main
-                            - testing
             - test:
                 requires:
                     - build
                 context:
                     - Docker
-                filters:
-                    branches:
-                        only:
-                            - main
-                            - testing
             - netlify_deploy:
                 requires:
                     - build
