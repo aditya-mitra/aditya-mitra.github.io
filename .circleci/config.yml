@@ -113,21 +113,11 @@ workflows:
             - build:
                 context:
                     - Docker
-                filters:
-                    branches:
-                        only:
-                            - main
-                            - testing
             - test:
                 requires:
                     - build
                 context:
                     - Docker
-                filters:
-                    branches:
-                        only:
-                            - main
-                            - testing
             - netlify_deploy:
                 requires:
                     - build
