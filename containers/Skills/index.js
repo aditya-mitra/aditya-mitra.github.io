@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef } from 'react';
 
 import constants from './constants';
 import SkillCards from './skillCard';
+import Heading from './heading';
 
 import {
 	containerHeader as headerClass,
@@ -60,7 +61,7 @@ export default function Skills() {
 	return (
 		<>
 			<h1 id="myTechSkills" className={headerClass}>
-				My Tech Skills
+				<Heading />
 			</h1>
 			<div className={skillMainClass} ref={containerRef}>
 				{skillCards}

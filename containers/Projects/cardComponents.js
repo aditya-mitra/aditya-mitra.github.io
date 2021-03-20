@@ -44,7 +44,12 @@ export const StackTags = (stacks) =>
 		const colour = glossColour[stack] || 'gray';
 
 		return (
-			<Tag key={idx} colorScheme={colour} rounded="full" variant="solid" className={tagClass}>
+			<Tag
+				key={idx}
+				backgroundColor={colour}
+				rounded="full"
+				variant="solid"
+				className={tagClass}>
 				<TagLabel>{stack}</TagLabel>
 				<TagRightIcon as={icon} />
 			</Tag>

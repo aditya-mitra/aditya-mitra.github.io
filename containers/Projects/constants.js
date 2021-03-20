@@ -13,22 +13,29 @@ import {
 	SiNetlify,
 	SiDjango,
 	SiFirebase,
+	SiStrapi,
+	SiSocketDotIo,
+	SiServerless,
+	SiAmazonaws,
 } from 'react-icons/si';
 import { GrTechnology, GrCss3, GrNode } from 'react-icons/gr';
 import { CgWebsite } from 'react-icons/cg';
 import { IoLogoJavascript } from 'react-icons/io';
+import { IoLogoAmplify } from 'react-icons/io5';
 import { ImCodepen } from 'react-icons/im';
 import { BsFillTriangleFill } from 'react-icons/bs';
+import { GiSamusHelmet } from 'react-icons/gi';
 
 export const glossIcon = {
 	// links
 	github: GoMarkGithub,
 	app: BiLink,
 	blog: FaPenNib,
+	vercel: BsFillTriangleFill,
 	netlify: SiNetlify,
 	firebase: SiFirebase,
 	codepen: ImCodepen,
-	vercel: BsFillTriangleFill,
+	amplify: IoLogoAmplify,
 
 	// stacks
 	html: SiHtml5,
@@ -41,10 +48,15 @@ export const glossIcon = {
 	redux: SiRedux,
 	nextjs: SiNextDotJs,
 	'react router': SiReactrouter,
+	hapijs: GiSamusHelmet,
+	socketio: SiSocketDotIo,
 
+	strapi: SiStrapi,
 	django: SiDjango,
 	postgresql: SiPostgresql,
 	mongodb: SiMongodb,
+	lambda: SiServerless,
+	aws: SiAmazonaws,
 
 	website: CgWebsite,
 	markdown: SiMarkdown,
@@ -63,47 +75,117 @@ export const glossColour = {
 	vercel: '#000099',
 
 	// stacks
-	html: 'green',
-	css: 'blue',
-	javascript: 'orange',
+	html: 'green.300',
+	css: 'blue.200',
+	javascript: 'orange.400',
 
-	nodejs: 'orange',
-	expressjs: 'orange',
-	reactjs: 'red',
-	redux: 'cyan',
-	nextjs: 'cyan',
-	'react router': 'purple',
+	nodejs: 'green.400',
+	expressjs: 'gray.600',
+	reactjs: 'blue.700',
+	redux: 'purple.700',
+	nextjs: 'gray.800',
+	'react router': 'cyan.200',
+	hapijs: 'orange.500',
+	strapi: 'purple.300',
+	socketio: 'gray.900',
 
-	django: 'purple',
-	postgresql: 'blue',
-	mongodb: 'teal',
+	django: 'green.700',
+	postgresql: 'cyan.700',
+	mongodb: 'teal.500',
+	amplify: 'yellow.500',
+	lambda: 'orange.600',
+	aws: 'yellow.600',
 
-	website: 'yellow',
-	markdown: 'pink',
+	website: 'yellow.400',
+	markdown: 'pink.400',
 };
 
 export default [
+	{
+		codex: 'fthy',
+		items: [
+			{
+				title: 'Featherify',
+				description:
+					'Dynamically generate an image subsitute for your code. This was the winner project of AWS Amplify + Hashnode Hackathon.',
+				imgSrc:
+					'https://res.cloudinary.com/gamersinstinct7/image/upload/v1616272533/portfolio/Featherify/featherify_logo_ake77f.png',
+			},
+			{
+				title: 'Use in WebApp',
+				description:
+					'The Playground of Featherify can either generate css code or base64. The placeholder subsitutes in this site were generated here.',
+				imgSrc:
+					'https://res.cloudinary.com/gamersinstinct7/image/upload/v1616272535/portfolio/Featherify/working_featherify_webapp_vbtnbf.png',
+			},
+			{
+				title: 'Use via API',
+				description:
+					'Featherify even offers an API which can dynamically generate images during build time. More information about this can be found on the blog post.',
+				imgSrc:
+					'https://res.cloudinary.com/gamersinstinct7/image/upload/v1616272534/portfolio/Featherify/home_page_featherify_otzrfi.png',
+			},
+		],
+		links: [
+			{
+				provider: 'amplify',
+				link: 'https://prod.dgy94qrrhr9xz.amplifyapp.com/play',
+			},
+			{
+				provider: 'blog',
+				link: 'https://adityamitra.hashnode.dev/featherify-the-image-substitute-generator',
+			},
+			{
+				provider: 'github',
+				link: 'https://github.com/aditya-mitra/featherify',
+			},
+		],
+		stacks: ['django', 'pillow', 'amplify', 'lambda', 'reactjs'],
+	},
+	{
+		codex: 'dscw',
+		items: [
+			{
+				title: 'New DSC KIIT WebSite',
+				description:
+					"Lead Developer of our Club's new Website. Remade the whole site from scratch integrating whole new features.",
+				imgSrc:
+					'https://res.cloudinary.com/gamersinstinct7/image/upload/v1616268076/portfolio/New%20DSC%20KIIT%20Website/dsc_kiit_siteshot_zjjira.jpg',
+			},
+			{
+				title: 'Quizzes',
+				description:
+					'It also has a live quiz system which has live feedback and live update. Badges are issued automatically when the score resets.',
+				imgSrc:
+					'https://res.cloudinary.com/gamersinstinct7/image/upload/v1616268075/portfolio/New%20DSC%20KIIT%20Website/quiz_playground_dsc_kiit_fafinx.jpg',
+			},
+		],
+		links: [
+			{
+				provider: 'github',
+				link: 'https://github.com/DSC-KIIT/dsckiit-website-2.0',
+			},
+			{
+				provider: 'website',
+				link: 'https://dsckiit.tech/',
+			},
+		],
+		stacks: ['strapi', 'aws', 'hapijs', 'socketio', 'nextjs'],
+	},
 	{
 		codex: 'cr',
 		items: [
 			{
 				title: 'Code Rush',
 				description:
-					'Code Rush is a competitive coding platform. It is open source coding platform supporting 6 coding languages.',
+					'This was the runner-up project (2nd) for a hackathon conducted in my college during the pandemic lockdown.',
 				imgSrc:
 					'https://res.cloudinary.com/gamersinstinct7/image/upload/c_scale,h_300,q_100,w_300/v1604304531/portfolio/Code%20Rush/cr-1_pd3aak.webp',
 			},
 			{
-				title: 'Code and solve questions',
+				title: 'I was the Lead Developer',
 				description:
-					'It is built on the latest standard of the web - the JAM Stack. It has an awesome ACE editor integrated into it. Live feedbacks on submissions are provided. Competitors can check their score on the leaderboard.',
-				imgSrc:
-					'https://res.cloudinary.com/gamersinstinct7/image/upload/c_scale,h_300,q_100,w_300/v1604304530/portfolio/Code%20Rush/cr-2_ttkmqx.webp',
-			},
-			{
-				title: 'Beat your competitors',
-				description:
-					'There a lot of questions of all categories - easy, stacks, trickster, etc. An admin panel is also integrated in the backend of code rush. Live user count and comments for discussions are also enabled.',
+					'A competive coding platform featuring live submission feedbacks, leaderboard, a powerful code editor, supporting 6 languages, admin panel, discussions, plus some more integrations.',
 				imgSrc:
 					'https://res.cloudinary.com/gamersinstinct7/image/upload/c_scale,h_300,q_100,w_300/v1604304531/portfolio/Code%20Rush/cr-3_mct9ev.webp',
 			},
@@ -120,43 +202,6 @@ export default [
 			},
 		],
 		stacks: ['nextjs', 'nodejs', 'mongodb', 'markdown'],
-	},
-	{
-		codex: 'ccb',
-		items: [
-			{
-				title: 'Character Card Builder',
-				description:
-					'Character Card Builder is a web app that lets you make awesome looking cards on the site.',
-				imgSrc:
-					'https://res.cloudinary.com/gamersinstinct7/image/upload/c_scale,h_300,q_100,w_300/c_scale,h_300,q_100,w_300/v1604062891/portfolio/Character%20Card%20Builder/CCB_create_1_hzcd34.webp',
-			},
-			{
-				title: 'Character Card Builder',
-				description:
-					'It has a ton of features such as an awesome SEARCH feature and a fabulous DARK mode built and integrated into it.',
-				imgSrc:
-					'https://res.cloudinary.com/gamersinstinct7/image/upload/c_scale,h_300,q_100,w_300/v1604261385/portfolio/Character%20Card%20Builder/CCB_Search_3_wgxikr.webp',
-			},
-			{
-				title: 'Character Card Builder',
-				description:
-					'It also has a LIVE card creator that lets you see the card you as soon as you type. It was my first project that utilized postgresql and redux.',
-				imgSrc:
-					'https://res.cloudinary.com/gamersinstinct7/image/upload/c_scale,h_300,q_100,w_300/v1604062660/portfolio/Character%20Card%20Builder/CCB_chars_2_w32zn9.webp',
-			},
-		],
-		links: [
-			{
-				provider: 'github',
-				link: 'https://github.com/aditya-mitra/card_builder',
-			},
-			{
-				provider: 'netlify',
-				link: 'https://charactercardbuilder.netlify.app',
-			},
-		],
-		stacks: ['nodejs', 'reactjs', 'postgresql', 'redux'],
 	},
 	{
 		codex: 'whatster',
@@ -198,66 +243,5 @@ export default [
 			},
 		],
 		stacks: ['expressjs', 'reactjs', 'twilio', 'mongodb', 'react router'],
-	},
-
-	{
-		codex: 'pjs',
-		items: [
-			{
-				title: 'Power JS',
-				description:
-					'A full collection of WebPages and JS functionalities coded only using Vanilla JS.',
-				imgSrc:
-					'https://res.cloudinary.com/gamersinstinct7/image/upload/c_scale,h_300,q_100,w_300/v1604308432/portfolio/Power%20JS/pj-1_klb8hj.webp',
-			},
-			{
-				title: 'Power JS',
-				description: 'You can also view my other projects and pens on codepen.io/uinstinct',
-				imgSrc:
-					'https://res.cloudinary.com/gamersinstinct7/image/upload/c_scale,h_300,q_100,w_300/v1604308433/portfolio/Power%20JS/pj-2_t5cjkq.webp',
-			},
-		],
-		links: [
-			{
-				provider: 'github',
-				link: 'https://github.com/aditya-mitra/powerJS',
-			},
-			{
-				provider: 'codepen',
-				link: 'https://codepen.io/collection/XWdjWw',
-				darkModeColour: 'gray.500',
-			},
-		],
-		stacks: ['html', 'css', 'javascript'],
-	},
-	{
-		codex: 'ssw',
-		items: [
-			{
-				title: 'Socio Students',
-				description:
-					'A web application created for students to get social and know each other better.',
-				imgSrc:
-					'https://res.cloudinary.com/gamersinstinct7/image/upload/c_scale,h_300,q_100,w_300/v1604307197/portfolio/Socio%20Students/ssw-1-min_hfolhp.webp',
-			},
-			{
-				title: 'Socio Students',
-				description:
-					'Students can view others profile and edit or delete their profiles. It is a website built with django',
-				imgSrc:
-					'https://res.cloudinary.com/gamersinstinct7/image/upload/c_scale,h_300,q_100,w_300/v1604306984/portfolio/Socio%20Students/ssw-2_iwys6k.webp',
-			},
-		],
-		links: [
-			{
-				provider: 'github',
-				link: 'https://github.com/uinstinct/socioStudentWin',
-			},
-			{
-				provider: 'app',
-				link: 'https://djangoaditya.pythonanywhere.com/',
-			},
-		],
-		stacks: ['django', 'website'],
 	},
 ];

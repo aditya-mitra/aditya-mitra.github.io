@@ -1,14 +1,15 @@
 context('card', () => {
 	/*
-	 * we are testing the "Character Card Builder"
+	 * we are testing the "Whatster"
 	 * it needs to remain constant throughout updating
+	 * also it should have 3 items
 	 */
 
 	beforeEach(() => {
 		cy.visit('/');
 
 		cy.get('article')
-			.contains('Character Card Builder')
+			.contains(/whatster/gi)
 			.scrollIntoView()
 			.parentsUntil('article')
 			.parent()
