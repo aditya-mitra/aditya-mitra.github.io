@@ -1,6 +1,6 @@
 import constants from './constants';
 import Card from './card';
-import OtherProjects from './otherProjects';
+import Heading from './heading';
 
 import { containerHeader as headerClass } from '@/styles/containers.module.css';
 
@@ -26,7 +26,7 @@ export default function Projects() {
 	return (
 		<div>
 			<h1 id="myProjects" className={headerClass}>
-				<OtherProjects />
+				<Heading />
 			</h1>
 			{cards}
 		</div>
