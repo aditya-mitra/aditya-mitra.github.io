@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "export": "next export",
+    "format": "prettier --write .",
     "serve": "serve -l 5004 portfolio",
     "cyopen": "./node_modules/.bin/cypress open",
     "testl": "start-server-and-test serve http://localhost:5004 cyopen",
@@ -34,6 +35,7 @@
     "cypress": "^4.12.1",
     "cypress-image-snapshot": "^4.0.1",
     "duplicate-package-checker-webpack-plugin": "^3.0.0",
+    "prettier": "^2.2.1",
     "serve": "^11.3.2",
     "start-server-and-test": "^1.12.1"
   }
