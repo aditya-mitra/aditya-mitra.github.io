@@ -15,10 +15,13 @@ import {
 	SiFirebase,
 	SiStrapi,
 	SiSocketDotIo,
+	SiServerless,
+	SiAmazonaws,
 } from 'react-icons/si';
 import { GrTechnology, GrCss3, GrNode } from 'react-icons/gr';
 import { CgWebsite } from 'react-icons/cg';
 import { IoLogoJavascript } from 'react-icons/io';
+import { IoLogoAmplify } from 'react-icons/io5';
 import { ImCodepen } from 'react-icons/im';
 import { BsFillTriangleFill } from 'react-icons/bs';
 import { GiSamusHelmet } from 'react-icons/gi';
@@ -32,6 +35,7 @@ export const glossIcon = {
 	netlify: SiNetlify,
 	firebase: SiFirebase,
 	codepen: ImCodepen,
+	amplify: IoLogoAmplify,
 
 	// stacks
 	html: SiHtml5,
@@ -51,6 +55,8 @@ export const glossIcon = {
 	django: SiDjango,
 	postgresql: SiPostgresql,
 	mongodb: SiMongodb,
+	lambda: SiServerless,
+	aws: SiAmazonaws,
 
 	website: CgWebsite,
 	markdown: SiMarkdown,
@@ -86,12 +92,56 @@ export const glossColour = {
 	django: 'green.700',
 	postgresql: 'cyan.700',
 	mongodb: 'teal.500',
+	amplify: 'yellow.500',
+	lambda: 'orange.600',
+	aws: 'yellow.600',
 
 	website: 'yellow.400',
 	markdown: 'pink.400',
 };
 
 export default [
+	{
+		codex: 'fthy',
+		items: [
+			{
+				title: 'Featherify',
+				description:
+					'Dynamically generate an image subsitute for your code. This was the winner project of AWS Amplify + Hashnode Hackathon.',
+				imgSrc:
+					'https://res.cloudinary.com/gamersinstinct7/image/upload/v1616272533/portfolio/Featherify/featherify_logo_ake77f.png',
+			},
+			{
+				title: 'Use in WebApp',
+				description:
+					'The Playground of Featherify can either generate css code or base64. The placeholder subsitutes in this site were generated here.',
+				imgSrc:
+					'https://res.cloudinary.com/gamersinstinct7/image/upload/v1616272535/portfolio/Featherify/working_featherify_webapp_vbtnbf.png',
+			},
+			{
+				title: 'Use via API',
+				description:
+					'Featherify even offers an API which can dynamically generate images during build time. More information about this can be found on the blog post.',
+				imgSrc:
+					'https://res.cloudinary.com/gamersinstinct7/image/upload/v1616272534/portfolio/Featherify/home_page_featherify_otzrfi.png',
+			},
+		],
+		links: [
+			{
+				provider: 'amplify',
+				link: 'https://prod.dgy94qrrhr9xz.amplifyapp.com/play',
+			},
+			{
+				provider: 'blog',
+				link: 'https://adityamitra.hashnode.dev/featherify-the-image-substitute-generator',
+			},
+			{
+				provider: 'github',
+				link: 'https://github.com/aditya-mitra/featherify',
+			},
+		],
+		stacks: ['django', 'pillow', 'amplify', 'lambda', 'reactjs'],
+	},
 	{
 		codex: 'dscw',
 		items: [
@@ -120,7 +170,7 @@ export default [
 				link: 'https://dsckiit.tech/',
 			},
 		],
-		stacks: ['strapi', 'hapijs', 'socketio', 'nextjs'],
+		stacks: ['strapi', 'aws', 'hapijs', 'socketio', 'nextjs'],
 	},
 	{
 		codex: 'cr',
@@ -153,7 +203,6 @@ export default [
 		],
 		stacks: ['nextjs', 'nodejs', 'mongodb', 'markdown'],
 	},
-
 	{
 		codex: 'whatster',
 		items: [
