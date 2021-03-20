@@ -4,11 +4,13 @@ import styles from '@/styles/progressBar';
 
 const level = (width) => {
 	if (width >= 0 && width <= 50) {
-		return 'rookie';
+		return 'learning new';
 	} else if (width > 50 && width <= 85) {
-		return 'seasoned';
+		return 'sharpening with project';
+	} else if (width > 85 && width <= 92) {
+		return 'ready to contribute';
 	} else {
-		return 'becoming expert';
+		return 'hunting for contests';
 	}
 };
 
