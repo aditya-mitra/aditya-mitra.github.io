@@ -15,12 +15,12 @@ jobs:
             password: $DOCKERHUB_PASSWORD
     steps:
         - run:
-            name: get the nodejs version
+            name: get current nodejs and npm version
             command: |
                 node -v
                 npm -v
         - run:
-            name: get the npm version 7
+            name: upgrade npm version to 7
             command: |
                 sudo npm install -g npm@7
                 npm -v
