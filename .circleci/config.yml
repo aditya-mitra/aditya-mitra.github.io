@@ -14,6 +14,14 @@ jobs:
             username: gamersinstinct7
             password: $DOCKERHUB_PASSWORD
     steps:
+        - run:
+            name: get the nodejs version
+            command: |
+                node -v
+                npm -v
+                sh /opt/circleci/.nvm/nvm.sh
+                nvm install v14.x.x
+                node -v
         - checkout
         - restore_cache:
             keys:
@@ -22,12 +30,6 @@ jobs:
                 # changing this will build a new cache
                 # also change at save_cache step
                 - v5-deps-{{checksum "package.json"}}
-        - run:
-            name: get the nodejs version
-            command: |
-                node -v
-                npm -v
-                nvm install v12.x.x
         - run:
             name: Install dependencies
             command: |
