@@ -43,8 +43,8 @@ export const StackTags = (stacks) =>
 		const icon = glossIcon[stack] || glossIcon['other'];
 		const colour = glossColour[stack] || 'gray';
 
-		return (
-			<Tag key={idx} colorScheme={colour} rounded="full" variant="solid" className={tagClass}>
+        return (
+            <Tag key={idx} backgroundColor={colour} rounded="full" variant="solid" className={tagClass}>
 				<TagLabel>{stack}</TagLabel>
 				<TagRightIcon as={icon} />
 			</Tag>

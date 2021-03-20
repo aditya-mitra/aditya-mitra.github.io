@@ -12,23 +12,26 @@ import {
 	SiHtml5,
 	SiNetlify,
 	SiDjango,
-	SiFirebase,
+    SiFirebase,
+    SiStrapi,
+    SiSocketDotIo
 } from 'react-icons/si';
 import { GrTechnology, GrCss3, GrNode } from 'react-icons/gr';
 import { CgWebsite } from 'react-icons/cg';
 import { IoLogoJavascript } from 'react-icons/io';
 import { ImCodepen } from 'react-icons/im';
 import { BsFillTriangleFill } from 'react-icons/bs';
+import { GiSamusHelmet} from 'react-icons/gi'
 
 export const glossIcon = {
 	// links
 	github: GoMarkGithub,
 	app: BiLink,
 	blog: FaPenNib,
+	vercel: BsFillTriangleFill,
 	netlify: SiNetlify,
 	firebase: SiFirebase,
 	codepen: ImCodepen,
-	vercel: BsFillTriangleFill,
 
 	// stacks
 	html: SiHtml5,
@@ -40,8 +43,11 @@ export const glossIcon = {
 	reactjs: SiReact,
 	redux: SiRedux,
 	nextjs: SiNextDotJs,
-	'react router': SiReactrouter,
+    'react router': SiReactrouter,
+    hapijs: GiSamusHelmet,
+    socketio: SiSocketDotIo,
 
+    strapi: SiStrapi,
 	django: SiDjango,
 	postgresql: SiPostgresql,
 	mongodb: SiMongodb,
@@ -63,31 +69,60 @@ export const glossColour = {
 	vercel: '#000099',
 
 	// stacks
-	html: 'green',
-	css: 'blue',
-	javascript: 'orange',
+	html: 'green.300',
+	css: 'blue.200',
+	javascript: 'orange.400',
 
-	nodejs: 'orange',
-	expressjs: 'orange',
-	reactjs: 'red',
-	redux: 'cyan',
-	nextjs: 'cyan',
-	'react router': 'purple',
+	nodejs: 'green.400',
+	expressjs: 'gray.600',
+	reactjs: 'blue.700',
+	redux: 'purple.700',
+	nextjs: 'gray.800',
+    'react router': 'cyan.200',
+    hapijs: 'orange.500',
+    strapi: 'purple.300',
+    socketio: 'gray.900',
 
-	django: 'purple',
-	postgresql: 'blue',
-	mongodb: 'teal',
+	django: 'green.700',
+	postgresql: 'cyan.700',
+	mongodb: 'teal.500',
 
-	website: 'yellow',
-	markdown: 'pink',
+    website: 'yellow.400',
+	markdown: 'pink.400',
 };
 
 export default [
+    {
+        codex: 'dscw',
+        items: [
+            {
+                title: 'New DSC KIIT WebSite',
+                description: "Lead Developer of our Club's new Website. Remade the whole site from scratch integrating whole new features.",
+                imgSrc:"https://res.cloudinary.com/gamersinstinct7/image/upload/v1616268076/portfolio/New%20DSC%20KIIT%20Website/dsc_kiit_siteshot_zjjira.jpg"
+            },
+            {
+                title: 'Quizzes',
+                description: "It also has a live quiz system which has live feedback and live update. Badges are issued automatically when the score resets.",
+                imgSrc:"https://res.cloudinary.com/gamersinstinct7/image/upload/v1616268075/portfolio/New%20DSC%20KIIT%20Website/quiz_playground_dsc_kiit_fafinx.jpg"
+            },
+        ],
+        links: [
+            {
+                provider: 'github',
+                link: 'https://github.com/DSC-KIIT/dsckiit-website-2.0'
+            },
+            {
+                provider: 'website',
+                link: 'https://dsckiit.tech/'
+            }
+        ],
+        stacks: ['strapi','hapijs','socketio','nextjs'],
+    },
 	{
 		codex: 'cr',
 		items: [
 			{
-                title: 'Code Rush',
+				title: 'Code Rush',
 				description:
 					'This was the runner-up project (2nd) for a hackathon conducted in my college during the pandemic lockdown.',
 				imgSrc:
@@ -114,7 +149,7 @@ export default [
 		],
 		stacks: ['nextjs', 'nodejs', 'mongodb', 'markdown'],
 	},
-	
+
 	{
 		codex: 'whatster',
 		items: [
@@ -156,41 +191,37 @@ export default [
 		],
 		stacks: ['expressjs', 'reactjs', 'twilio', 'mongodb', 'react router'],
 	},
-    {
-        codex: 'ccb',
-        items: [
-            {
-                title: 'Character Card Builder',
-                description:
-                    'Character Card Builder is a web app that lets you make awesome looking cards on the site.',
-                imgSrc:
-                    'https://res.cloudinary.com/gamersinstinct7/image/upload/c_scale,h_300,q_100,w_300/c_scale,h_300,q_100,w_300/v1604062891/portfolio/Character%20Card%20Builder/CCB_create_1_hzcd34.webp',
-            },
-            {
-                title: 'Character Card Builder',
-                description:
-                    'It has a ton of features such as an awesome SEARCH feature and a fabulous DARK mode built and integrated into it.',
-                imgSrc:
-                    'https://res.cloudinary.com/gamersinstinct7/image/upload/c_scale,h_300,q_100,w_300/v1604261385/portfolio/Character%20Card%20Builder/CCB_Search_3_wgxikr.webp',
-            },
-            {
-                title: 'Character Card Builder',
-                description:
-                    'It also has a LIVE card creator that lets you see the card you as soon as you type. It was my first project that utilized postgresql and redux.',
-                imgSrc:
-                    'https://res.cloudinary.com/gamersinstinct7/image/upload/c_scale,h_300,q_100,w_300/v1604062660/portfolio/Character%20Card%20Builder/CCB_chars_2_w32zn9.webp',
-            },
-        ],
-        links: [
-            {
-                provider: 'github',
-                link: 'https://github.com/aditya-mitra/card_builder',
-            },
-            {
-                provider: 'netlify',
-                link: 'https://charactercardbuilder.netlify.app',
-            },
-        ],
-        stacks: ['nodejs', 'reactjs', 'postgresql', 'redux'],
-    },
+	{
+		codex: 'ccb',
+		items: [
+			{
+				title: 'Character Card Builder',
+				description:
+					'Character Card Builder is a web app that lets you make awesome looking cards on the site.',
+				imgSrc:
+					'https://res.cloudinary.com/gamersinstinct7/image/upload/c_scale,h_300,q_100,w_300/c_scale,h_300,q_100,w_300/v1604062891/portfolio/Character%20Card%20Builder/CCB_create_1_hzcd34.webp',
+			},
+			{
+				title: 'Character Card Builder',
+				description:
+					'It has a ton of features such as an awesome SEARCH feature and a fabulous DARK mode built and integrated into it.',
+				imgSrc:
+					'https://res.cloudinary.com/gamersinstinct7/image/upload/c_scale,h_300,q_100,w_300/v1604261385/portfolio/Character%20Card%20Builder/CCB_Search_3_wgxikr.webp',
+			},
+			{
+				title: 'Character Card Builder',
+				description:
+					'It also has a LIVE card creator that lets you see the card you as soon as you type. It was my first project that utilized postgresql and redux.',
+				imgSrc:
+					'https://res.cloudinary.com/gamersinstinct7/image/upload/c_scale,h_300,q_100,w_300/v1604062660/portfolio/Character%20Card%20Builder/CCB_chars_2_w32zn9.webp',
+			},
+		],
+		links: [
+			{
+				provider: 'github',
+				link: 'https://github.com/aditya-mitra/card_builder',
+			},
+		],
+		stacks: ['nodejs', 'reactjs', 'postgresql', 'redux'],
+	},
 ];

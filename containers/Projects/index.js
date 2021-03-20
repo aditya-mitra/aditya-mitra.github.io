@@ -26,7 +26,7 @@ export default function Projects() {
 	return (
 		<div>
 			<h1 id="myProjects" className={headerClass}>
-                <OtherProjects/>
+				<OtherProjects />
 			</h1>
 			{cards}
 		</div>
