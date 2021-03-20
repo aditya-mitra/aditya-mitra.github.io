@@ -6,7 +6,7 @@ context('image snapshots', () => {
         cy
             .wait(100)
             .reload()
-            .viewport('macbook-16');
+            .viewport(1536,960); // mackbook-16
     });
 
     describe('snapshot tests on containers in light mode', () => {
@@ -74,7 +74,7 @@ context('image snapshots', () => {
 
         it.only('mobile view', () => {
             cy
-                .viewport('iphone-x')
+                .viewport(375,812) // iphone-x
                 .get('body')
                 .matchImageSnapshot();
         });
