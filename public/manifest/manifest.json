@@ -1,31 +1,31 @@
 {
-    "author": "Aditya Mitra",
-    "background_color": "#fff",
-    "description": "The Portfolio Site of Aditya Mitra.",
-    "developer": {
-        "name": "Aditya Mitra",
-        "url": "https://aditya-mitra.github.io/"
-    },
-    "default_locale": "en",
-    "display": "fullscreen",
-    "homepage_url": "https://aditya-mitra.github.io/",
-    "lang": "en",
-    "name": "Aditya Mitra's Portfolio",
-    "short_name": "Aditya",
-    "start_url": "/",
-    "theme_color": "#000",
-    "version": "2.3",
-    "icons": [
-        {
-            "src": "/manifest/siteIcon512.png",
-            "sizes": "512x512",
-            "type": "image/png"
-        },
-        {
-            "src": "/manifest/siteIcon120.png",
-            "sizes": "120x120",
-            "type": "image/png",
-            "purpose": "any maskable"
-        }
-    ]
+	"author": "Aditya Mitra",
+	"background_color": "#fff",
+	"description": "The Portfolio Site of Aditya Mitra.",
+	"developer": {
+		"name": "Aditya Mitra",
+		"url": "https://aditya-mitra.github.io/"
+	},
+	"default_locale": "en",
+	"display": "fullscreen",
+	"homepage_url": "https://aditya-mitra.github.io/",
+	"lang": "en",
+	"name": "Aditya Mitra's Portfolio",
+	"short_name": "Aditya",
+	"start_url": "/",
+	"theme_color": "#000",
+	"version": "2.3",
+	"icons": [
+		{
+			"src": "/manifest/siteIcon512.png",
+			"sizes": "512x512",
+			"type": "image/png"
+		},
+		{
+			"src": "/manifest/siteIcon120.png",
+			"sizes": "120x120",
+			"type": "image/png",
+			"purpose": "any maskable"
+		}
+	]
 }

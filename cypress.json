@@ -1,9 +1,9 @@
 {
-    "baseUrl": "http://localhost:5004/",
-    "integrationFolder": "cypress/e2e",
-    "chromeWebSecurity": false,
-    "reporter": "junit",
-    "reporterOptions": {
-        "mochaFile": "test_reports/test-report-[hash].xml"
-    }
+	"baseUrl": "http://localhost:5004/",
+	"integrationFolder": "cypress/e2e",
+	"chromeWebSecurity": false,
+	"reporter": "junit",
+	"reporterOptions": {
+		"mochaFile": "test_reports/test-report-[hash].xml"
+	}
 }

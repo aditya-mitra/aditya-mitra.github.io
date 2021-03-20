@@ -7,135 +7,133 @@ version: 2.1
 #    cypress: cypress-io/cypress@1
 
 jobs:
-  build:
-    docker:
-        - image: circleci/node:14
-          auth:
-            username: gamersinstinct7
-            password: $DOCKERHUB_PASSWORD
-    steps:
-        - run:
-            name: get current nodejs and npm version
-            command: |
-                node -v
-                npm -v
-        - run:
-            name: upgrade npm version to 7
-            command: |
-                sudo npm install -g npm@7
-                npm -v
-        - checkout
-        - restore_cache:
-            keys:
-                # cache will auto invalidate if package.json changers
-                # change to v2/v3 if you need to forcefully install the dependencies
-                # changing this will build a new cache
-                # also change at save_cache step
-                - v5-deps-{{checksum "package.json"}}
-        - run:
-            name: Install dependencies
-            command: |
-                npm install
-                # `npm ci` command will install all the dependencies again
-                # `npm install` will install only those which are not installed (also better to use this to install missing dependencies)
+    build:
+        docker:
+            - image: circleci/node:14
+              auth:
+                  username: gamersinstinct7
+                  password: $DOCKERHUB_PASSWORD
+        steps:
+            - run:
+                  name: get current nodejs and npm version
+                  command: |
+                      node -v
+                      npm -v
+            - run:
+                  name: upgrade npm version to 7
+                  command: |
+                      sudo npm install -g npm@7
+                      npm -v
+            - checkout
+            - restore_cache:
+                  keys:
+                      # cache will auto invalidate if package.json changers
+                      # change to v2/v3 if you need to forcefully install the dependencies
+                      # changing this will build a new cache
+                      # also change at save_cache step
+                      - v5-deps-{{checksum "package.json"}}
+            - run:
+                  name: Install dependencies
+                  command: |
+                      npm install
+                      # `npm ci` command will install all the dependencies again
+                      # `npm install` will install only those which are not installed (also better to use this to install missing dependencies)
 
-        - save_cache:
-            paths:
-                - node_modules
-            key: v5-deps-{{checksum "package.json"}}
-        - run:
-            name: run Next.JS build
-            command: npm run ci:build
-        - run:
-            name: print all contents at the current working directory
-            command: ls -a
-        - persist_to_workspace:
-              root: .
-              paths:
-                  - '*'
-        - store_artifacts:
-            path: .next/analyze/server.html
-        - store_artifacts:
-            path: .next/analyze/client.html
+            - save_cache:
+                  paths:
+                      - node_modules
+                  key: v5-deps-{{checksum "package.json"}}
+            - run:
+                  name: run Next.JS build
+                  command: npm run ci:build
+            - run:
+                  name: print all contents at the current working directory
+                  command: ls -a
+            - persist_to_workspace:
+                  root: .
+                  paths:
+                      - '*'
+            - store_artifacts:
+                  path: .next/analyze/server.html
+            - store_artifacts:
+                  path: .next/analyze/client.html
 
-  test:
-    docker:
-        - image: cypress/browsers
-          auth:
-            username: gamersinstinct7
-            password: $DOCKERHUB_PASSWORD
-    steps:
-        - attach_workspace:
-            at: .
-        - restore_cache:
-            key: cy-bin-v2-{{arch}}
-        - run:
-            name: install cypress if no cache found
-            command: npx cypress install
-        - save_cache:
-            paths:
-                - /root/.cache/Cypress
-            key: cy-bin-v2-{{arch}}
-        - run:
-            name: verify cypress
-            command: npx cypress verify
-            when: always
-        - run:
-            # starting the server on a different step does not work
-            name: run cypress tests on electron
-            command: npm run ci:test
-        - run:
-            name: run cypress tests on chrome
-            command: npm run ci:test:chrome
-        - store_test_results:
-            path: test_reports
-        - store_artifacts:
-            path: cypress/videos
+    test:
+        docker:
+            - image: cypress/browsers
+              auth:
+                  username: gamersinstinct7
+                  password: $DOCKERHUB_PASSWORD
+        steps:
+            - attach_workspace:
+                  at: .
+            - restore_cache:
+                  key: cy-bin-v2-{{arch}}
+            - run:
+                  name: install cypress if no cache found
+                  command: npx cypress install
+            - save_cache:
+                  paths:
+                      - /root/.cache/Cypress
+                  key: cy-bin-v2-{{arch}}
+            - run:
+                  name: verify cypress
+                  command: npx cypress verify
+                  when: always
+            - run:
+                  # starting the server on a different step does not work
+                  name: run cypress tests on electron
+                  command: npm run ci:test
+            - run:
+                  name: run cypress tests on chrome
+                  command: npm run ci:test:chrome
+            - store_test_results:
+                  path: test_reports
+            - store_artifacts:
+                  path: cypress/videos
 
-  netlify_deploy:
-    docker:
-        - image: circleci/node:latest
-          auth:
-            username: gamersinstinct7
-            password: $DOCKERHUB_PASSWORD
-    steps:
-        - attach_workspace:
-            at: .
-        - restore_cache:
-            key: netlify-v4-{{arch}}
-        - run:
-            name: install netlify-cli on node_modules
-            command: npm install netlify-cli
-        - save_cache:
-              paths:
-                  - node_modules
-             # cache this path for globally installed node_modules
-              key: netlify-v4-{{arch}}
-        - run:
-            name: run netlify deploy
-            command: ./node_modules/.bin/netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN --dir portfolio --prod
-
+    netlify_deploy:
+        docker:
+            - image: circleci/node:latest
+              auth:
+                  username: gamersinstinct7
+                  password: $DOCKERHUB_PASSWORD
+        steps:
+            - attach_workspace:
+                  at: .
+            - restore_cache:
+                  key: netlify-v4-{{arch}}
+            - run:
+                  name: install netlify-cli on node_modules
+                  command: npm install netlify-cli
+            - save_cache:
+                  paths:
+                      - node_modules
+                  # cache this path for globally installed node_modules
+                  key: netlify-v4-{{arch}}
+            - run:
+                  name: run netlify deploy
+                  command: ./node_modules/.bin/netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN --dir portfolio --prod
 
 workflows:
     build_and_test:
-                        
         jobs:
             - build:
-                context:
-                    - Docker
+                  context:
+                      - Docker
             - test:
-                requires:
-                    - build
-                context:
-                    - Docker
+                  requires:
+                      - build
+                  context:
+                      - Docker
             - netlify_deploy:
-                requires:
-                    - build
-                context:
-                    - Docker
-                    - Netlify
-                filters:
-                    branches:
-                        only:
-                            - main
-                            - testing
+                  requires:
+                      - build
+                  context:
+                      - Docker
+                      - Netlify
+                  filters:
+                      branches:
+                          only:
+                              - main
+                              - testing
