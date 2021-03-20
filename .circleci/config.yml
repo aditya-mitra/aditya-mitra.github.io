@@ -21,7 +21,13 @@ jobs:
                 # change to v2/v3 if you need to forcefully install the dependencies
                 # changing this will build a new cache
                 # also change at save_cache step
-                - v4-deps-{{checksum "package.json"}}
+                - v5-deps-{{checksum "package.json"}}
+        - run:
+            name: get the nodejs version
+            command: |
+                node -v
+                npm -v
+                nvm install v12.x.x
         - run:
             name: Install dependencies
             command: |
@@ -32,7 +38,7 @@ jobs:
         - save_cache:
             paths:
                 - node_modules
-            key: v4-deps-{{checksum "package.json"}}
+            key: v5-deps-{{checksum "package.json"}}
         - run:
             name: run Next.JS build
             command: npm run ci:build
@@ -58,14 +64,14 @@ jobs:
         - attach_workspace:
             at: .
         - restore_cache:
-            key: cy-bin-v1-{{arch}}
+            key: cy-bin-v2-{{arch}}
         - run:
             name: install cypress if no cache found
             command: npx cypress install
         - save_cache:
             paths:
                 - /root/.cache/Cypress
-            key: cy-bin-v1-{{arch}}
+            key: cy-bin-v2-{{arch}}
         - run:
             name: verify cypress
             command: npx cypress verify
@@ -92,7 +98,7 @@ jobs:
         - attach_workspace:
             at: .
         - restore_cache:
-            key: netlify-v3-{{arch}}
+            key: netlify-v4-{{arch}}
         - run:
             name: install netlify-cli on node_modules
             command: npm install netlify-cli
@@ -100,7 +106,7 @@ jobs:
               paths:
                   - node_modules
              # cache this path for globally installed node_modules
-              key: netlify-v3-{{arch}}
+              key: netlify-v4-{{arch}}
         - run:
             name: run netlify deploy
             command: ./node_modules/.bin/netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN --dir portfolio --prod
