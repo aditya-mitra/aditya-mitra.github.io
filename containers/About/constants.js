@@ -8,9 +8,8 @@
  * */
 export default {
 	title: 'Aditya Mitra',
-	subTitle: 'Working with JavaScript',
-	description: `I am Aditya. A developer.
-         I like to build useful apps with JavaScript.`,
+	subTitle: 'Contributing to Rocket.Chat',
+	description: `Hello, I am Aditya. I love to build and contribute to projects which make our lives easier`,
 	image: '/images/me.jpg',
 	status: 'hover here ',
 };
