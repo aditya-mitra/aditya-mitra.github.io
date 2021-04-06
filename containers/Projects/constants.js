@@ -129,7 +129,7 @@ export default [
 		links: [
 			{
 				provider: 'amplify',
-				link: 'https://prod.dgy94qrrhr9xz.amplifyapp.com/play',
+				link: 'https://prod.dgy94qrrhr9xz.amplifyapp.com/',
 			},
 			{
 				provider: 'blog',
