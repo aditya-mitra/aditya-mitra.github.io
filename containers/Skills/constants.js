@@ -20,7 +20,8 @@ import {
 	SiPostgresql,
 	SiPython,
 	SiReact,
-	SiTypescript,
+    SiTypescript,
+    SiMeteor
 } from 'react-icons/si';
 
 export const glossIcon = {
@@ -40,8 +41,8 @@ export const glossIcon = {
 	expressjs: SiJavascript,
 	django: DiDjango,
 	cms: BiBookContent,
+    meteorjs: SiMeteor,
 	hapijs: GiRobotHelmet,
-	koajs: IoLogoJavascript,
 
 	// databases
 	mongodb: SiMongodb,
@@ -91,8 +92,8 @@ export const glossColour = {
 	expressjs: 'teal.200',
 	django: 'gray.500',
 	cms: 'yellow.200',
-	hapijs: 'orange.500',
-	koajs: 'teal.400',
+    meteorjs: 'red.400',
+    hapijs: 'orange.500',
 
 	//databases
 	mongodb: 'green.400',
@@ -131,20 +132,20 @@ export default [
 		topics: [
 			{
 				name: 'GitHub Actions',
-				progress: 90,
+				progress: 88,
 				icon: 'actions',
 			},
 			{
 				name: 'CircleCI',
-				progress: 85,
+				progress: 80,
 			},
 			{
 				name: 'Docker',
-				progress: 90,
+				progress: 86,
 			},
 			{
 				name: 'AWS',
-				progress: 87,
+				progress: 80,
 			},
 			{
 				name: 'Git',
@@ -172,14 +173,14 @@ export default [
 				name: 'Content Management Systems',
 				progress: 75,
 				icon: 'cms',
-			},
+            },
+            {
+                name: 'MeteorJS',
+                progress: 85
+            },
 			{
 				name: 'HapiJS',
 				progress: 75,
-			},
-			{
-				name: 'KoaJS',
-				progress: 50,
 			},
 		],
 	},
@@ -216,15 +217,15 @@ export default [
 			{
 				name: 'PostgreSQL',
 				progress: 92,
-			},
+            },
+            {
+                name: 'SQLite3',
+                progress: 50,
+            },
 			{
 				name: "IndexedDB (Browser's Database)",
 				progress: 87,
 				icon: 'indexeddb',
-			},
-			{
-				name: 'SQLite3',
-				progress: 50,
 			},
 		],
 	},
@@ -246,12 +247,12 @@ export default [
 			},
 			{
 				name: 'Python UnitTesting Framework',
-				progress: 78,
+				progress: 49,
 				icon: 'pythontesting',
 			},
 			{
 				name: 'Shell',
-				progress: 85,
+				progress: 80,
 			},
 		],
 	},
