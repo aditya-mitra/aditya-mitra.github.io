@@ -20,6 +20,7 @@ import {
 	SiPostgresql,
 	SiPython,
 	SiReact,
+	SiRust,
     SiTypescript,
     SiMeteor
 } from 'react-icons/si';
@@ -71,6 +72,7 @@ export const glossIcon = {
 	typescript: SiTypescript,
 	cpp: SiC,
 	python: SiPython,
+	rust: SiRust,
 
 	other: GrTechnology,
 };
@@ -118,6 +120,7 @@ export const glossColour = {
 	shell: 'green.500',
 
 	// programming languages
+	rust: 'orange.900',
 	java: 'red.500',
 	typescript: 'blue.300',
 	cpp: 'purple.800',
@@ -260,8 +263,13 @@ export default [
 		heading: 'Programming Languages',
 		topics: [
 			{
+				name: "Rust",
+				progress: 93,
+				icon: 'rust',
+			},
+			{
 				name: 'C++',
-				progress: 92,
+				progress: 91,
 				icon: 'cpp',
 			},
 			{
