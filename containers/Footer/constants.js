@@ -8,14 +8,8 @@ export default [
 		colour: 'blue.400',
 	},
 	{
-		provider: 'twitter',
-		link: 'https://twitter.com/Aditya_Mitra_',
-		icon: SiTwitter,
-		colour: 'cyan.400',
-	},
-	{
 		provider: 'linkedin',
-		link: 'https://www.linkedin.com/in/aditya-mitra-a794661b0/',
+		link: 'https://www.linkedin.com/in/aditya--mitra/',
 		icon: SiLinkedin,
 		colour: 'blue.700',
 	},
