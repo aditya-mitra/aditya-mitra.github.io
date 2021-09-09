@@ -21,7 +21,7 @@ export default [
 	},
 	{
 		provider: 'email',
-		link: 'mailto:uinstinct@outlook.com',
+		link: 'mailto:qk7v1uhdw@relay.firefox.com',
 		icon: SiMicrosoftoutlook,
 		colour: 'teal.600',
 	},
