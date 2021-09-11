@@ -17,11 +17,13 @@ import {
 	SiSocketDotIo,
 	SiServerless,
 	SiAmazonaws,
+	SiMicrosoftazure,
+	SiRedis
 } from 'react-icons/si';
 import { GrTechnology, GrCss3, GrNode } from 'react-icons/gr';
 import { CgWebsite } from 'react-icons/cg';
 import { IoLogoJavascript } from 'react-icons/io';
-import { IoLogoAmplify } from 'react-icons/io5';
+import { IoLogoAmplify, IoLogoChrome } from 'react-icons/io5';
 import { ImCodepen } from 'react-icons/im';
 import { BsFillTriangleFill } from 'react-icons/bs';
 import { GiSamusHelmet } from 'react-icons/gi';
@@ -55,11 +57,14 @@ export const glossIcon = {
 	django: SiDjango,
 	postgresql: SiPostgresql,
 	mongodb: SiMongodb,
+	redis: SiRedis,
+	azure: SiMicrosoftazure,
 	lambda: SiServerless,
 	aws: SiAmazonaws,
 
 	website: CgWebsite,
 	markdown: SiMarkdown,
+	chrome: IoLogoChrome,
 
 	other: GrTechnology,
 };
@@ -92,9 +97,12 @@ export const glossColour = {
 	django: 'green.700',
 	postgresql: 'cyan.700',
 	mongodb: 'teal.500',
+	redis: 'red.300',
 	amplify: 'yellow.500',
 	lambda: 'orange.600',
 	aws: 'yellow.600',
+	azure: 'blue.300',
+	chrome: 'green.500',
 
 	website: 'yellow.400',
 	markdown: 'pink.400',
@@ -167,10 +175,50 @@ export default [
 			},
 			{
 				provider: 'website',
-				link: 'https://dsckiit.tech/',
+				link: 'https://dsckiit.in/',
 			},
 		],
 		stacks: ['strapi', 'aws', 'hapijs', 'socketio', 'nextjs'],
+	},
+	{
+		codex: 'murls',
+		items: [
+			{
+				title: 'Murls',
+				description:
+					"Murls is an advanced URL Re-director capable of handling huge number of URLs with some advanced redirection capabilities.",
+				imgSrc:
+					'https://res.cloudinary.com/gamersinstinct7/image/upload/v1631367842/portfolio/Murls/main_image_iov2uv.jpg',
+			},
+			{
+				title: 'Murls Server',
+				description: 'Built using Django and Django Rest Framework using PostgreSQL and Redis for storage and caching. It was deployed to Azure Virtual Machine.',
+				imgSrc: 'https://res.cloudinary.com/gamersinstinct7/image/upload/v1631367843/portfolio/Murls/server_bcvilv.jpg'
+			},
+			{
+				title: 'Murls Extension',
+				description:
+					"A web extension to directly get the current tab url and sent to the user's account. Built using Vite and Preact.",
+				imgSrc:
+					'https://res.cloudinary.com/gamersinstinct7/image/upload/v1631367843/portfolio/Murls/extension_gmdfpl.png',
+			},
+			{
+				title: 'Murls Mobile App',
+				description: 'A mobile app which list the urls created by the user and the statistics for the particular url.',
+				imgSrc: 'https://res.cloudinary.com/gamersinstinct7/image/upload/v1631367842/portfolio/Murls/mobile_zxbr9n.jpg'
+			}
+		],
+		links: [
+			{
+				provider: 'github',
+				link: 'https://github.com/ankit435/Murls',
+			},
+			{
+				provider: 'blog',
+				link: 'https://murls.hashnode.dev/introducing-murls-the-advanced-url-re-director',
+			},
+		],
+		stacks: ['azure', 'redis', 'django', 'chrome', 'postgresql'],
 	},
 	{
 		codex: 'cr',

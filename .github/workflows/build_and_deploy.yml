@@ -8,6 +8,7 @@ on:
     push:
         branches:
             - main
+            - proj
 
 jobs:
     setup_build:
