@@ -1,6 +1,224 @@
 ---
-// The Contact Scene: a large mechanical keyboard Toy (ticket 09).
-// Hand-written inline SVG goes inside this wrapper; keep it aria-hidden.
+// The Contact Scene: a large mechanical keyboard Toy (ticket 09). A 60% ANSI
+// board drawn as inline SVG and hidden from assistive technology. Its keys are
+// plain SVG groups (never focusable); src/scripts/keyboard-toy.ts, loaded only
+// when the Section nears the viewport, makes them press and type into the
+// readout in Contact.astro.
+
+type Key = { code: string; label: string; char?: string; shift?: string; w?: number; tone?: 'mod' | 'accent' };
+
+const letters = (s: string): Key[] =>
+  [...s].map((c) => ({ code: `Key${c}`, label: c, char: c.toLowerCase(), shift: c }));
+const sym = (code: string, char: string, shift: string): Key => ({ code, label: char, char, shift });
+const mod = (code: string, label: string, w: number, tone: Key['tone'] = 'mod'): Key => ({ code, label, w, tone });
+
+const rows: Key[][] = [
+  [
+    mod('Escape', 'esc', 1, 'accent'),
+    ...[...'1234567890'].map((d, i) => sym(`Digit${d}`, d, '!@#$%^&*()'[i])),
+    sym('Minus', '-', '_'),
+    sym('Equal', '=', '+'),
+    mod('Backspace', 'back', 2),
+  ],
+  [mod('Tab', 'tab', 1.5), ...letters('QWERTYUIOP'), sym('BracketLeft', '[', '{'), sym('BracketRight', ']', '}'), { ...sym('Backslash', '\\', '|'), w: 1.5 }],
+  [mod('CapsLock', 'caps', 1.75), ...letters('ASDFGHJKL'), sym('Semicolon', ';', ':'), sym('Quote', "'", '"'), mod('Enter', 'enter', 2.25, 'accent')],
+  [mod('ShiftLeft', 'shift', 2.25), ...letters('ZXCVBNM'), sym('Comma', ',', '<'), sym('Period', '.', '>'), sym('Slash', '/', '?'), mod('ShiftRight', 'shift', 2.75)],
+  [
+    mod('ControlLeft', 'ctrl', 1.25),
+    mod('MetaLeft', 'meta', 1.25),
+    mod('AltLeft', 'alt', 1.25),
+    { code: 'Space', label: '', char: ' ', shift: ' ', w: 6.25 },
+    mod('AltRight', 'alt', 1.25),
+    mod('MetaRight', 'meta', 1.25),
+    mod('ContextMenu', 'fn', 1.25),
+    mod('ControlRight', 'ctrl', 1.25),
+  ],
+];
+
+const U = 60; // one key unit
+const PAD = 36; // case border around the plate
+const TOP = 56; // case lip above the keys
+const width = 15 * U + PAD * 2;
+const height = 5 * U + TOP + PAD;
+
+const keys = rows.flatMap((row, r) => {
+  let x = PAD;
+  return row.map((key) => {
+    const w = (key.w ?? 1) * U;
+    const placed = { ...key, x, y: TOP + r * U, w };
+    x += w;
+    return placed;
+  });
+});
 ---
 
-<div class="scene contact-scene" aria-hidden="true"></div>
+<div class="scene contact-scene" aria-hidden="true" data-contact-scene>
+  <svg
+    class="keyboard"
+    data-testid="keyboard"
+    viewBox={`0 0 ${width} ${height}`}
+    focusable="false"
+    data-keyboard
+  >
+    <rect class="keyboard__case" x="0" y="0" width={width} height={height} rx="34"></rect>
+    <rect class="keyboard__plate" x={PAD - 6} y={TOP - 6} width={15 * U + 12} height={5 * U + 12} rx="12"></rect>
+    <circle class="keyboard__led" cx={width - PAD - 14} cy={TOP / 2} r="7"></circle>
+    <rect class="keyboard__badge" x={PAD} y={TOP / 2 - 5} width="64" height="10" rx="5"></rect>
+    {
+      keys.map((k) => (
+        <g
+          class:list={['key', k.tone && `key--${k.tone}`]}
+          data-code={k.code}
+          data-char={k.char}
+          data-shift={k.shift}
+          transform={`translate(${k.x} ${k.y})`}
+        >
+          <rect class="key__side" x="3" y="3" width={k.w - 6} height={U - 6} rx="9" />
+          <g class="key__cap">
+            <rect class="key__top" x="3" y="3" width={k.w - 6} height={U - 14} rx="9" />
+            <rect class="key__dish" x="11" y="8" width={k.w - 22} height={U - 26} rx="6" />
+            {k.label && (
+              <text
+                class:list={['key__label', k.label.length > 1 && 'key__label--word']}
+                x={k.label.length > 1 ? 14 : k.w / 2}
+                y={k.label.length > 1 ? U - 22 : U / 2 - 1}
+              >
+                {k.label}
+              </text>
+            )}
+          </g>
+        </g>
+      ))
+    }
+  </svg>
+</div>
+
+<script>
+  // Load the Toy only when the Contact Section nears the viewport.
+  const scene = document.querySelector('[data-contact-scene]');
+  if (scene && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((e) => e.isIntersecting)) return;
+        io.disconnect();
+        import('../../scripts/keyboard-toy');
+      },
+      { rootMargin: '0px 0px 50% 0px' },
+    );
+    io.observe(scene);
+  }
+</script>
+
+<style>
+  .contact-scene {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+  }
+
+  .keyboard {
+    flex: none;
+    /* Wider than a phone so the keys stay big enough to tap; the sides crop. */
+    width: clamp(40rem, 96%, 84rem);
+    max-width: none;
+    height: auto;
+    margin-bottom: calc(var(--contact-scene-room) * -0.06);
+    transform: rotate(-3deg);
+    transform-origin: 50% 100%;
+    overflow: visible;
+  }
+
+  .keyboard__case {
+    fill: var(--ink);
+  }
+
+  .keyboard__plate {
+    fill: var(--field-lo);
+  }
+
+  .keyboard__led {
+    fill: var(--field-hi);
+  }
+
+  .keyboard__badge {
+    fill: var(--field-lo);
+  }
+
+  .key {
+    pointer-events: auto;
+    cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .key__side {
+    fill: var(--ink);
+  }
+
+  .key__top {
+    fill: var(--field-hi);
+    stroke: var(--ink);
+    stroke-width: 3;
+  }
+
+  .key__dish {
+    fill: var(--field);
+    opacity: 0.45;
+  }
+
+  .key--mod .key__top {
+    fill: var(--field);
+  }
+
+  .key--mod .key__dish {
+    fill: var(--field-lo);
+    opacity: 0.5;
+  }
+
+  .key--accent .key__top {
+    fill: var(--paper);
+  }
+
+  .key--accent .key__dish {
+    fill: var(--field-hi);
+    opacity: 0.35;
+  }
+
+  .key__label {
+    fill: var(--ink);
+    font-family: var(--font-heading);
+    font-size: 25px;
+    font-weight: 800;
+    text-anchor: middle;
+    dominant-baseline: central;
+  }
+
+  .key__label--word {
+    font-size: 15px;
+    text-anchor: start;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .key__cap {
+    transition: transform 0.07s ease-out;
+  }
+
+  .key[data-down] .key__cap {
+    transform: translateY(8px);
+  }
+
+  .key[data-down] .key__top {
+    fill: var(--paper);
+  }
+
+  .key--accent[data-down] .key__top {
+    fill: var(--field-hi);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .key__cap {
+      transition: none;
+    }
+  }
+</style>
