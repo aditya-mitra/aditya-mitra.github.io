@@ -9,6 +9,7 @@
   --field-lo: #5147e8; /* darker shade, for Scene shapes */
   --ink: #000; /* type, borders, the Frame */
   --paper: #fff; /* type on ink (footer, pressed states) */
+  --flash-green: #2fbf71; /* the Intro's green flash */
   --focus: var(--ink); /* focus ring; flipped to --paper inside .on-ink */
 
   /* Type */

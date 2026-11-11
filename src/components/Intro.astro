@@ -1,5 +1,155 @@
 ---
-// The Intro overlay (ticket 10). Renders nothing yet.
-// It must be an overlay above the page (z-index: var(--z-intro)) and must not
-// appear without JavaScript.
+// The Intro: a terminal-style overlay shown once per browser session, above
+// the page. The Hero is already rendered beneath it.
+//
+// The overlay is `display: none` unless <html> carries `data-intro`, which only
+// the inline script below sets. So it never appears without JavaScript, on a
+// later load in the session, or under reduced motion. The script is inline and
+// sits before the overlay so the decision is made before the first paint.
+// The sequence itself is played by src/scripts/intro.ts.
+//
+// The overlay never takes pointer events, and any input ends the Intro.
+import Monogram from './Monogram.astro';
+import { site } from '../data/site';
+
+const chars = [...site.intro.command];
+const bands = Array.from({ length: 6 });
 ---
+
+<script is:inline>
+  try {
+    if (!sessionStorage.getItem('intro') && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      sessionStorage.setItem('intro', 'seen');
+      document.documentElement.dataset.intro = 'play';
+    }
+  } catch {}
+</script>
+
+<div class="intro" aria-hidden="true">
+  {bands.map((_, i) => <span class="intro__band" style={`--i:${i}`} />)}
+  <div class="intro__stage">
+    <p class="intro__line">
+      <span class="intro__command">{chars.map((char) => <span class="intro__char">{char}</span>)}</span><span
+        class="intro__cursor"></span>
+    </p>
+    <div class="intro__mark">
+      <Monogram class="intro__flash intro__flash--field" />
+      <Monogram class="intro__flash intro__flash--green" />
+      <Monogram class="intro__flash intro__flash--paper" />
+    </div>
+  </div>
+</div>
+
+<script>
+  import '../scripts/intro';
+</script>
+
+<style>
+  .intro {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-intro);
+    overflow: hidden;
+    pointer-events: none;
+    color: var(--paper);
+  }
+
+  :global(html[data-intro]) .intro {
+    display: block;
+    /* If the script that plays the Intro never arrives, get out of the way. */
+    animation: intro-give-up 0.3s 7s forwards;
+  }
+
+  /* The black is six horizontal bands, so it can clear band by band. */
+  .intro__band {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(var(--i) * 100% / 6);
+    height: calc(100% / 6 + 1px);
+    background: var(--ink);
+    transform-origin: 0 50%;
+  }
+
+  .intro__band:nth-child(even) {
+    transform-origin: 100% 50%;
+  }
+
+  .intro__stage {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+  }
+
+  .intro__stage > * {
+    grid-area: 1 / 1;
+  }
+
+  .intro__line {
+    position: relative;
+    font-family: ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+    font-size: clamp(1.375rem, 6vw, 4rem);
+    font-weight: 700;
+    line-height: 1.2;
+    white-space: pre;
+  }
+
+  .intro__char {
+    display: inline-block;
+    opacity: 0;
+  }
+
+  .intro__cursor {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1ch;
+    height: 1.2em;
+    background: var(--paper);
+    animation: intro-blink 0.5s steps(1) infinite;
+  }
+
+  .intro__mark {
+    display: grid;
+    font-size: clamp(6rem, 30vw, 13rem);
+    opacity: 0;
+  }
+
+  .intro__mark :global(.intro__flash) {
+    grid-area: 1 / 1;
+  }
+
+  .intro__mark :global(.intro__flash--field) {
+    color: var(--field);
+  }
+
+  .intro__mark :global(.intro__flash--green) {
+    color: var(--flash-green);
+    opacity: 0;
+  }
+
+  .intro__mark :global(.intro__flash--paper) {
+    color: var(--paper);
+    opacity: 0;
+  }
+
+  @keyframes intro-blink {
+    50% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes intro-give-up {
+    to {
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :global(html[data-intro]) .intro {
+      display: none;
+    }
+  }
+</style>
