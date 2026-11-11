@@ -20,6 +20,7 @@ const { text, hidden } = site.frame.modeToggle;
 <style>
   .mode-toggle {
     --knob: 0.875rem;
+    --toggle-bg: var(--field); /* what the button sits on: the pressed knob takes it */
     display: flex;
     align-items: center;
     gap: 0.6rem;
@@ -60,7 +61,7 @@ const { text, hidden } = site.frame.modeToggle;
     background: currentColor;
   }
   .mode-toggle[aria-pressed='true'] .mode-toggle__knob {
-    background: var(--field);
+    background: var(--toggle-bg);
     transform: translateX(var(--knob));
   }
 
@@ -70,7 +71,8 @@ const { text, hidden } = site.frame.modeToggle;
 
   @media (hover: hover) {
     .mode-toggle:hover {
-      background: var(--ink);
+      --toggle-bg: var(--ink);
+      background: var(--toggle-bg);
       color: var(--field);
     }
   }
@@ -88,7 +90,8 @@ const { text, hidden } = site.frame.modeToggle;
       padding-inline: 1.1rem;
       border: 0;
       border-radius: var(--radius) var(--radius) 0 0;
-      background: var(--ink);
+      --toggle-bg: var(--ink);
+      background: var(--toggle-bg);
       color: var(--paper);
       font-size: calc(var(--text-label) * 0.9);
       translate: -50% 0;
@@ -117,7 +120,6 @@ const { text, hidden } = site.frame.modeToggle;
 
     @media (hover: hover) {
       .mode-toggle:hover {
-        background: var(--ink);
         color: var(--field);
       }
     }

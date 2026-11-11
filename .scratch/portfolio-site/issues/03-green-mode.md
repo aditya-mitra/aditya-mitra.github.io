@@ -4,11 +4,11 @@
 
 **Blocked by:** 01, 02
 
-**Status:** ready-for-agent
+**Status:** resolved
 
 Spec: `.scratch/portfolio-site/spec.md`. Vocabulary: `GLOSSARY.md`.
 
-- [ ] Mode Toggle is a real toggle button exposing its pressed state; fixed bottom centre on desktop, in the top bar on mobile
-- [ ] Green Mode is driven by one attribute on the root element and CSS custom properties; green is taken from the Avatar's shirt
-- [ ] Every Section, the Frame and the footer recolour; Character swaps to its Green Mode expression
-- [ ] Playwright: the toggle turns Green Mode on and off and reports its state, at both viewports
+- [x] Mode Toggle is a real toggle button exposing its pressed state; fixed bottom centre on desktop, in the top bar on mobile
+- [x] Green Mode is driven by one attribute on the root element and CSS custom properties; green is taken from the Avatar's shirt
+- [x] Every Section, the Frame and the footer recolour; Character swaps to its Green Mode expression
+- [x] Playwright: the toggle turns Green Mode on and off and reports its state, at both viewports
