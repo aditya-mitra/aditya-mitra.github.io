@@ -187,6 +187,14 @@ const lines = [
   :global(:root[data-mode='green']) .work-scene__character :global(.work-scene__img--green) {
     display: block;
   }
+  /* Green Mode is monochrome: the Character keeps its light and shade but takes
+     the hue of the wall behind it (the Scene gets a backdrop to blend with). */
+  :global(:root[data-mode='green']) .work-scene {
+    background: var(--field);
+  }
+  :global(:root[data-mode='green']) .work-scene__character {
+    mix-blend-mode: luminosity;
+  }
 
   /* Paint. */
   .fill-ink {
