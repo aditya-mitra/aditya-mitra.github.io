@@ -195,6 +195,14 @@ const layers: { name: string; paths: Shape[] }[] = [
   :global(:root[data-mode='green']) .hero-scene__character :global(.hero-scene__img--green) {
     display: block;
   }
+  /* Green Mode is monochrome: the Character keeps its own light and shade but
+     takes the hue of the green clouds behind it. */
+  :global(:root[data-mode='green']) .hero-scene {
+    background: var(--field); /* a backdrop to blend with where no cloud is */
+  }
+  :global(:root[data-mode='green']) .hero-scene__layer--character {
+    mix-blend-mode: luminosity;
+  }
 
   @keyframes bob {
     from {

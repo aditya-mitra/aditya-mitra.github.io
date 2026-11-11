@@ -1,5 +1,139 @@
 ---
-// Frame part: the Mode Toggle (ticket 03). Renders nothing yet.
-// Bottom centre of the viewport on desktop, inside the top bar on mobile.
-// Green Mode is the attribute data-mode="green" on <html>; see src/styles/tokens.css.
+// Frame part: the Mode Toggle. A toggle button (aria-pressed) that switches
+// Green Mode: data-mode="green" on <html>, which overrides the colour tokens
+// (src/styles/tokens.css). Bottom centre of the viewport on desktop, a cell in
+// the top bar on mobile. Hidden when scripting is off, since it needs JS.
+import { site } from '../../data/site';
+
+const { text, hidden } = site.frame.modeToggle;
 ---
+
+<button class="mode-toggle" type="button" aria-pressed="false" data-mode-toggle>
+  <span class="mode-toggle__text">{text}<span class="visually-hidden">{hidden}</span></span>
+  <span class="mode-toggle__track" aria-hidden="true"><span class="mode-toggle__knob"></span></span>
+</button>
+
+<script>
+  import '../../scripts/green-mode';
+</script>
+
+<style>
+  .mode-toggle {
+    --knob: 0.875rem;
+    --toggle-bg: var(--field); /* what the button sits on: the pressed knob takes it */
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin: 0 0 0 auto;
+    padding: 0 clamp(1rem, 2vw, 1.75rem);
+    border: 0;
+    border-left: var(--line) solid var(--ink);
+    background: none;
+    cursor: pointer;
+    font-family: var(--font-heading);
+    font-size: var(--text-label);
+    font-weight: 800;
+    letter-spacing: 0.01em;
+    line-height: 1;
+    text-transform: uppercase;
+    outline-offset: -6px;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* A pill switch: the knob slides right and the track fills when pressed. */
+  .mode-toggle__track {
+    display: block;
+    width: calc(var(--knob) * 2 + 0.5rem);
+    height: calc(var(--knob) + 0.5rem);
+    padding: calc(0.25rem - var(--line));
+    border: var(--line) solid currentColor;
+    border-radius: 999px;
+  }
+  .mode-toggle__knob {
+    display: block;
+    width: var(--knob);
+    height: var(--knob);
+    border-radius: 50%;
+    background: currentColor;
+    transition: transform 0.25s cubic-bezier(0.3, 1.6, 0.5, 1);
+  }
+  .mode-toggle[aria-pressed='true'] .mode-toggle__track {
+    background: currentColor;
+  }
+  .mode-toggle[aria-pressed='true'] .mode-toggle__knob {
+    background: var(--toggle-bg);
+    transform: translateX(var(--knob));
+  }
+
+  .mode-toggle:active .mode-toggle__track {
+    transform: scale(0.92);
+  }
+
+  @media (hover: hover) {
+    .mode-toggle:hover {
+      --toggle-bg: var(--ink);
+      background: var(--toggle-bg);
+      color: var(--field);
+    }
+  }
+
+  /* Desktop: a black tab rising from the bottom edge of the Frame, its top
+     corners rounded and its feet flared into the border. */
+  @media (min-width: 48rem) {
+    .mode-toggle {
+      --flare: 12px;
+      position: fixed;
+      bottom: var(--frame-w);
+      left: 50%;
+      z-index: var(--z-frame);
+      height: calc(var(--bar-h) * 0.62);
+      padding-inline: 1.1rem;
+      border: 0;
+      border-radius: var(--radius) var(--radius) 0 0;
+      --toggle-bg: var(--ink);
+      background: var(--toggle-bg);
+      color: var(--paper);
+      font-size: calc(var(--text-label) * 0.9);
+      translate: -50% 0;
+      --focus: var(--paper);
+    }
+    .mode-toggle::before,
+    .mode-toggle::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      width: var(--flare);
+      height: var(--flare);
+      background: radial-gradient(circle at 0 0, transparent calc(var(--flare) - 0.5px), var(--ink) var(--flare));
+    }
+    .mode-toggle::before {
+      right: 100%;
+    }
+    .mode-toggle::after {
+      left: 100%;
+      scale: -1 1;
+    }
+
+    .mode-toggle:active {
+      translate: -50% 2px;
+    }
+
+    @media (hover: hover) {
+      .mode-toggle:hover {
+        color: var(--field);
+      }
+    }
+  }
+
+  @media (scripting: none) {
+    .mode-toggle {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mode-toggle__knob {
+      transition: none;
+    }
+  }
+</style>

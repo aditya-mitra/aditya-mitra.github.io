@@ -9,7 +9,15 @@
   --field-lo: #5147e8; /* darker shade, for Scene shapes */
   --ink: #000; /* type, borders, the Frame */
   --paper: #fff; /* type on ink (footer, pressed states) */
-  --flash-green: #2fbf71; /* the Intro's green flash */
+  --flash-green: var(--green-field); /* the Intro's green flash: the Green Mode green */
+
+  /* Green Mode palette: monochrome green on the hue of the Avatar's shirt
+     (#315a38, about 130 degrees), lifted so dark type keeps 6:1 on the field. */
+  --green-field: #41af53;
+  --green-field-hi: #6ecf7e;
+  --green-field-lo: #338441;
+  --green-ink: #051a08;
+  --green-paper: #e6f8e2;
   --focus: var(--ink); /* focus ring; flipped to --paper inside .on-ink */
 
   /* Type */
@@ -35,4 +43,14 @@
   --z-content: 1;
   --z-frame: 100;
   --z-intro: 1000;
+}
+
+/* Green Mode: set by the Mode Toggle (src/scripts/green-mode.ts). Every colour
+   on the page derives from the tokens below, so this one rule recolours it all. */
+:root[data-mode='green'] {
+  --field: var(--green-field);
+  --field-hi: var(--green-field-hi);
+  --field-lo: var(--green-field-lo);
+  --ink: var(--green-ink);
+  --paper: var(--green-paper);
 }
