@@ -1,6 +1,491 @@
 ---
-// The Work Scene: the Character at a desk with agent-bots carrying tasks (ticket 05).
-// Hand-written inline SVG goes inside this wrapper; keep it aria-hidden.
+// The Work Scene: the Character at a standing desk while agent-bots fly tasks
+// in from the left and drop them in his "done" tray, a rover trundles a stack
+// of tickets across the floor, and a task board and monitor tick over behind.
+// Decorative only (aria-hidden). Every part loops on CSS, transform and opacity
+// only; all of it stops under reduced motion and rests in a sensible pose.
+//
+// Drawn on one 800 x 600 stage. The back SVG sits behind the Character, the
+// front SVG (desk, monitor, bots) in front of him, so the desk hides the cut
+// at the foot of his image. Colours are tokens, so Green Mode recolours it.
+import { Picture } from 'astro:assets';
+import character from '../../assets/character/character.png';
+import characterGreen from '../../assets/character/character-green.png';
+
+const picture = {
+  formats: ['avif', 'webp'],
+  widths: [140, 280, 420],
+  // Keep in step with --stage-w and .work-scene__character's 32.5% width below.
+  sizes: '(min-width: 64rem) min(18vw, 33svh), 39vw',
+  alt: '',
+  draggable: false,
+  loading: 'lazy',
+} as const;
+
+// Three flying bots share one flight path, a third of a loop apart.
+const bots = [
+  { tag: 'var(--field-hi)', delay: '0s' },
+  { tag: 'var(--field-lo)', delay: '-3s' },
+  { tag: 'var(--field)', delay: '-6s' },
+];
+// Lines of agent log on the monitor: [x, y, width, tone].
+const lines = [
+  [266, 258, 92, 'paper'],
+  [282, 276, 64, 'hi'],
+  [282, 294, 108, 'paper'],
+  [282, 312, 72, 'hi'],
+  [266, 330, 40, 'paper'],
+] as const;
 ---
 
-<div class="scene work-scene" aria-hidden="true"></div>
+<div class="scene work-scene" aria-hidden="true">
+  <div class="work-scene__stage">
+    <svg class="work-scene__svg" viewBox="0 0 800 600" focusable="false">
+      <!-- Floor: runs off both sides of the stage to the Section's edges. -->
+      <rect class="fill-lo" x="-3000" y="520" width="7000" height="400" />
+      <path class="stroke" d="M-3000 520H4000" />
+
+      <!-- Task board on the wall: three columns of tickets, one moving across. -->
+      <g class="work-scene__board">
+        <rect class="fill-hi stroke" x="120" y="70" width="210" height="160" rx="10" />
+        <path class="fill-ink" d="M130 70h190a10 10 0 0 1 10 10v18H120V80a10 10 0 0 1 10-10z" />
+        <circle class="fill-paper" cx="140" cy="84" r="4" />
+        <circle class="fill-paper" cx="154" cy="84" r="4" />
+        <path class="stroke thin" d="M190 98v132M260 98v132" />
+        <g class="note"><rect x="132" y="110" width="46" height="28" rx="4" /><path d="M140 124h22" /></g>
+        <g class="note"><rect x="132" y="146" width="46" height="28" rx="4" /><path d="M140 160h28" /></g>
+        <g class="note"><rect x="202" y="110" width="46" height="28" rx="4" /><path d="M210 124h18" /></g>
+        <g class="note"><rect x="272" y="110" width="46" height="28" rx="4" /><path d="M280 124h26" /></g>
+        <g class="note"><rect x="272" y="146" width="46" height="28" rx="4" /><path d="M280 160h20" /></g>
+        <g class="note note--moving work-scene__ticket"><rect x="132" y="182" width="46" height="28" rx="4" /><path d="M140 196h24" /></g>
+      </g>
+    </svg>
+
+    <div class="work-scene__character">
+      <Picture src={character} {...picture} class="work-scene__img work-scene__img--base" />
+      <Picture src={characterGreen} {...picture} class="work-scene__img work-scene__img--green" />
+    </div>
+
+    <svg class="work-scene__svg" viewBox="0 0 800 600" focusable="false">
+      <!-- Monitor, streaming agent log lines. -->
+      <rect class="fill-ink" x="322" y="358" width="18" height="40" />
+      <rect class="fill-ink" x="292" y="390" width="78" height="10" rx="5" />
+      <rect class="fill-ink" x="240" y="230" width="190" height="136" rx="12" />
+      <rect class="fill-lo" x="252" y="242" width="166" height="112" rx="5" />
+      {
+        lines.map(([x, y, w, tone], i) => (
+          <rect class={`work-scene__line fill-${tone}`} style={`--i:${i}`} x={x} y={y} width={w} height="8" rx="4" />
+        ))
+      }
+      <rect class="work-scene__cursor fill-paper" x="312" y="328" width="10" height="12" />
+
+      <!-- Mug, steaming. -->
+      <path class="stroke thin work-scene__steam" d="M458 356c-6-8 6-12 0-20s6-12 0-20" />
+      <path class="stroke thin work-scene__steam work-scene__steam--late" d="M472 356c-6-8 6-12 0-20s6-12 0-20" />
+      <path class="stroke thin fill-paper" d="M484 374h6a9 9 0 0 1 0 18h-6" />
+      <rect class="fill-field stroke thin" x="448" y="364" width="38" height="34" rx="5" />
+
+      <!-- The "done" tray: its back and the finished tickets already in it. -->
+      <rect class="fill-lo stroke thin" x="684" y="356" width="82" height="40" rx="4" />
+      <rect class="fill-paper stroke thin" x="692" y="346" width="64" height="20" rx="3" transform="rotate(-4 724 356)" />
+      <rect class="fill-paper stroke thin" x="694" y="352" width="62" height="20" rx="3" transform="rotate(3 724 362)" />
+
+      <!-- Agent-bots, each flying a ticket to the tray. -->
+      {
+        bots.map(({ tag, delay }, i) => (
+          <g class={`work-scene__bot work-scene__bot--${i + 1}`} style={`--delay:${delay}`}>
+            <g class="work-scene__rotor">
+              <rect class="fill-ink" x="-30" y="-48" width="60" height="8" rx="4" />
+            </g>
+            <rect class="fill-ink" x="-3" y="-44" width="6" height="22" />
+            <path class="stroke thin" d="M-12 14l-7 20M12 14l7 20" />
+            <g class="work-scene__ticket">
+              <rect class="fill-paper stroke thin" x="-27" y="30" width="54" height="38" rx="5" />
+              <rect class="fill-ink" x="-18" y="40" width="26" height="6" rx="3" />
+              <rect x="-18" y="52" width="36" height="6" rx="3" style={`fill:${tag}`} />
+            </g>
+            <rect class="fill-paper stroke" x="-25" y="-24" width="50" height="42" rx="13" />
+            <rect class="fill-ink" x="-17" y="-16" width="34" height="22" rx="7" />
+            <g class="work-scene__eyes">
+              <circle class="fill-hi" cx="-7" cy="-5" r="4" />
+              <circle class="fill-hi" cx="7" cy="-5" r="4" />
+            </g>
+          </g>
+        ))
+      }
+
+      <!-- Tray front, then the desk: both hide what drops behind them. -->
+      <rect class="fill-ink" x="676" y="372" width="98" height="26" rx="4" />
+      <path class="stroke-hi" d="M712 385l7 6 13-12" />
+      <rect class="fill-paper stroke" x="196" y="396" width="596" height="18" rx="4" />
+      <rect class="fill-hi stroke" x="214" y="414" width="560" height="106" />
+      <rect class="fill-field stroke thin" x="590" y="430" width="164" height="40" rx="4" />
+      <rect class="fill-ink" x="652" y="446" width="40" height="8" rx="4" />
+
+      <!-- A rover trundling a stack of tickets across the floor. -->
+      <g class="work-scene__rover">
+        <g class="work-scene__chassis">
+          <rect class="fill-paper stroke thin" x="-26" y="-98" width="52" height="16" rx="3" />
+          <rect class="fill-paper stroke thin" x="-24" y="-84" width="50" height="16" rx="3" transform="rotate(-3 0 -76)" />
+          <rect class="fill-paper stroke" x="-34" y="-66" width="68" height="48" rx="12" />
+          <rect class="fill-ink" x="-24" y="-58" width="48" height="24" rx="7" />
+          <circle class="fill-hi" cx="-10" cy="-46" r="4" />
+          <circle class="fill-hi" cx="10" cy="-46" r="4" />
+        </g>
+        <g class="work-scene__wheel"><circle class="fill-ink" cx="-18" cy="-10" r="11" /><path class="stroke-paper" d="M-24 -10h12" /></g>
+        <g class="work-scene__wheel"><circle class="fill-ink" cx="18" cy="-10" r="11" /><path class="stroke-paper" d="M12 -10h12" /></g>
+      </g>
+    </svg>
+  </div>
+</div>
+
+<style>
+  .work-scene {
+    /* The stage is 800 x 600; its foot sits on the Section's bottom edge and
+       its right edge on the Section's. On mobile it overhangs the left side,
+       where the first ~120 units of the stage are empty wall. */
+    --stage-w: 118%;
+  }
+
+  .work-scene__stage {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: var(--stage-w);
+    aspect-ratio: 4 / 3;
+  }
+
+  .work-scene__svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  /* The Character stands behind the desk: 260 wide at x 430, foot at y 500. */
+  .work-scene__character {
+    position: absolute;
+    left: 53.75%;
+    bottom: 16.67%;
+    width: 32.5%;
+    animation: work-sway 3.6s ease-in-out infinite alternate;
+  }
+
+  .work-scene__character :global(img) {
+    width: 100%;
+    height: auto;
+    user-select: none;
+  }
+
+  .work-scene__character :global(.work-scene__img--green) {
+    display: none;
+  }
+  :global(:root[data-mode='green']) .work-scene__character :global(.work-scene__img--base) {
+    display: none;
+  }
+  :global(:root[data-mode='green']) .work-scene__character :global(.work-scene__img--green) {
+    display: block;
+  }
+
+  /* Paint. */
+  .fill-ink {
+    fill: var(--ink);
+  }
+  .fill-paper {
+    fill: var(--paper);
+  }
+  .fill-field {
+    fill: var(--field);
+  }
+  .fill-hi {
+    fill: var(--field-hi);
+  }
+  .fill-lo {
+    fill: var(--field-lo);
+  }
+  .stroke,
+  .stroke.thin,
+  .stroke-paper,
+  .stroke-hi,
+  .note {
+    stroke: var(--ink);
+    stroke-width: 5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .stroke:not([class*='fill-']),
+  .stroke-paper,
+  .stroke-hi {
+    fill: none;
+  }
+  .stroke.thin,
+  .note {
+    stroke-width: 4;
+  }
+  .stroke-paper {
+    stroke: var(--paper);
+  }
+  .stroke-hi {
+    stroke: var(--field-hi);
+    stroke-width: 5;
+  }
+  .note rect {
+    fill: var(--paper);
+  }
+  .note path {
+    stroke-width: 4;
+  }
+
+  /* Anything that turns or scales does so about its own centre. */
+  .work-scene__rotor,
+  .work-scene__eyes,
+  .work-scene__wheel,
+  .work-scene__line {
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+  .work-scene__line {
+    transform-origin: left center;
+  }
+
+  /* Resting poses, used as they are under reduced motion. */
+  .work-scene__bot--1 {
+    transform: translate(330px, 30px);
+  }
+  .work-scene__bot--2 {
+    transform: translate(150px, 300px);
+  }
+  .work-scene__bot--3 {
+    transform: translate(720px, 262px);
+  }
+  .work-scene__rover {
+    transform: translate(110px, 520px);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .work-scene__bot {
+      animation: work-fly 9s var(--delay) infinite;
+    }
+    .work-scene__bot .work-scene__ticket {
+      animation: work-drop 9s var(--delay) infinite;
+    }
+    .work-scene__rotor {
+      animation: work-spin 0.24s linear infinite;
+    }
+    .work-scene__eyes {
+      animation: work-blink 4.2s infinite;
+    }
+    .work-scene__bot--2 .work-scene__eyes {
+      animation-delay: -1.6s;
+    }
+    .work-scene__bot--3 .work-scene__eyes {
+      animation-delay: -2.9s;
+    }
+    .work-scene__rover {
+      animation: work-roll 18s -5s linear infinite;
+    }
+    .work-scene__chassis {
+      animation: work-jiggle 0.36s ease-in-out infinite alternate;
+    }
+    .work-scene__wheel {
+      animation: work-turn 0.9s linear infinite;
+    }
+    .note--moving {
+      animation: work-ticket 7s ease-in-out infinite;
+    }
+    .work-scene__line {
+      animation: work-type 6s calc(var(--i) * 0.45s) infinite;
+    }
+    .work-scene__cursor {
+      animation: work-cursor 0.9s steps(1) infinite;
+    }
+    .work-scene__steam {
+      animation: work-steam 2.6s ease-out infinite;
+    }
+    .work-scene__steam--late {
+      animation-delay: -1.3s;
+    }
+  }
+
+  /* A bot flies in from the left, over the board, dips to the tray, lets go of
+     its ticket, and climbs away to the right. */
+  @keyframes work-fly {
+    0% {
+      transform: translate(-620px, 210px);
+      animation-timing-function: cubic-bezier(0.4, 0, 0.6, 1);
+    }
+    30% {
+      transform: translate(330px, 30px);
+      animation-timing-function: cubic-bezier(0.4, 0, 0.6, 1);
+    }
+    47% {
+      transform: translate(720px, 170px);
+      animation-timing-function: cubic-bezier(0.3, 0, 0.3, 1);
+    }
+    54%,
+    62% {
+      transform: translate(720px, 300px);
+      animation-timing-function: cubic-bezier(0.5, 0, 0.5, 1);
+    }
+    72% {
+      transform: translate(760px, 150px);
+      animation-timing-function: cubic-bezier(0.5, 0, 1, 1);
+    }
+    100% {
+      transform: translate(1180px, -80px);
+    }
+  }
+
+  @keyframes work-drop {
+    0%,
+    55% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    61% {
+      transform: translateY(50px);
+      opacity: 1;
+    }
+    62%,
+    99% {
+      transform: translateY(50px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes work-spin {
+    50% {
+      transform: scaleX(0.15);
+    }
+  }
+
+  @keyframes work-blink {
+    0%,
+    90%,
+    100% {
+      transform: scaleY(1);
+    }
+    94% {
+      transform: scaleY(0.1);
+    }
+  }
+
+  @keyframes work-roll {
+    from {
+      transform: translate(-760px, 520px);
+    }
+    to {
+      transform: translate(1140px, 520px);
+    }
+  }
+
+  @keyframes work-jiggle {
+    to {
+      transform: translateY(-3px);
+    }
+  }
+
+  @keyframes work-turn {
+    to {
+      transform: rotate(1turn);
+    }
+  }
+
+  /* One ticket on the board travels from "to do" to "done", then is replaced. */
+  @keyframes work-ticket {
+    0%,
+    15% {
+      transform: translate(0, 0);
+      opacity: 1;
+    }
+    30% {
+      transform: translate(70px, -6px);
+    }
+    40%,
+    50% {
+      transform: translate(70px, 0);
+    }
+    65% {
+      transform: translate(140px, -6px);
+    }
+    75%,
+    88% {
+      transform: translate(140px, 0);
+      opacity: 1;
+    }
+    94% {
+      transform: translate(140px, 0);
+      opacity: 0;
+    }
+    95% {
+      transform: translate(0, 0);
+      opacity: 0;
+    }
+    100% {
+      transform: translate(0, 0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes work-type {
+    0% {
+      transform: scaleX(0);
+    }
+    10%,
+    80% {
+      transform: scaleX(1);
+      opacity: 1;
+    }
+    88% {
+      transform: scaleX(1);
+      opacity: 0;
+    }
+    100% {
+      transform: scaleX(0);
+      opacity: 0;
+    }
+  }
+
+  @keyframes work-cursor {
+    50% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes work-steam {
+    from {
+      transform: translateY(6px);
+      opacity: 0;
+    }
+    30% {
+      opacity: 1;
+    }
+    to {
+      transform: translateY(-16px);
+      opacity: 0;
+    }
+  }
+
+  @keyframes work-sway {
+    to {
+      transform: translateY(-8px) rotate(0.8deg);
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .work-scene {
+      --stage-w: min(56vw, 100svh);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .work-scene__character {
+      animation: none;
+    }
+  }
+</style>

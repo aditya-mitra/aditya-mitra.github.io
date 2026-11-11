@@ -1,5 +1,6 @@
 ---
-// Work Section. Tickets 04 (Work Cards carousel) and 05 (Scene, giant heading) fill this in.
+// Work Section: the giant "WORK" heading (scroll parallax, ticket 05), the Work
+// Cards carousel (ticket 04) and the Work Scene behind them (ticket 05).
 import WorkScene from '../scenes/WorkScene.astro';
 import WorkCards from '../WorkCards.astro';
 import { site } from '../../data/site';
@@ -9,12 +10,42 @@ const { work } = site;
 
 <section id="work" class="section work" aria-label={work.label}>
   <WorkScene />
-  <h2 class="work__heading">{work.heading}</h2>
+  <h2 class="work__heading" data-work-heading>{work.heading}</h2>
   <WorkCards />
 </section>
 
+<script>
+  import '../../scripts/work-parallax';
+</script>
+
 <style>
-  .work__heading {
-    font-size: var(--text-heading);
+  /* Mobile: the Scene's stage (4:3, a little wider than the screen) stands below the Work Cards. */
+  .work {
+    padding-bottom: calc(118vw * 0.75 - 1.5rem);
+  }
+
+  /* Giant and pale; the Work Cards overlap its foot. */
+  .work .work__heading {
+    margin: -0.06em 0 -0.16em;
+    color: var(--paper);
+    font-size: min(46vw, 18rem);
+    line-height: 0.8;
+    letter-spacing: -0.01em;
+    pointer-events: none;
+  }
+
+  /* Desktop: the heading hangs top right over the Scene, the cards stand left. */
+  @media (min-width: 64rem) {
+    .work {
+      padding-bottom: var(--gutter);
+    }
+
+    .work .work__heading {
+      position: absolute;
+      top: calc(var(--frame-top) + var(--gutter) * 0.5);
+      right: calc(var(--frame-w) + var(--gutter) * 0.6);
+      margin: 0;
+      font-size: min(22vw, 40svh);
+    }
   }
 </style>
