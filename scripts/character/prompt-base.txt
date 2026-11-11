@@ -1,0 +1,11 @@
+Redraw the person in the reference picture as a flat-vector cartoon character for a bold, playful website.
+
+Likeness to keep: young man, short dark hair swept up into a quiff, thin dark moustache with a light chin-strap stubble, warm friendly smile, light-brown skin.
+Clothing: a green crew-neck sweatshirt with cream (off-white) raglan sleeves. No crest or logo on the chest.
+Remove: NO glasses. NO backpack and NO straps.
+
+Pose: facing the viewer, shown from the top of the head down to mid-thigh, body cropped cleanly by the bottom edge of the image. One hand raised in a relaxed open-palm wave, the other arm hanging by the side. The whole head, hair and waving hand are fully inside the image with space around them.
+
+Style: flat vector illustration, thick uniform black outlines, solid flat colour fills with one simple darker shade for shadow, no gradients, no textures, no 3D rendering, no photorealism. Big simple shapes, confident and graphic, like a poster or a sticker.
+
+Background: a single perfectly flat pure magenta (#FF00FF) filling the whole image. No floor, no cast shadow, no glow, no border, no text. Do not use magenta, pink or purple anywhere on the character.
