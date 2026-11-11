@@ -1,6 +1,227 @@
 ---
-// The Hero Scene: the Character in front of layered clouds (ticket 02).
-// Hand-written inline SVG goes inside this wrapper; keep it aria-hidden.
+// The Hero Scene: the Character in front of three layers of drifting clouds.
+// Decorative only (aria-hidden). Idle motion is CSS; cursor parallax is
+// src/scripts/hero-parallax.ts, which only feeds --mx/--my (-1 to 1) to this element.
+//
+// Both Character expressions are here. Green Mode (data-mode="green" on <html>)
+// shows the second one; it is lazy, so it is fetched only when first shown.
+import { Picture } from 'astro:assets';
+import character from '../../assets/character/character.png';
+import characterGreen from '../../assets/character/character-green.png';
+
+const picture = {
+  formats: ['avif', 'webp'],
+  widths: [280, 420, 560, character.width],
+  // Keep in step with the width of .hero-scene__character below.
+  sizes: '(min-width: 48rem) min(40vw, 62vh), min(64vw, 31vh)',
+  alt: '',
+  draggable: false,
+} as const;
+
+// One tile of cloud, 1600 x 900. Each layer repeats it twice side by side and
+// slides left by one tile, so the drift loops without a seam.
+const tile = 1600;
+type Shape = { tone: 'lo' | 'hi'; d: string };
+// A flat-bottomed cloud bank, width w, sitting on y: a run of overlapping bumps.
+// Each bump is its own path, so overlaps merge into one silhouette instead of
+// cancelling out under the fill rule.
+const bumps = [
+  [0.1, 0.09],
+  [0.27, 0.16],
+  [0.46, 0.22],
+  [0.66, 0.17],
+  [0.84, 0.12],
+];
+const circle = (cx: number, cy: number, r: number) => `M${cx - r} ${cy}a${r} ${r} 0 1 0 ${r * 2} 0a${r} ${r} 0 1 0 ${-r * 2} 0z`;
+const cloud = (x: number, y: number, w: number, tone: Shape['tone'], flip = false): Shape[] => {
+  const base = w * 0.08;
+  const parts = bumps.map(([at, r]) => circle(x + (flip ? 1 - at : at) * w, y - base, r * w));
+  parts.push(`M${x + w * 0.06} ${y - base * 2}H${x + w * 0.94}a${base} ${base} 0 0 1 0 ${base * 2}H${x + w * 0.06}a${base} ${base} 0 0 1 0 ${-base * 2}z`);
+  return parts.map((d) => ({ tone, d }));
+};
+const layers: { name: string; paths: Shape[] }[] = [
+  {
+    name: 'back',
+    paths: [
+      // A darker band of sky across the top, with a wavy lower edge.
+      { tone: 'lo', d: `M-2 0H${tile + 2}V190C1440 250 1300 200 1150 240C980 285 840 215 660 255C480 295 320 225 160 262C90 278 40 276 -2 268Z` },
+      ...cloud(1020, 330, 460, 'lo'),
+      ...cloud(120, 360, 300, 'lo', true),
+    ],
+  },
+  {
+    name: 'mid',
+    paths: [
+      ...cloud(-80, 640, 820, 'hi'),
+      ...cloud(820, 600, 640, 'hi', true),
+      ...cloud(1520, 640, 820, 'hi'), // runs into the next tile, matching the one at -80
+      ...cloud(560, 300, 220, 'hi'),
+      ...cloud(1340, 250, 170, 'hi', true),
+    ],
+  },
+  {
+    name: 'front',
+    // Low rolling bank across the foot of the Scene; the Character stands in it.
+    paths: [
+      {
+        tone: 'hi',
+        d: `M-2 900V780C110 730 230 760 340 728C470 690 590 735 700 760C840 792 980 708 1130 700C1290 692 1420 770 ${tile + 2} 780V900Z`,
+      },
+    ],
+  },
+];
 ---
 
-<div class="scene hero-scene" aria-hidden="true"></div>
+<div class="scene hero-scene" aria-hidden="true" data-hero-scene>
+  {
+    layers.map(({ name, paths }) => (
+      <div class={`hero-scene__layer hero-scene__layer--${name}`}>
+        <svg class="hero-scene__clouds" viewBox={`0 0 ${tile * 2} 900`} preserveAspectRatio="xMinYMax slice" focusable="false">
+          {[0, tile].map((x) => (
+            <g transform={`translate(${x} 0)`}>
+              {paths.map(({ tone, d }) => (
+                <path class={`tone-${tone}`} d={d} />
+              ))}
+            </g>
+          ))}
+        </svg>
+      </div>
+    ))
+  }
+  <div class="hero-scene__layer hero-scene__layer--character">
+    <div class="hero-scene__character">
+      <Picture src={character} {...picture} loading="eager" fetchpriority="high" class="hero-scene__img hero-scene__img--base" />
+      <Picture src={characterGreen} {...picture} loading="lazy" class="hero-scene__img hero-scene__img--green" />
+    </div>
+  </div>
+</div>
+
+<script>
+  import '../../scripts/hero-parallax';
+</script>
+
+<style>
+  .hero-scene {
+    container-type: inline-size;
+    --mx: 0;
+    --my: 0;
+  }
+
+  .hero-scene__layer {
+    position: absolute;
+    inset: -3rem;
+    /* Cursor parallax: each layer moves by its own depth. */
+    transform: translate3d(calc(var(--mx) * var(--depth-x)), calc(var(--my) * var(--depth-y)), 0);
+    transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+
+  .hero-scene__layer--back {
+    --depth-x: -10px;
+    --depth-y: -6px;
+  }
+  .hero-scene__layer--mid {
+    --depth-x: -22px;
+    --depth-y: -10px;
+  }
+  .hero-scene__layer--character {
+    --depth-x: 18px;
+    --depth-y: 8px;
+  }
+  .hero-scene__layer--front {
+    --depth-x: -40px;
+    --depth-y: -16px;
+    z-index: 1;
+  }
+
+  .hero-scene__clouds {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    /* Two tiles side by side; at least as wide as the Scene twice over. */
+    height: max(100%, calc(100cqw * 900 / 1600 + 6rem));
+    width: auto;
+    max-width: none;
+    aspect-ratio: 3200 / 900;
+    animation: drift var(--drift) linear infinite;
+  }
+
+  .hero-scene__layer--back .hero-scene__clouds {
+    --drift: 160s;
+  }
+  .hero-scene__layer--mid .hero-scene__clouds {
+    --drift: 90s;
+  }
+  .hero-scene__layer--front .hero-scene__clouds {
+    --drift: 55s;
+  }
+
+  .tone-lo {
+    fill: var(--field-lo);
+  }
+  .tone-hi {
+    fill: var(--field-hi);
+  }
+
+  @keyframes drift {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  /* The Character stands on the bottom edge of the Scene, over-hanging it a
+     little so the bob never shows a gap under the cut. */
+  .hero-scene__character {
+    position: absolute;
+    left: 50%;
+    bottom: calc(3rem - 1.75rem);
+    width: min(64vw, 31svh);
+    translate: -50% 0;
+    animation: bob 3.4s ease-in-out infinite alternate;
+  }
+
+  .hero-scene__character :global(img) {
+    width: 100%;
+    height: auto;
+    user-select: none;
+  }
+
+  .hero-scene__character :global(.hero-scene__img--green) {
+    display: none;
+  }
+  :global(:root[data-mode='green']) .hero-scene__character :global(.hero-scene__img--base) {
+    display: none;
+  }
+  :global(:root[data-mode='green']) .hero-scene__character :global(.hero-scene__img--green) {
+    display: block;
+  }
+
+  @keyframes bob {
+    from {
+      transform: translateY(0) rotate(-0.6deg);
+    }
+    to {
+      transform: translateY(-14px) rotate(0.6deg);
+    }
+  }
+
+  @media (min-width: 48rem) {
+    .hero-scene__character {
+      left: auto;
+      right: calc(3rem + max(var(--gutter), 4vw));
+      bottom: calc(3rem - 22%);
+      width: min(40vw, 62svh);
+      translate: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-scene__layer {
+      transform: none;
+      transition: none;
+    }
+    .hero-scene__clouds,
+    .hero-scene__character {
+      animation: none;
+    }
+  }
+</style>
