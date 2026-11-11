@@ -1,0 +1,283 @@
+---
+// The Work Cards and their carousel (ticket 04). One card shows at a time;
+// without JavaScript the <noscript> styles below turn it into a list of all six.
+// Behaviour lives in src/scripts/work-carousel.ts.
+import { site } from '../data/site';
+
+const { work } = site;
+const total = work.cards.length;
+---
+
+<div class="cards" role="group" aria-roledescription="carousel" aria-label={work.cardsLabel} data-work-cards>
+  <ol class="cards__list">
+    {
+      work.cards.map((card, i) => (
+        <li class="card" data-card data-active={i === 0 ? '' : undefined}>
+          <div class="card__top">
+            <p class="card__code">{card.code}</p>
+            <p class="card__dates">
+              {card.dates.split(/(?<=–) /).map((part, j) => (
+                <Fragment>{j > 0 && ' '}<span>{part}</span></Fragment>
+              ))}
+            </p>
+          </div>
+          <div class="card__body">
+            <h3 class="card__company">{card.company}</h3>
+            <p class="card__role">{card.role}</p>
+            <p class="card__highlight">{card.highlight}</p>
+            <ul class="card__tags" aria-label={work.tagsLabel}>
+              {card.tags.map((tag) => <li>{tag}</li>)}
+            </ul>
+            <a class="card__link" href={card.url} target="_blank" rel="noopener noreferrer">
+              {work.viewWork}<span class="visually-hidden"> – {card.company}</span>
+              <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" /></svg>
+            </a>
+          </div>
+        </li>
+      ))
+    }
+  </ol>
+  <div class="cards__controls on-ink" data-controls>
+    <button class="cards__button" type="button" aria-label={work.previous} data-previous>
+      <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><path d="M20 12H4M11 5l-7 7 7 7" /></svg>
+    </button>
+    <p class="cards__counter" aria-live="polite" data-counter>1/{total}</p>
+    <button class="cards__button" type="button" aria-label={work.next} data-next>
+      <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><path d="M4 12h16M13 5l7 7-7 7" /></svg>
+    </button>
+  </div>
+</div>
+
+<noscript>
+  <style is:inline>
+    /* No JavaScript: every Work Card is shown, one under another, and the controls go. */
+    [data-work-cards][data-work-cards] {
+      border: 0;
+      box-shadow: none;
+      background: none;
+      overflow: visible;
+    }
+    [data-work-cards] [data-controls][data-controls] {
+      display: none;
+    }
+    [data-work-cards] [data-card][data-card] {
+      grid-area: auto;
+      visibility: visible;
+      margin-bottom: 1.5rem;
+      border: var(--line) solid var(--ink);
+      border-radius: var(--radius);
+      box-shadow: var(--card-drop) var(--card-drop) 0 var(--ink);
+      overflow: hidden;
+    }
+  </style>
+</noscript>
+
+<script>
+  import '../scripts/work-carousel.ts';
+</script>
+
+<style>
+  /* The carousel is one framed box: the cards slide inside it, the controls sit along its foot. */
+  .cards {
+    --card-drop: clamp(6px, 0.8vw, 12px);
+    width: min(100%, 40rem);
+    margin-top: clamp(1.25rem, 2.5vw, 2rem);
+    border: var(--line) solid var(--ink);
+    border-radius: var(--radius);
+    background: var(--paper);
+    box-shadow: var(--card-drop) var(--card-drop) 0 var(--ink);
+    overflow: clip;
+    touch-action: pan-y;
+  }
+
+  /* All cards share one grid cell, so the box is as tall as the tallest card and never jumps. */
+  .cards__list {
+    display: grid;
+  }
+
+  .card {
+    grid-area: 1 / 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    background: var(--paper);
+  }
+
+  .card:not([data-active], [data-leaving]) {
+    visibility: hidden;
+  }
+
+  .card__top {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.1rem 1.25rem 0.7rem;
+    background: var(--field);
+    border-bottom: var(--line) dashed var(--ink);
+  }
+
+  .card__code {
+    font-family: var(--font-display);
+    font-size: clamp(4.25rem, 19vw, 8rem);
+    line-height: 0.82;
+    letter-spacing: -0.02em;
+  }
+
+  .card__dates,
+  .card__role,
+  .cards__counter,
+  .card__link,
+  .card__tags {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+
+  .card__dates {
+    font-size: var(--text-label);
+    line-height: 1;
+    text-align: right;
+  }
+
+  .card__dates span {
+    white-space: nowrap;
+  }
+
+  .card__body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1.25rem 1.25rem 1.5rem;
+  }
+
+  .card__company {
+    font-size: clamp(2.5rem, 2.1rem + 1.6vw, 3.25rem);
+  }
+
+  .card__role {
+    margin-top: 0.15rem;
+    font-size: var(--text-label);
+    line-height: 1.1;
+  }
+
+  .card__highlight {
+    margin-top: 0.9rem;
+    text-wrap: pretty;
+  }
+
+  .card__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin: 1.1rem 0 1.4rem;
+    font-size: 1.125rem;
+    line-height: 1;
+  }
+
+  .card__tags li {
+    padding: 0.3rem 0.6rem 0.25rem;
+    border: var(--line) solid var(--ink);
+    border-radius: 99px;
+  }
+
+  .card__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: auto;
+    padding: 0.6rem 1rem 0.55rem 1.2rem;
+    border: var(--line) solid var(--ink);
+    border-radius: var(--radius);
+    background: var(--ink);
+    color: var(--paper);
+    font-size: var(--text-label);
+    line-height: 1;
+    text-decoration: none;
+    box-shadow: 4px 4px 0 var(--field);
+    transition:
+      transform 0.15s ease,
+      opacity 0.15s ease;
+  }
+
+  .card__link svg,
+  .cards__button svg {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.5;
+    transition: transform 0.15s ease;
+  }
+
+  .card__link:hover {
+    transform: translate(-2px, -2px);
+  }
+
+  .card__link:hover svg {
+    transform: translate(2px, -2px);
+  }
+
+  .card__link:active {
+    transform: translate(2px, 2px);
+  }
+
+  .cards__controls {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    border-top: var(--line) solid var(--ink);
+  }
+
+  .cards__counter {
+    align-self: center;
+    font-size: clamp(1.75rem, 1.5rem + 1vw, 2.25rem);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .cards__button {
+    display: grid;
+    place-items: center;
+    width: 4.5rem;
+    min-height: 3.5rem;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+  }
+
+  .cards__button:focus-visible {
+    outline-offset: -6px;
+  }
+
+  .cards__button[data-previous]:hover svg {
+    transform: translateX(-5px);
+  }
+
+  .cards__button[data-next]:hover svg {
+    transform: translateX(5px);
+  }
+
+  .cards__button:active svg {
+    transform: scale(0.8);
+  }
+
+  @media (min-width: 48rem) {
+    .card__top {
+      padding: 1.5rem 2rem 0.9rem;
+    }
+
+    .card__body {
+      padding: 1.6rem 2rem 2rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card__link,
+    .card__link svg,
+    .cards__button svg {
+      transition: none;
+    }
+  }
+</style>

@@ -1,18 +1,286 @@
 ---
-// About Section. Tickets 06 (bio, Roster, Ticker of Honours) and 07 (Scene, Toy) fill this in.
+// About Section: the bio card with the Roster, and the scoreboard with the Ticker of Honours.
+// The Scene and its Toy (ticket 07) sit behind this content. The layout keeps a clear
+// "stage" for them: the right-hand column on desktop, a gap of --about-stage above the
+// card on mobile. Nothing is placed there, so pointer events reach the Toy.
 import AboutScene from '../scenes/AboutScene.astro';
 import { site } from '../../data/site';
 
 const { about } = site;
+const count = String(about.honours.length).padStart(2, '0');
+// The Ticker loops by sliding one copy's width; the extra copies fill wide screens
+// and are hidden from assistive technology, so each Honour is read once.
+const spareCopies = [1, 2];
 ---
 
 <section id="about" class="section about" aria-label={about.label}>
   <AboutScene />
   <h2 class="about__heading">{about.heading}</h2>
+
+  <div class="card">
+    <div class="card__bio">
+      {about.bio.map((paragraph) => <p>{paragraph}</p>)}
+    </div>
+    <h3 id="roster-heading" class="card__label">{about.rosterHeading}</h3>
+    <ul class="roster" aria-labelledby="roster-heading">
+      {about.roster.map((name) => <li>{name}</li>)}
+    </ul>
+  </div>
+
+  <div class="scoreboard on-ink">
+    <div class="scoreboard__board">
+      <h3 id="honours-heading" class="scoreboard__label">{about.honoursHeading}</h3>
+      <span class="scoreboard__count" aria-hidden="true">{count}</span>
+    </div>
+    <div class="ticker">
+      <div class="ticker__track">
+        <ul class="ticker__list" aria-labelledby="honours-heading">
+          {about.honours.map((honour) => <li>{honour}</li>)}
+        </ul>
+        {
+          spareCopies.map(() => (
+            <ul class="ticker__list ticker__list--spare" aria-hidden="true">
+              {about.honours.map((honour) => (
+                <li>{honour}</li>
+              ))}
+            </ul>
+          ))
+        }
+      </div>
+    </div>
+  </div>
 </section>
 
 <style>
+  .about {
+    --about-stage: 46svh; /* clear space kept for the Scene and Toy on mobile */
+    --shadow: clamp(6px, 0.7vw, 12px);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-content: start;
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+  }
+
   .about__heading {
-    font-size: var(--text-heading);
+    font-size: clamp(5.5rem, 3rem + 14vw, 15rem);
+    line-height: 0.78;
+    letter-spacing: -0.02em;
+  }
+
+  /* The card */
+  .card {
+    margin-top: var(--about-stage);
+    background: var(--field);
+    border: var(--line) solid var(--ink);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow) var(--shadow) 0 var(--ink);
+  }
+
+  .card__bio {
+    display: grid;
+    gap: 1em;
+    padding: clamp(1.25rem, 2.4vw, 2.25rem);
+    text-wrap: pretty;
+  }
+
+  .card__bio p:first-child {
+    font-family: var(--font-heading);
+    font-size: clamp(1.6rem, 1.3rem + 1.1vw, 2.2rem);
+    font-weight: 700;
+    line-height: 1.05;
+  }
+
+  .card__label {
+    padding: 0.5em clamp(1.25rem, 2.4vw, 2.25rem) 0.4em;
+    background: var(--ink);
+    color: var(--paper);
+    font-size: var(--text-label);
+    letter-spacing: 0.06em;
+  }
+
+  .roster {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    counter-reset: roster;
+  }
+
+  .roster li {
+    counter-increment: roster;
+    display: flex;
+    align-items: baseline;
+    gap: 0.5em;
+    padding: 0.5em clamp(0.75rem, 2.4vw, 2.25rem) 0.4em;
+    border-bottom: var(--line) dashed var(--ink);
+    font-family: var(--font-heading);
+    font-size: clamp(1.35rem, 1.1rem + 1vw, 1.9rem);
+    font-weight: 800;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .roster li::before {
+    content: counter(roster, decimal-leading-zero);
+    font-size: 0.6em;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+
+  .roster li:nth-child(odd) {
+    border-right: var(--line) dashed var(--ink);
+  }
+
+  .roster li:nth-last-child(-n + 2) {
+    border-bottom: 0;
+  }
+
+  /* The scoreboard */
+  .scoreboard {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    border: var(--line) solid var(--ink);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow) var(--shadow) 0 var(--field-lo);
+    overflow: hidden;
+  }
+
+  .scoreboard__board {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.75rem 1rem;
+    border-bottom: var(--line) dashed var(--paper);
+  }
+
+  .scoreboard__label {
+    font-size: clamp(2rem, 1.5rem + 2vw, 3.25rem);
+    letter-spacing: 0.04em;
+  }
+
+  .scoreboard__count {
+    padding: 0.18em 0.22em 0.1em;
+    background: var(--field);
+    color: var(--ink);
+    border-radius: calc(var(--radius) * 0.6);
+    font-family: var(--font-display);
+    font-size: clamp(2.25rem, 1.6rem + 2.6vw, 4rem);
+    line-height: 0.9;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .ticker {
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    padding: 0.9rem 0 0.7rem;
+  }
+
+  .ticker__track {
+    display: flex;
+    width: max-content;
+    animation: ticker 28s linear infinite;
+  }
+
+  .ticker__list {
+    display: flex;
+    flex: none;
+  }
+
+  .ticker__list li {
+    display: flex;
+    align-items: center;
+    font-family: var(--font-heading);
+    font-size: clamp(1.75rem, 1.3rem + 2vw, 3rem);
+    font-weight: 700;
+    line-height: 1;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  /* A diamond between Honours. */
+  .ticker__list li::after {
+    content: '';
+    flex: none;
+    width: 0.4em;
+    height: 0.4em;
+    margin: 0 0.9em 0.08em;
+    background: var(--field);
+    transform: rotate(45deg);
+  }
+
+  /* One of the three copies slides past per loop. */
+  @keyframes ticker {
+    to {
+      transform: translateX(calc(-100% / 3));
+    }
+  }
+
+  /* Reduced motion: the Ticker stands still and wraps so every Honour is on screen. */
+  @media (prefers-reduced-motion: reduce) {
+    .ticker {
+      padding-inline: 1rem;
+    }
+
+    .ticker__track {
+      width: auto;
+      animation: none;
+    }
+
+    .ticker__list {
+      flex: 1 1 auto;
+      flex-wrap: wrap;
+      gap: 0.5em 0;
+    }
+
+    .ticker__list--spare {
+      display: none;
+    }
+
+    .ticker__list li {
+      font-size: clamp(1.25rem, 1rem + 1.2vw, 2rem);
+      white-space: normal;
+    }
+
+    /* The diamond becomes a bullet in front of each Honour. */
+    .ticker__list li {
+      flex-basis: 100%;
+      align-items: baseline;
+    }
+
+    .ticker__list li::after {
+      order: -1;
+      margin: 0 0.7em 0.1em 0;
+    }
+  }
+
+  /* Desktop: card on the left, the right-hand column left clear for the Scene and Toy,
+     scoreboard across the bottom with the Ticker beside the board. */
+  @media (min-width: 60rem) {
+    .about {
+      grid-template-columns: minmax(0, 36rem) minmax(0, 1fr);
+      grid-template-rows: auto 1fr auto;
+    }
+
+    .about__heading,
+    .scoreboard {
+      grid-column: 1 / -1;
+    }
+
+    .card {
+      margin-top: 0;
+      align-self: start;
+    }
+
+    .scoreboard {
+      grid-template-columns: auto minmax(0, 1fr);
+      margin-top: clamp(1rem, 4svh, 3rem);
+    }
+
+    .scoreboard__board {
+      gap: 1.5rem;
+      padding: 1.25rem 1.75rem;
+      border-bottom: 0;
+      border-right: var(--line) dashed var(--paper);
+    }
   }
 </style>
