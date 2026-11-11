@@ -87,7 +87,7 @@ const headline = contact.heading.toUpperCase();
 <style>
   .contact {
     /* Height kept free below the links for the keyboard Scene (ticket 09). */
-    --contact-scene-room: clamp(16rem, 46svh, 30rem);
+    --contact-scene-room: clamp(16rem, min(46svh, 40vw + 8rem), 30rem);
     --shadow: clamp(4px, 0.5vw, 8px);
     padding-bottom: calc(var(--gutter) + var(--contact-scene-room));
   }

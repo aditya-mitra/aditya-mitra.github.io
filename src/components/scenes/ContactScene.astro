@@ -119,7 +119,7 @@ const keys = rows.flatMap((row, r) => {
   .keyboard {
     flex: none;
     /* Wider than a phone so the keys stay big enough to tap; the sides crop. */
-    width: clamp(40rem, 96%, 84rem);
+    width: clamp(40rem, min(96%, var(--contact-scene-room) * 2.3), 84rem);
     max-width: none;
     height: auto;
     margin-bottom: calc(var(--contact-scene-room) * -0.06);
