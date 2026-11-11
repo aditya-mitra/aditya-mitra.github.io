@@ -9,7 +9,8 @@
     "test": "astro build && playwright test",
     "test:only": "playwright test",
     "lighthouse": "astro build && node scripts/lighthouse.mjs",
-    "shots": "astro build && node scripts/shots.mjs"
+    "shots": "astro build && node scripts/shots.mjs",
+    "share-image": "bun scripts/share-image.mjs"
   },
   "dependencies": {
     "astro": "^7.4.10",

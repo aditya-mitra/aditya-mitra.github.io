@@ -1,5 +1,5 @@
 ---
-// The footer: the Monogram and a copyright line, on black. Ticket 08 finishes it.
+// The footer: the Monogram and a copyright line, on black. The page ends here.
 import Monogram from '../Monogram.astro';
 import { site } from '../../data/site';
 ---
@@ -12,17 +12,20 @@ import { site } from '../../data/site';
 <style>
   .footer {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     justify-content: space-between;
     gap: 1rem;
-    padding: var(--gutter) calc(var(--frame-w) + var(--gutter)) calc(var(--frame-w) + var(--gutter));
+    padding: clamp(2rem, 5vw, 3.5rem) calc(var(--frame-w) + var(--gutter))
+      calc(var(--frame-w) + clamp(2rem, 5vw, 3.5rem));
     font-family: var(--font-heading);
     font-size: var(--text-label);
     font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.04em;
     text-transform: uppercase;
   }
 
   .footer :global(.monogram) {
-    font-size: 2rem;
+    font-size: clamp(3rem, 7vw, 5.5rem);
   }
 </style>

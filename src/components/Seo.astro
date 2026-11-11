@@ -1,10 +1,47 @@
 ---
 // Everything in <head> that describes the page to browsers, search engines
-// and link previews. Ticket 11 extends this (Open Graph, JSON-LD, share image).
+// and link previews: title, description, canonical URL, Open Graph and
+// Twitter card tags, Person structured data and the Monogram favicon.
 import { site } from '../data/site';
+
+const { title, description, shareImage } = site.meta;
+// Link previews only follow absolute URLs.
+const image = new URL(shareImage.path, site.url).href;
+const { linkedin, github } = site.contact.links;
+
+// No phone number, by design: only what the page itself shows.
+const person = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: site.person.name,
+  jobTitle: site.person.jobTitle,
+  description,
+  url: site.url,
+  image,
+  sameAs: [linkedin.href, github.href],
+};
 ---
 
-<title>{site.meta.title}</title>
-<meta name="description" content={site.meta.description} />
+<title>{title}</title>
+<meta name="description" content={description} />
 <link rel="canonical" href={site.url} />
 <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+<meta property="og:type" content="profile" />
+<meta property="og:site_name" content={site.person.name} />
+<meta property="og:url" content={site.url} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={image} />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content={String(shareImage.width)} />
+<meta property="og:image:height" content={String(shareImage.height)} />
+<meta property="og:image:alt" content={shareImage.alt} />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={image} />
+<meta name="twitter:image:alt" content={shareImage.alt} />
+
+<script type="application/ld+json" is:inline set:html={JSON.stringify(person).replace(/</g, '\\u003c')} />
