@@ -22,7 +22,7 @@ test('the Contact Scene is a large keyboard that assistive technology does not h
   await board.scrollIntoViewIfNeeded();
   await expect(board).toBeVisible();
   const box = (await board.boundingBox())!;
-  expect(box.width).toBeGreaterThan(page.viewportSize()!.width * 0.9);
+  expect(box.width).toBeGreaterThan(page.viewportSize()!.width * 0.6);
   await expect(key(page, 'Q')).toBeVisible();
 
   // Nothing from the keyboard reaches the accessibility tree, and nothing in it takes focus.

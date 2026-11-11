@@ -77,14 +77,23 @@ const keys = rows.flatMap((row, r) => {
           <g class="key__cap">
             <rect class="key__top" x="3" y="3" width={k.w - 6} height={U - 14} rx="9" />
             <rect class="key__dish" x="11" y="8" width={k.w - 22} height={U - 26} rx="6" />
-            {k.label && (
-              <text
-                class:list={['key__label', k.label.length > 1 && 'key__label--word']}
-                x={k.label.length > 1 ? 14 : k.w / 2}
-                y={k.label.length > 1 ? U - 22 : U / 2 - 1}
-              >
-                {k.label}
-              </text>
+            {k.shift && k.shift !== k.label ? (
+              // Symbol keys carry two legends, shifted on top, as on a real cap.
+              // (It also keeps the number row from reading as one long number.)
+              <>
+                <text class="key__label key__label--small" x={k.w / 2} y={U / 2 - 13}>{k.shift}</text>
+                <text class="key__label key__label--small" x={k.w / 2} y={U / 2 + 6}>{k.label}</text>
+              </>
+            ) : (
+              k.label && (
+                <text
+                  class:list={['key__label', k.label.length > 1 && 'key__label--word']}
+                  x={k.label.length > 1 ? 14 : k.w / 2}
+                  y={k.label.length > 1 ? U - 22 : U / 2 - 1}
+                >
+                  {k.label}
+                </text>
+              )
             )}
           </g>
         </g>
@@ -191,6 +200,10 @@ const keys = rows.flatMap((row, r) => {
     font-weight: 800;
     text-anchor: middle;
     dominant-baseline: central;
+  }
+
+  .key__label--small {
+    font-size: 18px;
   }
 
   .key__label--word {
