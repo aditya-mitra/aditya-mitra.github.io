@@ -1,0 +1,28 @@
+---
+// The footer: the Monogram and a copyright line, on black. Ticket 08 finishes it.
+import Monogram from '../Monogram.astro';
+import { site } from '../../data/site';
+---
+
+<footer class="footer on-ink">
+  <Monogram />
+  <p>{site.footer.copyright}</p>
+</footer>
+
+<style>
+  .footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: var(--gutter) calc(var(--frame-w) + var(--gutter)) calc(var(--frame-w) + var(--gutter));
+    font-family: var(--font-heading);
+    font-size: var(--text-label);
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .footer :global(.monogram) {
+    font-size: 2rem;
+  }
+</style>

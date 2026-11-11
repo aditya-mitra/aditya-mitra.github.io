@@ -1,0 +1,18 @@
+---
+// Work Section. Tickets 04 (Work Cards carousel) and 05 (Scene, giant heading) fill this in.
+import WorkScene from '../scenes/WorkScene.astro';
+import { site } from '../../data/site';
+
+const { work } = site;
+---
+
+<section id="work" class="section work" aria-label={work.label}>
+  <WorkScene />
+  <h2 class="work__heading">{work.heading}</h2>
+</section>
+
+<style>
+  .work__heading {
+    font-size: var(--text-heading);
+  }
+</style>

@@ -1,0 +1,37 @@
+/* Design tokens. Every colour on the page comes from these custom properties,
+   so Green Mode can recolour everything by overriding them under
+   :root[data-mode='green'] (one attribute on <html>). Never write a raw colour
+   in a component: add a token here instead. */
+:root {
+  /* Colour: the base look is one flat blue-violet field with black type. */
+  --field: #6c63ff; /* page background */
+  --field-hi: #8d86ff; /* lighter shade, for Scene shapes */
+  --field-lo: #5147e8; /* darker shade, for Scene shapes */
+  --ink: #000; /* type, borders, the Frame */
+  --paper: #fff; /* type on ink (footer, pressed states) */
+  --focus: var(--ink); /* focus ring; flipped to --paper inside .on-ink */
+
+  /* Type */
+  --font-display: 'Gasoek One', 'Arial Black', Impact, sans-serif; /* greeting, Codes */
+  --font-heading: 'Alumni Sans', 'Arial Narrow', 'Helvetica Neue', Arial, sans-serif; /* headings, labels */
+  --font-body: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+
+  --text-body: clamp(1rem, 0.94rem + 0.28vw, 1.125rem);
+  --text-label: clamp(1.25rem, 1.1rem + 0.6vw, 1.625rem);
+  --text-heading: clamp(2.5rem, 1.6rem + 4vw, 5rem);
+  --text-display: clamp(5rem, 2.2rem + 11vw, 11rem);
+
+  /* Frame geometry */
+  --frame-w: clamp(6px, 0.75vw, 12px); /* black border around the viewport */
+  --bar-h: clamp(52px, 3rem + 1.4vw, 68px); /* fixed top bar */
+  --frame-top: calc(var(--frame-w) + var(--bar-h)); /* where content starts */
+  --line: 2px; /* rule and border weight */
+  --radius: clamp(6px, 0.6vw, 10px);
+  --gutter: clamp(1.25rem, 5vw, 5rem);
+
+  /* Stacking */
+  --z-scene: 0;
+  --z-content: 1;
+  --z-frame: 100;
+  --z-intro: 1000;
+}

@@ -1,0 +1,23 @@
+{
+  "name": "personal-portfolio",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "node scripts/serve.mjs",
+    "test": "astro build && playwright test",
+    "test:only": "playwright test",
+    "lighthouse": "astro build && node scripts/lighthouse.mjs",
+    "shots": "astro build && node scripts/shots.mjs"
+  },
+  "dependencies": {
+    "astro": "^7.4.10",
+    "motion": "^14.12.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.57.0",
+    "chrome-launcher": "^1.2.3",
+    "lighthouse": "^13.6.0"
+  }
+}

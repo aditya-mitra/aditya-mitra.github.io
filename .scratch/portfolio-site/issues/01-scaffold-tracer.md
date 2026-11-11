@@ -4,16 +4,16 @@
 
 **Blocked by:** None (can start immediately)
 
-**Status:** ready-for-agent
+**Status:** resolved
 
 Spec: `.scratch/portfolio-site/spec.md`. Vocabulary: `GLOSSARY.md`.
 
-- [ ] Astro static site with bun; plain CSS; Motion installed; no UI framework
-- [ ] One content module holds all copy, Work Cards, Roster, Honours, contact links and the optional (unset) booking URL, filled in from the spec and the resume
-- [ ] Frame: black viewport border and fixed top bar; Monogram (new "AM" SVG) links to the top; "Let's talk" is a mailto link; no section links
-- [ ] Hero shows "HEY!" as the only h1 and the agreed intro text; four Sections render in order as labelled landmarks
-- [ ] Self-hosted Latin-subset fonts (Gasoek One, Alumni Sans, a free or system body face) with font-display swap and Hero preloads; fluid clamp() sizing; mobile layout works
-- [ ] Visible focus indicator and logical tab order
-- [ ] Playwright suite runs against the served production build at mobile and desktop viewports, with one command; includes absence checks (no phone number, no section links in the Frame, no /lab or Services link)
-- [ ] Lighthouse mobile-preset script runs against the same served build and reports the four category scores
-- [ ] GitHub Actions workflow builds with bun and publishes to Pages on push to main; .env, resume.pdf and pic.webp stay ignored and unpublished
+- [x] Astro static site with bun; plain CSS; Motion installed; no UI framework
+- [x] One content module holds all copy, Work Cards, Roster, Honours, contact links and the optional (unset) booking URL, filled in from the spec and the resume
+- [x] Frame: black viewport border and fixed top bar; Monogram (new "AM" SVG) links to the top; "Let's talk" is a mailto link; no section links
+- [x] Hero shows "HEY!" as the only h1 and the agreed intro text; four Sections render in order as labelled landmarks
+- [x] Self-hosted Latin-subset fonts (Gasoek One, Alumni Sans, a free or system body face) with font-display swap and Hero preloads; fluid clamp() sizing; mobile layout works
+- [x] Visible focus indicator and logical tab order
+- [x] Playwright suite runs against the served production build at mobile and desktop viewports, with one command; includes absence checks (no phone number, no section links in the Frame, no /lab or Services link)
+- [x] Lighthouse mobile-preset script runs against the same served build and reports the four category scores
+- [x] GitHub Actions workflow builds with bun and publishes to Pages on push to main; .env, resume.pdf and pic.webp stay ignored and unpublished

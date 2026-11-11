@@ -1,0 +1,32 @@
+---
+// Frame part: the "Let's talk" cell on the right of the top bar. A mailto link.
+import { site } from '../../data/site';
+
+const { letsTalk } = site.frame;
+---
+
+<a class="lets-talk" href={letsTalk.href}>{letsTalk.text}</a>
+
+<style>
+  .lets-talk {
+    display: flex;
+    align-items: center;
+    padding-inline: clamp(1rem, 2vw, 1.75rem);
+    border-left: var(--line) solid var(--ink);
+    font-family: var(--font-heading);
+    font-size: var(--text-label);
+    font-weight: 800;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    text-decoration: none;
+    white-space: nowrap;
+    outline-offset: -6px;
+  }
+
+  @media (hover: hover) {
+    .lets-talk:hover {
+      background: var(--ink);
+      color: var(--field);
+    }
+  }
+</style>

@@ -1,0 +1,10 @@
+---
+// Everything in <head> that describes the page to browsers, search engines
+// and link previews. Ticket 11 extends this (Open Graph, JSON-LD, share image).
+import { site } from '../data/site';
+---
+
+<title>{site.meta.title}</title>
+<meta name="description" content={site.meta.description} />
+<link rel="canonical" href={site.url} />
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />

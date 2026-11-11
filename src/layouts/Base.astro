@@ -1,0 +1,22 @@
+---
+// The document shell: <head>, global styles, font preloads.
+// Page content goes in the default slot.
+import '../styles/global.css';
+import Seo from '../components/Seo.astro';
+import { site } from '../data/site';
+---
+
+<!doctype html>
+<html lang={site.lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Fonts the Hero needs before first paint. -->
+    <link rel="preload" href="/fonts/gasoek-one-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/alumni-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <Seo />
+  </head>
+  <body id="top">
+    <slot />
+  </body>
+</html>

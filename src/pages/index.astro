@@ -1,0 +1,23 @@
+---
+// The one page. Order is fixed: Frame, then Hero, Work, About, Contact, footer.
+import Base from '../layouts/Base.astro';
+import Frame from '../components/frame/Frame.astro';
+import Intro from '../components/Intro.astro';
+import Hero from '../components/sections/Hero.astro';
+import Work from '../components/sections/Work.astro';
+import About from '../components/sections/About.astro';
+import Contact from '../components/sections/Contact.astro';
+import Footer from '../components/sections/Footer.astro';
+---
+
+<Base>
+  <Frame />
+  <main id="content">
+    <Hero />
+    <Work />
+    <About />
+    <Contact />
+  </main>
+  <Footer />
+  <Intro />
+</Base>

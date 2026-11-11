@@ -1,0 +1,86 @@
+---
+// Hero Section: the greeting box over the Hero Scene.
+import HeroScene from '../scenes/HeroScene.astro';
+import { site } from '../../data/site';
+
+const { hero } = site;
+---
+
+<section id="hero" class="section hero" aria-label={hero.label}>
+  <HeroScene />
+  <div class="greeting">
+    <h1 class="greeting__title">{hero.greeting}</h1>
+    <p class="greeting__intro">
+      {hero.intro.before}<strong>{hero.intro.name}</strong>{hero.intro.after}
+    </p>
+  </div>
+</section>
+
+<style>
+  /* Mobile first: the Scene takes the top of the Section, the greeting sits below it. */
+  .hero {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: var(--frame-top) var(--frame-w) 0;
+  }
+
+  .hero :global(.scene) {
+    position: relative;
+    inset: auto;
+    flex: 1 1 auto;
+    min-height: 52svh;
+    border-bottom: var(--line) solid var(--ink);
+  }
+
+  .greeting {
+    background: var(--field);
+  }
+
+  .greeting__title {
+    padding: 0.28em var(--gutter) 0.2em;
+    font-family: var(--font-display);
+    font-size: var(--text-display);
+    font-weight: 400;
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    border-bottom: var(--line) dashed var(--ink);
+  }
+
+  .greeting__intro {
+    padding: 1.5rem var(--gutter) 2rem;
+    max-width: 34em;
+    text-wrap: pretty;
+  }
+
+  /* Desktop: the Scene fills the Section and the greeting becomes a box on the left. */
+  @media (min-width: 48rem) {
+    .hero {
+      justify-content: center;
+      padding: calc(var(--frame-top) + var(--gutter)) calc(var(--frame-w) + var(--gutter)) var(--gutter);
+    }
+
+    .hero :global(.scene) {
+      position: absolute;
+      inset: 0;
+      min-height: 0;
+      border-bottom: 0;
+    }
+
+    .greeting {
+      width: min(32rem, 42vw);
+      margin-top: 8svh;
+      border: var(--line) solid var(--ink);
+      border-radius: var(--radius);
+    }
+
+    .greeting__title {
+      padding: 0.32em 0.3em 0.24em;
+      font-size: clamp(5rem, 9.5vw, 10rem);
+    }
+
+    .greeting__intro {
+      padding: 2rem 2.25rem 2.5rem;
+    }
+  }
+</style>

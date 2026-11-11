@@ -1,0 +1,63 @@
+---
+// The Frame: the black border around the viewport plus the fixed top bar.
+// It only arranges its parts; each part is its own component in this folder.
+// The top bar carries no section links.
+import MonogramLink from './MonogramLink.astro';
+import LetsTalk from './LetsTalk.astro';
+import ModeToggle from './ModeToggle.astro';
+import { site } from '../../data/site';
+---
+
+<a class="skip-link" href="#content">{site.frame.skipLink}</a>
+<header class="top-bar">
+  <MonogramLink />
+  <LetsTalk />
+</header>
+<ModeToggle />
+<div class="frame-border" aria-hidden="true"></div>
+
+<style>
+  .frame-border {
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-frame);
+    border: var(--frame-w) solid var(--ink);
+    pointer-events: none;
+  }
+
+  .top-bar {
+    position: fixed;
+    top: var(--frame-w);
+    left: var(--frame-w);
+    right: var(--frame-w);
+    z-index: var(--z-frame);
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    height: var(--bar-h);
+    background: var(--field);
+    border-bottom: var(--line) solid var(--ink);
+  }
+
+  .skip-link {
+    position: fixed;
+    top: calc(var(--frame-w) + 0.5rem);
+    left: 50%;
+    z-index: calc(var(--z-frame) + 1);
+    padding: 0.5rem 1rem;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--font-heading);
+    font-size: var(--text-label);
+    font-weight: 700;
+    text-transform: uppercase;
+    text-decoration: none;
+    transform: translate(-50%, -300%);
+    --focus: var(--paper);
+  }
+
+  .skip-link:focus {
+    transform: translate(-50%, 0);
+    outline-offset: -6px;
+  }
+</style>

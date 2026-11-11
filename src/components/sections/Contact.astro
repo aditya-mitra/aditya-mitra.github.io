@@ -1,0 +1,18 @@
+---
+// Contact Section. Tickets 08 (headline, contact links) and 09 (keyboard Toy) fill this in.
+import ContactScene from '../scenes/ContactScene.astro';
+import { site } from '../../data/site';
+
+const { contact } = site;
+---
+
+<section id="contact" class="section contact" aria-label={contact.label}>
+  <ContactScene />
+  <h2 class="contact__heading">{contact.heading}</h2>
+</section>
+
+<style>
+  .contact__heading {
+    font-size: var(--text-heading);
+  }
+</style>

@@ -1,0 +1,19 @@
+---
+// Frame part: the Monogram on the left of the top bar. Links back to the top.
+import Monogram from '../Monogram.astro';
+import { site } from '../../data/site';
+---
+
+<a class="monogram-link" href="#top" aria-label={site.frame.monogramLabel}>
+  <Monogram />
+</a>
+
+<style>
+  .monogram-link {
+    display: flex;
+    align-items: center;
+    padding-inline: clamp(1rem, 2vw, 1.75rem);
+    font-size: calc(var(--bar-h) * 0.46);
+    outline-offset: -6px;
+  }
+</style>
