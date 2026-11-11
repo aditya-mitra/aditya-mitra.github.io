@@ -1,0 +1,6 @@
+.env
+.env.*
+resume.pdf
+node_modules/
+dist/
+.astro/
