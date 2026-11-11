@@ -4,12 +4,12 @@
 
 **Blocked by:** 01
 
-**Status:** ready-for-agent
+**Status:** resolved
 
 Spec: `.scratch/portfolio-site/spec.md`. Vocabulary: `GLOSSARY.md`.
 
-- [ ] Curved "READY TO SHIP?" headline, readable by assistive technology
-- [ ] Email (spelled exactly as in the spec), LinkedIn and GitHub links from the content source; external links open in a new tab
-- [ ] "Book a video call" renders only when the booking URL is set; unset now
-- [ ] Footer on black with the Monogram and a copyright line; no phone number anywhere
-- [ ] Playwright: three contact links with the right destinations; no "Book a video call"; no phone number
+- [x] Curved "READY TO SHIP?" headline, readable by assistive technology
+- [x] Email (spelled exactly as in the spec), LinkedIn and GitHub links from the content source; external links open in a new tab
+- [x] "Book a video call" renders only when the booking URL is set; unset now
+- [x] Footer on black with the Monogram and a copyright line; no phone number anywhere
+- [x] Playwright: three contact links with the right destinations; no "Book a video call"; no phone number
