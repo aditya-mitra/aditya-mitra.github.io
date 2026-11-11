@@ -30,6 +30,19 @@ test('on first arrival the Intro covers the page, with the Hero already in it, t
   expect(await centrePixel(page)).not.toEqual([0, 0, 0]);
 });
 
+test('beneath the Intro the Hero greeting sits in its final place until the black clears', async ({ page }) => {
+  await page.goto('/');
+  await expect(command(page)).toBeVisible();
+  const settled = async () => {
+    const box = await greeting(page).boundingBox();
+    return box && { x: Math.round(box.x), y: Math.round(box.y) };
+  };
+  const during = await settled();
+  await expect(command(page)).toBeHidden({ timeout: 6000 });
+  await page.waitForTimeout(800); // let the greeting box land
+  expect(during).toEqual(await settled());
+});
+
 test('the Intro is on screen before anything else: no flash of uncovered Hero', async ({ page }) => {
   // Hold back the script that plays the Intro; the overlay must be up without it.
   await page.route(/\.js(\?|$)/, () => {});

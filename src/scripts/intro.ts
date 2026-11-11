@@ -59,13 +59,22 @@ if (overlay && root.dataset.intro) {
     // The black clears in horizontal bands, top to bottom.
     [mark, { opacity: 0, scale: 1.6 }, { at: clear, duration: 0.22, ease: 'easeIn' }],
     [bands, { scaleX: [1, 0] }, { at: clear + 0.04, duration: 0.3, delay: stagger(0.05), ease: [0.7, 0, 0.2, 1] }],
-
-    // The Hero greeting box lands last. Transform only: it stays painted, so
-    // the largest contentful paint does not wait for the Intro.
-    ...(greeting
-      ? [[greeting, { y: [-72, 0], rotate: [wide ? -5 : 0, 0] }, { at: clear + 0.2, duration: 0.5, ease: punch }] as const]
-      : []),
   ]);
+
+  // The Hero greeting box lands last. It is animated on its own, started only
+  // once the black clears, so until then it sits untouched in its final place
+  // (Motion would otherwise hold its first keyframe from time 0). Transform
+  // only: it stays painted, so the largest contentful paint never waits.
+  let landing: ReturnType<typeof animate> | undefined;
+  let cancelLanding = () => {};
+  const land = new Promise<void>((resolve) => {
+    if (!greeting) return resolve();
+    const timer = setTimeout(() => {
+      landing = animate(greeting, { y: [-72, 0], rotate: [wide ? -5 : 0, 0] }, { duration: 0.5, ease: punch });
+      landing.finished.then(() => resolve(), () => resolve());
+    }, (clear + 0.2) * 1000);
+    cancelLanding = () => (clearTimeout(timer), resolve());
+  });
 
   const inputs = ['pointerdown', 'keydown', 'wheel', 'touchstart', 'scroll'] as const;
   let done = false;
@@ -74,10 +83,12 @@ if (overlay && root.dataset.intro) {
     done = true;
     for (const type of inputs) removeEventListener(type, finish, true);
     sequence.cancel();
+    cancelLanding();
+    landing?.cancel();
     greeting?.style.removeProperty('transform');
     delete root.dataset.intro;
   };
 
   for (const type of inputs) addEventListener(type, finish, { capture: true, passive: true });
-  sequence.finished.then(finish, finish);
+  Promise.all([sequence.finished, land]).then(finish, finish);
 }
