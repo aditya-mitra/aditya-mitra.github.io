@@ -37,7 +37,8 @@ const cloud = (x: number, y: number, w: number, tone: Shape['tone'], flip = fals
   const base = w * 0.08;
   const parts = bumps.map(([at, r]) => circle(x + (flip ? 1 - at : at) * w, y - base, r * w));
   parts.push(`M${x + w * 0.06} ${y - base * 2}H${x + w * 0.94}a${base} ${base} 0 0 1 0 ${base * 2}H${x + w * 0.06}a${base} ${base} 0 0 1 0 ${-base * 2}z`);
-  return parts.map((d) => ({ tone, d }));
+  // Round to one decimal: shorter markup, and no long float tails in the page.
+  return parts.map((d) => ({ tone, d: d.replace(/-?\d+\.\d+/g, (n) => String(Math.round(Number(n) * 10) / 10)) }));
 };
 const layers: { name: string; paths: Shape[] }[] = [
   {
