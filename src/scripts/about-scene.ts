@@ -16,12 +16,20 @@ function tunnel(scene: HTMLElement) {
   const section = scene.parentElement!;
   const rings = scene.querySelector<HTMLElement>('.about-scene__tunnel')!;
   const room = scene.querySelector<SVGElement>('.about-scene__room')!;
+  const stage = rings.parentElement!;
   scroll(
     (progress: number) => {
       const p = clamp(progress, 0, 1);
-      rings.style.transform = `scale(${Math.pow(14, p * p)})`;
-      rings.style.opacity = String(clamp((0.95 - p) / 0.2, 0, 1));
-      room.style.transform = `scale(${0.6 + 0.4 * p})`;
+      // Keep the portal in the middle of the part of the Section already on screen, until
+      // that reaches the stage's centre.
+      const vh = innerHeight;
+      const centre = stage.offsetTop + stage.offsetHeight / 2;
+      const middle = Math.min(centre, (p * vh) / 2);
+      const lift = (middle - centre) * (1 - p * p * p);
+      const scale = 0.4 * Math.pow(40, p * p);
+      rings.style.transform = `translateY(${lift}px) scale(${scale})`;
+      rings.style.opacity = String(clamp((0.97 - p) / 0.17, 0, 1));
+      room.style.transform = `translateY(${lift}px) scale(${0.6 + 0.4 * p})`;
     },
     { target: section, offset: ['start end', 'start start'] },
   );
@@ -42,7 +50,7 @@ function toy(scene: HTMLElement, reduced: boolean) {
     const w = stage.clientWidth;
     const h = stage.clientHeight;
     const size = el.offsetWidth;
-    return { x: w / 2 - size / 2, top: -0.38 * h, bottom: 0.28 * h - size / 4, h };
+    return { x: w / 2 - size * 0.9, top: -0.36 * h, bottom: 0.22 * h - size / 2, h };
   };
 
   const render = () => {

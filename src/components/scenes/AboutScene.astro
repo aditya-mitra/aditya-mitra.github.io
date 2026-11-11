@@ -110,7 +110,7 @@ const cubeFaces = ['front', 'back', 'left', 'right', 'top', 'bottom'];
     --heading-h: calc(clamp(5.5rem, 3rem + 14vw, 15rem) * 0.78);
     --gap: clamp(1.5rem, 3vw, 2.5rem);
     --stage-top: calc(var(--frame-top) + var(--gutter) + var(--heading-h) + var(--gap));
-    --toy: clamp(4.5rem, 3rem + 5vw, 8rem);
+    --toy: clamp(5.5rem, 3rem + 7vw, 10rem);
     background: var(--field);
   }
 
@@ -193,7 +193,7 @@ const cubeFaces = ['front', 'back', 'left', 'right', 'top', 'bottom'];
 
   .about-scene__cube {
     position: absolute;
-    inset: 18%;
+    inset: 14%;
     transform-style: preserve-3d;
     transform: rotateX(-24deg) rotateY(38deg);
   }
@@ -209,24 +209,24 @@ const cubeFaces = ['front', 'back', 'left', 'right', 'top', 'bottom'];
 
   .about-scene__face--front {
     background-color: color-mix(in srgb, var(--paper) 22%, transparent);
-    transform: translateZ(calc(var(--toy) * 0.32));
+    transform: translateZ(calc(var(--toy) * 0.36));
   }
   .about-scene__face--back {
-    transform: rotateY(180deg) translateZ(calc(var(--toy) * 0.32));
+    transform: rotateY(180deg) translateZ(calc(var(--toy) * 0.36));
   }
   .about-scene__face--left {
-    transform: rotateY(-90deg) translateZ(calc(var(--toy) * 0.32));
+    transform: rotateY(-90deg) translateZ(calc(var(--toy) * 0.36));
   }
   .about-scene__face--right {
     background-color: color-mix(in srgb, var(--ink) 18%, transparent);
-    transform: rotateY(90deg) translateZ(calc(var(--toy) * 0.32));
+    transform: rotateY(90deg) translateZ(calc(var(--toy) * 0.36));
   }
   .about-scene__face--top {
     background-color: color-mix(in srgb, var(--paper) 45%, transparent);
-    transform: rotateX(90deg) translateZ(calc(var(--toy) * 0.32));
+    transform: rotateX(90deg) translateZ(calc(var(--toy) * 0.36));
   }
   .about-scene__face--bottom {
-    transform: rotateX(-90deg) translateZ(calc(var(--toy) * 0.32));
+    transform: rotateX(-90deg) translateZ(calc(var(--toy) * 0.36));
   }
 
   /* The tunnel: hidden until its script runs, so without JavaScript (and under
@@ -256,7 +256,7 @@ const cubeFaces = ['front', 'back', 'left', 'right', 'top', 'bottom'];
 
   .about-scene__tunnel-grid > * {
     stroke: var(--ink);
-    stroke-width: 1.5;
+    stroke-width: 2;
     vector-effect: non-scaling-stroke;
   }
 
