@@ -42,6 +42,16 @@ export const site = {
     title: 'Aditya Mitra – Founding engineer building AI agents',
     description:
       'Portfolio of Aditya Mitra, a founding engineer building AI agents, multi-agent systems and developer tools in the open.',
+    // The card shown when the link is shared. Composed from the Avatar by
+    // `bun run share-image`; the raw Avatar never enters the repository.
+    shareImage: {
+      path: '/share.png',
+      width: 1200,
+      height: 630,
+      alt: 'Aditya Mitra, founding engineer building AI agents, beside his avatar',
+      tagline: 'Founding engineer building AI agents',
+      host: 'aditya-mitra.github.io',
+    },
   },
 
   frame: {
@@ -194,6 +204,7 @@ export const site = {
     // "Book a video call" is rendered only when this is set.
     bookingUrl: undefined as string | undefined,
     bookingText: 'Book a video call',
+    newTab: '(opens in a new tab)',
   },
 
   footer: {
