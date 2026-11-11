@@ -76,14 +76,18 @@ const headline = contact.heading.toUpperCase();
       }
     </ul>
 
-    {/* Ticket 09: the keyboard Toy's typed readout goes here. */}
+    {/* The keyboard Toy's readout: decorative, shown once the Toy loads. */}
+    <p class="readout" aria-hidden="true" data-keyboard-readout data-message={contact.keyboardMessage}>
+      <span class="readout__prompt">&gt;</span>
+      <span class="readout__line"><span class="readout__text" data-testid="keyboard-readout"></span><span class="readout__caret"></span></span>
+    </p>
   </div>
 </section>
 
 <style>
   .contact {
     /* Height kept free below the links for the keyboard Scene (ticket 09). */
-    --contact-scene-room: clamp(16rem, 46svh, 30rem);
+    --contact-scene-room: clamp(16rem, min(46svh, 40vw + 8rem), 30rem);
     --shadow: clamp(4px, 0.5vw, 8px);
     padding-bottom: calc(var(--gutter) + var(--contact-scene-room));
   }
@@ -233,7 +237,61 @@ const headline = contact.heading.toUpperCase();
     transform: translate(var(--shadow), var(--shadow));
   }
 
+  /* The keyboard Toy's readout: a black strip the typed keys land on. Hidden
+     (but holding its space) until the Toy script marks it ready. */
+  .readout {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    margin-top: clamp(0.5rem, 2vw, 1.5rem);
+    padding: 0.35em 0.6em;
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: var(--radius);
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 1rem + 2.4vw, 3rem);
+    line-height: 1.15;
+    visibility: hidden;
+  }
+
+  .readout[data-ready] {
+    visibility: visible;
+  }
+
+  .readout__prompt {
+    flex: none;
+    color: var(--field-hi);
+  }
+
+  /* The Toy drops the oldest characters once a line no longer fits. */
+  .readout__line {
+    display: flex;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    white-space: pre;
+  }
+
+  .readout__caret {
+    flex: none;
+    width: 0.55em;
+    height: 1em;
+    margin-left: 0.06em;
+    background: var(--field-hi);
+    animation: caret 1s steps(1) infinite;
+  }
+
+  @keyframes caret {
+    50% {
+      opacity: 0;
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
+    .readout__caret {
+      animation: none;
+    }
+
     .cta,
     .profile,
     .arrow {
