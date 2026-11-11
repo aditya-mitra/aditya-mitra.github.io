@@ -207,6 +207,8 @@ export const site = {
     bookingUrl: undefined as string | undefined,
     bookingText: 'Book a video call',
     newTab: '(opens in a new tab)',
+    // The keyboard Toy types this out by itself when the Section first comes into view.
+    keyboardMessage: "let's ship it",
   },
 
   footer: {
