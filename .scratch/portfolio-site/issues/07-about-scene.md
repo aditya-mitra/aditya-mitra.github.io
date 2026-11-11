@@ -4,12 +4,12 @@
 
 **Blocked by:** 06
 
-**Status:** ready-for-agent
+**Status:** resolved
 
 Spec: `.scratch/portfolio-site/spec.md`. Vocabulary: `GLOSSARY.md`.
 
-- [ ] Scroll-linked grid tunnel transition into the About Scene using Motion and native scrolling
-- [ ] About Scene is an inline-SVG wireframe 3D room, hidden from assistive technology
-- [ ] Toy: a draggable object in the room, working with mouse and touch; its code loads lazily when the Section nears the viewport
-- [ ] Tunnel transition is still under reduced motion; no content depends on the Toy
-- [ ] Judged by eye from screenshots/recordings at both viewports
+- [x] Scroll-linked grid tunnel transition into the About Scene using Motion and native scrolling
+- [x] About Scene is an inline-SVG wireframe 3D room, hidden from assistive technology
+- [x] Toy: a draggable object in the room, working with mouse and touch; its code loads lazily when the Section nears the viewport
+- [x] Tunnel transition is still under reduced motion; no content depends on the Toy
+- [x] Judged by eye from screenshots/recordings at both viewports

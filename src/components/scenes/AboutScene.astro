@@ -1,6 +1,297 @@
 ---
-// The About Scene: a grid tunnel into a wireframe 3D room, with a draggable Toy (ticket 07).
-// Hand-written inline SVG goes inside this wrapper; keep it aria-hidden.
+// The About Scene: a grid tunnel that zooms, as the Section scrolls in, into a wireframe
+// 3D room drawn in one-point perspective, with a wireframe cube (the Toy) on its floor.
+// The room is centred on the "stage" that About.astro keeps clear: the right-hand column
+// on desktop, the gap above the card on mobile. The tunnel and the Toy's drag are
+// wired up by src/scripts/about-scene.ts, loaded only when the Section nears the viewport.
+
+// Coordinates are rounded: long float tails bloat the page (and look like phone numbers).
+const round = (v: number) => Math.round(v * 10) / 10;
+
+// Room geometry, in viewBox units centred on the vanishing point.
+const W = 150; // half the back wall's width
+const H = 95; // half the back wall's height
+const FAR = 14; // how far out the room's edges run (they leave the Section long before)
+const depths = [1, 1.28, 1.66, 2.2, 2.95, 4, 5.5, 7.6, 10.5];
+const across = [-1, -0.75, -0.5, -0.25, 0, 0.25, 0.5, 0.75, 1];
+const up = [-1, -0.5, 0, 0.5, 1];
+
+const floor = `M${-W},${H} L${W},${H} L${W * FAR},${H * FAR} L${-W * FAR},${H * FAR} Z`;
+const ceiling = `M${-W},${-H} L${W},${-H} L${W * FAR},${-H * FAR} L${-W * FAR},${-H * FAR} Z`;
+
+// Tunnel: rings of a stadium shape spreading out from a portal, plus spokes.
+const portal = { w: 200, h: 124 };
+const stadium = (s: number) => {
+  const w = round(portal.w * s);
+  const h = round(portal.h * s);
+  const r = round(h / 2);
+  const x = round(w / 2 - r);
+  const y = round(h / 2);
+  return `M${-x},${-y} H${x} A${r},${r} 0 0 1 ${x},${y} H${-x} A${r},${r} 0 0 1 ${-x},${-y} Z`;
+};
+const rings = [1.3, 1.72, 2.3, 3.1, 4.2, 5.7, 7.8];
+const spokes = Array.from({ length: 28 }, (_, i) => (i * Math.PI * 2) / 28);
+const cubeFaces = ['front', 'back', 'left', 'right', 'top', 'bottom'];
 ---
 
-<div class="scene about-scene" aria-hidden="true"></div>
+<div class="scene about-scene" aria-hidden="true">
+  <div class="about-scene__stage">
+    <svg class="about-scene__room" viewBox="-300 -200 600 400" fill="none" focusable="false">
+      <path class="about-scene__floor" d={floor}></path>
+      <path class="about-scene__ceiling" d={ceiling}></path>
+      <rect class="about-scene__wall" x={-W} y={-H} width={W * 2} height={H * 2}></rect>
+      <g class="about-scene__grid">
+        {
+          depths.map((k) => (
+            <rect x={round(-W * k)} y={round(-H * k)} width={round(W * 2 * k)} height={round(H * 2 * k)} />
+          ))
+        }
+        {across.map((a) => <line x1={a * W} y1={H} x2={a * W * FAR} y2={H * FAR} />)}
+        {across.map((a) => <line x1={a * W} y1={-H} x2={a * W * FAR} y2={-H * FAR} />)}
+        {up.map((b) => <line x1={-W} y1={b * H} x2={-W * FAR} y2={b * H * FAR} />)}
+        {up.map((b) => <line x1={W} y1={b * H} x2={W * FAR} y2={b * H * FAR} />)}
+        {across.map((a) => <line x1={a * W} y1={-H} x2={a * W} y2={H} />)}
+        {up.map((b) => <line x1={-W} y1={b * H} x2={W} y2={b * H} />)}
+      </g>
+      <g class="about-scene__edges">
+        <rect x={-W} y={-H} width={W * 2} height={H * 2}></rect>
+        <line x1={-W} y1={-H} x2={-W * FAR} y2={-H * FAR}></line>
+        <line x1={W} y1={-H} x2={W * FAR} y2={-H * FAR}></line>
+        <line x1={-W} y1={H} x2={-W * FAR} y2={H * FAR}></line>
+        <line x1={W} y1={H} x2={W * FAR} y2={H * FAR}></line>
+      </g>
+    </svg>
+
+    <div class="about-scene__toy" data-toy>
+      <div class="about-scene__shadow"></div>
+      <div class="about-scene__spin">
+        <div class="about-scene__cube">
+          {cubeFaces.map((face) => <div class={`about-scene__face about-scene__face--${face}`} />)}
+        </div>
+      </div>
+    </div>
+
+    <div class="about-scene__tunnel">
+      <svg viewBox="-1000 -1000 2000 2000" fill="none" focusable="false">
+        <path class="about-scene__tunnel-field" d={`M-3000,-3000 H3000 V3000 H-3000 Z ${stadium(1)}`}></path>
+        <g class="about-scene__tunnel-grid">
+          {rings.map((s) => <path d={stadium(s)} />)}
+          {
+            spokes.map((t) => (
+              <line
+                x1={round(Math.cos(t) * portal.w * 0.62)}
+                y1={round(Math.sin(t) * portal.h * 0.62)}
+                x2={round(Math.cos(t) * 2400)}
+                y2={round(Math.sin(t) * 1500)}
+              />
+            ))
+          }
+        </g>
+        <path class="about-scene__portal" d={stadium(1.04)}></path>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Load the tunnel and the Toy only when About is half a screen away.
+  const scene = document.querySelector<HTMLElement>('.about-scene');
+  if (scene) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return;
+        observer.disconnect();
+        import('../../scripts/about-scene').then(({ start }) => start(scene));
+      },
+      { rootMargin: '50% 0px' },
+    );
+    observer.observe(scene);
+  }
+</script>
+
+<style>
+  .about-scene {
+    /* Mirrors About.astro's heading size and grid gap, to find the clear stage. */
+    --heading-h: calc(clamp(5.5rem, 3rem + 14vw, 15rem) * 0.78);
+    --gap: clamp(1.5rem, 3vw, 2.5rem);
+    --stage-top: calc(var(--frame-top) + var(--gutter) + var(--heading-h) + var(--gap));
+    --toy: clamp(5.5rem, 3rem + 7vw, 10rem);
+    background: var(--field);
+  }
+
+  .about-scene__stage {
+    position: absolute;
+    top: var(--stage-top);
+    left: 0;
+    right: 0;
+    height: 46svh;
+  }
+
+  .about-scene__room {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    overflow: visible;
+    transform-origin: 50% 50%;
+  }
+
+  .about-scene__floor {
+    fill: var(--field-lo);
+  }
+
+  .about-scene__wall {
+    fill: var(--field-hi);
+  }
+
+  .about-scene__grid {
+    stroke: var(--ink);
+    stroke-width: 1.25;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .about-scene__grid > * {
+    vector-effect: non-scaling-stroke;
+  }
+
+  .about-scene__edges > * {
+    stroke: var(--ink);
+    stroke-width: 3;
+    vector-effect: non-scaling-stroke;
+  }
+
+  /* The Toy: a CSS 3D wireframe cube standing on the floor, in front of the back wall. */
+  .about-scene__toy {
+    position: absolute;
+    left: calc(50% - var(--toy) / 2);
+    top: calc(72% - var(--toy) / 2);
+    width: var(--toy);
+    height: var(--toy);
+    pointer-events: auto;
+    touch-action: none;
+    cursor: grab;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .about-scene__toy:active {
+    cursor: grabbing;
+  }
+
+  .about-scene__shadow {
+    position: absolute;
+    left: 5%;
+    right: 5%;
+    bottom: -14%;
+    height: 22%;
+    border-radius: 50%;
+    background: var(--ink);
+    opacity: 0.35;
+  }
+
+  .about-scene__spin {
+    position: absolute;
+    inset: 0;
+    perspective: 40rem;
+  }
+
+  .about-scene__cube {
+    position: absolute;
+    inset: 14%;
+    transform-style: preserve-3d;
+    transform: rotateX(-24deg) rotateY(38deg);
+  }
+
+  .about-scene__face {
+    position: absolute;
+    inset: 0;
+    border: 3px solid var(--ink);
+    background:
+      linear-gradient(var(--ink), var(--ink)) 50% 0 / 1.5px 100% no-repeat,
+      linear-gradient(var(--ink), var(--ink)) 0 50% / 100% 1.5px no-repeat;
+  }
+
+  .about-scene__face--front {
+    background-color: color-mix(in srgb, var(--paper) 22%, transparent);
+    transform: translateZ(calc(var(--toy) * 0.36));
+  }
+  .about-scene__face--back {
+    transform: rotateY(180deg) translateZ(calc(var(--toy) * 0.36));
+  }
+  .about-scene__face--left {
+    transform: rotateY(-90deg) translateZ(calc(var(--toy) * 0.36));
+  }
+  .about-scene__face--right {
+    background-color: color-mix(in srgb, var(--ink) 18%, transparent);
+    transform: rotateY(90deg) translateZ(calc(var(--toy) * 0.36));
+  }
+  .about-scene__face--top {
+    background-color: color-mix(in srgb, var(--paper) 45%, transparent);
+    transform: rotateX(90deg) translateZ(calc(var(--toy) * 0.36));
+  }
+  .about-scene__face--bottom {
+    transform: rotateX(-90deg) translateZ(calc(var(--toy) * 0.36));
+  }
+
+  /* The tunnel: hidden until its script runs, so without JavaScript (and under
+     reduced motion) the visitor simply sees the room. */
+  .about-scene__tunnel {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 400vmax;
+    height: 400vmax;
+    margin: -200vmax 0 0 -200vmax;
+    opacity: 0;
+    transform-origin: 50% 50%;
+    will-change: transform, opacity;
+  }
+
+  .about-scene__tunnel svg {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+  }
+
+  .about-scene__tunnel-field {
+    fill: var(--field);
+    fill-rule: evenodd;
+  }
+
+  .about-scene__tunnel-grid > * {
+    stroke: var(--ink);
+    stroke-width: 2;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .about-scene__portal {
+    stroke: var(--ink);
+    stroke-width: 16;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .about-scene__cube {
+      animation: about-cube 14s linear infinite;
+    }
+  }
+
+  @keyframes about-cube {
+    from {
+      transform: rotateX(-24deg) rotateY(38deg);
+    }
+    to {
+      transform: rotateX(-24deg) rotateY(398deg);
+    }
+  }
+
+  /* Desktop: the stage is the right-hand column beside the card. */
+  @media (min-width: 60rem) {
+    .about-scene__stage {
+      left: calc(var(--frame-w) + var(--gutter) + 36rem + var(--gap));
+      right: calc(var(--frame-w) + var(--gutter));
+      height: calc(100svh - var(--stage-top) - 6rem);
+      min-height: 22rem;
+    }
+  }
+</style>
