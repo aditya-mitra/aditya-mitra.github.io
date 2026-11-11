@@ -192,6 +192,7 @@ export const site = {
     // "Book a video call" is rendered only when this is set.
     bookingUrl: undefined as string | undefined,
     bookingText: 'Book a video call',
+    newTab: '(opens in a new tab)',
   },
 
   footer: {
