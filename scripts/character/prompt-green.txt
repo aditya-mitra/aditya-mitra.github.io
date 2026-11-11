@@ -1,0 +1,6 @@
+Edit this flat-vector cartoon character. Keep the body, sweatshirt, arms, hair, outlines, colours, position, size and the flat magenta background exactly as they are. Change only two things:
+
+1. The face: a cheeky, delighted expression. His left eye (on the right side of the image) is closed in a playful wink drawn as a curved line, the other eye wide open with a white highlight, eyebrows raised, and a big open-mouth laughing grin showing the top teeth. Keep the thin dark moustache and the chin-strap stubble.
+2. The raised hand: instead of an open-palm wave it makes a peace sign (index and middle fingers up in a V, the other fingers folded, palm facing the viewer), in the same place and at the same size as the waving hand.
+
+Same style: thick uniform black outlines, solid flat fills, no gradients. NO glasses, NO backpack. Background stays a single perfectly flat pure magenta (#FF00FF). No text.

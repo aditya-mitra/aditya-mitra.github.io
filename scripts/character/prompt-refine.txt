@@ -1,0 +1,11 @@
+The second picture is a flat-vector cartoon character drawn from the person in the first picture. Redraw the character in exactly the same flat-vector style, colours and outfit, with these changes:
+
+- More stylised cartoon proportions: the head about 30% larger relative to the body, shoulders a little narrower, a shorter torso. Charming and characterful, not stiff.
+- A bigger, taller quiff of dark hair swept up and slightly to one side.
+- A wider, happier closed-mouth smile and lively eyes with small white highlights; keep the thin dark moustache and the light chin-strap stubble. Eyebrows relaxed and friendly.
+- Keep the open-palm wave with the raised hand, with the hand tilted slightly as if mid-wave. The other arm hangs by the side.
+- Shown from the top of the head down to the hips; the bottom edge of the image crops the body straight across at the hem of the sweatshirt or just below. Head, hair and both hands fully inside the image with space around them.
+
+Keep: green crew-neck sweatshirt with cream raglan sleeves and green cuffs, no logo. NO glasses, NO backpack.
+Style: thick uniform black outlines, solid flat fills with one darker shade for shadow, no gradients, no textures.
+Background: a single perfectly flat pure magenta (#FF00FF) filling the whole image. No floor, no shadow, no text. No magenta, pink or purple on the character.
