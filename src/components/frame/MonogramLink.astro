@@ -16,4 +16,32 @@ import { site } from '../../data/site';
     font-size: calc(var(--bar-h) * 0.46);
     outline-offset: -6px;
   }
+
+  .monogram-link :global(.monogram) {
+    transition: transform 0.2s cubic-bezier(0.3, 1.6, 0.5, 1);
+  }
+
+  @media (hover: hover) {
+    .monogram-link:hover {
+      background: var(--ink);
+      color: var(--field);
+    }
+    .monogram-link:hover :global(.monogram) {
+      transform: rotate(-6deg) scale(1.08);
+    }
+  }
+
+  .monogram-link:active {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .monogram-link:active :global(.monogram) {
+    transform: scale(0.9);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .monogram-link :global(.monogram) {
+      transition: none;
+    }
+  }
 </style>

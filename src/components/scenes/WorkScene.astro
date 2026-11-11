@@ -325,7 +325,12 @@ const lines = [
     }
     30% {
       transform: translate(330px, 30px);
-      animation-timing-function: cubic-bezier(0.4, 0, 0.6, 1);
+      animation-timing-function: cubic-bezier(0.3, 0, 0.7, 1);
+    }
+    /* Arc high over the Character's head, so a bot never crosses his face. */
+    39% {
+      transform: translate(560px, -40px);
+      animation-timing-function: cubic-bezier(0.3, 0, 0.7, 1);
     }
     47% {
       transform: translate(720px, 170px);

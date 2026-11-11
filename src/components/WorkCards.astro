@@ -8,7 +8,7 @@ const { work } = site;
 const total = work.cards.length;
 ---
 
-<div class="cards" role="group" aria-roledescription="carousel" aria-label={work.cardsLabel} data-work-cards>
+<div class="cards" role="group" aria-roledescription="carousel" aria-label={work.cardsLabel} data-work-cards data-reveal>
   <ol class="cards__list">
     {
       work.cards.map((card, i) => (
@@ -261,6 +261,14 @@ const total = work.cards.length;
 
   .cards__button:active svg {
     transform: scale(0.8);
+  }
+
+  .cards__button[data-previous]:active svg {
+    transform: translateX(-5px) scale(0.8);
+  }
+
+  .cards__button[data-next]:active svg {
+    transform: translateX(5px) scale(0.8);
   }
 
   @media (min-width: 48rem) {

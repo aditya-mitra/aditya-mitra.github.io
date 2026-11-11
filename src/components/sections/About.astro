@@ -15,9 +15,9 @@ const spareCopies = [1, 2];
 
 <section id="about" class="section about" aria-label={about.label}>
   <AboutScene />
-  <h2 class="about__heading">{about.heading}</h2>
+  <h2 class="about__heading" data-reveal>{about.heading}</h2>
 
-  <div class="card">
+  <div class="card" data-reveal>
     <div class="card__bio">
       {about.bio.map((paragraph) => <p>{paragraph}</p>)}
     </div>
@@ -27,7 +27,7 @@ const spareCopies = [1, 2];
     </ul>
   </div>
 
-  <div class="scoreboard on-ink">
+  <div class="scoreboard on-ink" data-reveal>
     <div class="scoreboard__board">
       <h3 id="honours-heading" class="scoreboard__label">{about.honoursHeading}</h3>
       <span class="scoreboard__count" aria-hidden="true">{count}</span>
