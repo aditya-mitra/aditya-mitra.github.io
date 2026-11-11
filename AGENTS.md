@@ -26,6 +26,7 @@ Astro static site, one page at `/`, plain CSS, no UI framework. bun is the packa
 | Test without rebuilding | `bun run test:only tests/frame.spec.ts --project=mobile` |
 | Lighthouse | `bun run lighthouse` (mobile preset; prints the four scores, fails below 95, report in `test-results/lighthouse.html`) |
 | Screenshots | `bun run shots <outDir>` (desktop and mobile, viewport and full page) |
+| Share image | `bun run share-image <path/to/pic.webp>` (recomposes `public/share.png` from the Avatar; commit the result) |
 | Dev server | `bun run dev` |
 
 - Tests have one seam: the production build, served by `scripts/serve.mjs`, driven by Playwright. Assert on what a visitor sees or can do, never on class names or component structure.
