@@ -4,12 +4,12 @@
 
 **Blocked by:** 02, 04
 
-**Status:** ready-for-agent
+**Status:** resolved
 
 Spec: `.scratch/portfolio-site/spec.md`. Vocabulary: `GLOSSARY.md`.
 
-- [ ] Work Scene is hand-written inline SVG with separately animated parts, hidden from assistive technology
-- [ ] Agent-bots loop on idle via CSS; transform/opacity only
-- [ ] Giant "WORK" heading has scroll parallax; heading order stays sensible
-- [ ] Loop and parallax are off under reduced motion
-- [ ] Judged by eye from screenshots/recordings at both viewports
+- [x] Work Scene is hand-written inline SVG with separately animated parts, hidden from assistive technology
+- [x] Agent-bots loop on idle via CSS; transform/opacity only
+- [x] Giant "WORK" heading has scroll parallax; heading order stays sensible
+- [x] Loop and parallax are off under reduced motion
+- [x] Judged by eye from screenshots/recordings at both viewports
