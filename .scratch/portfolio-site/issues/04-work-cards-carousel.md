@@ -4,12 +4,12 @@
 
 **Blocked by:** 01
 
-**Status:** ready-for-agent
+**Status:** resolved
 
 Spec: `.scratch/portfolio-site/spec.md`. Vocabulary: `GLOSSARY.md`.
 
-- [ ] Six Work Cards from the content source with the Codes, roles and dates in the spec; highlights and Tags from the resume
-- [ ] "View work" opens the correct public site for each company or project in a new tab (URLs looked up and verified)
-- [ ] Carousel moves by buttons, swipe and keyboard; counter follows; slide animation uses Motion
-- [ ] Without JavaScript the cards degrade to a readable list of all six
-- [ ] Playwright: six cards and Codes present; forward/back by button and by keyboard with counter; link destinations and new-tab behaviour; no-JS readability
+- [x] Six Work Cards from the content source with the Codes, roles and dates in the spec; highlights and Tags from the resume
+- [x] "View work" opens the correct public site for each company or project in a new tab (URLs looked up and verified)
+- [x] Carousel moves by buttons, swipe and keyboard; counter follows; slide animation uses Motion
+- [x] Without JavaScript the cards degrade to a readable list of all six
+- [x] Playwright: six cards and Codes present; forward/back by button and by keyboard with counter; link destinations and new-tab behaviour; no-JS readability

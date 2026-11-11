@@ -77,6 +77,8 @@ export const site = {
     viewWork: 'View work',
     previous: 'Previous Work Card',
     next: 'Next Work Card',
+    cardsLabel: 'Work Cards',
+    tagsLabel: 'Tags',
     // Newest first.
     cards: [
       {
@@ -97,7 +99,7 @@ export const site = {
         highlight:
           'Core maintainer of the open-source Continue VS Code extension and CLI agent; built a multi-agent subagent framework with parallel execution and cross-agent communication.',
         tags: ['Multi-Agent Systems', 'LLM Integration', 'VS Code Extension', 'CLI Agent', 'TypeScript'],
-        url: 'https://www.continue.dev/',
+        url: 'https://continue.dev/',
       },
       {
         code: 'NAP',
