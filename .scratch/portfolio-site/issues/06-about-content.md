@@ -4,11 +4,11 @@
 
 **Blocked by:** 01
 
-**Status:** ready-for-agent
+**Status:** resolved
 
 Spec: `.scratch/portfolio-site/spec.md`. Vocabulary: `GLOSSARY.md`.
 
-- [ ] Bio card rewritten from the resume's profile summary; Roster lists the eight names in the spec
-- [ ] Scoreboard with the Ticker of the five Honours; Ticker scrolls via CSS and is still under reduced motion
-- [ ] Honours remain readable to assistive technology once (duplicated ticker content is hidden)
-- [ ] Playwright: bio, every Roster entry and every Honour present at both viewports
+- [x] Bio card rewritten from the resume's profile summary; Roster lists the eight names in the spec
+- [x] Scoreboard with the Ticker of the five Honours; Ticker scrolls via CSS and is still under reduced motion
+- [x] Honours remain readable to assistive technology once (duplicated ticker content is hidden)
+- [x] Playwright: bio, every Roster entry and every Honour present at both viewports

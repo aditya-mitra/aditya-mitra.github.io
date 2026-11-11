@@ -4,11 +4,11 @@
 
 **Blocked by:** 01
 
-**Status:** ready-for-agent
+**Status:** resolved
 
 Spec: `.scratch/portfolio-site/spec.md`. Vocabulary: `GLOSSARY.md`.
 
-- [ ] Sequence as specified: typed `> aditya --mitra` with block cursor, glyphs collapse into the Monogram, colour flash, black clears in horizontal bands, Hero greeting box lands last; built with Motion
-- [ ] The Hero is in the page from first paint beneath the overlay
-- [ ] Plays once per browser session; skipped under reduced motion; overlay absent with JavaScript disabled; no flash of uncovered Hero before the Intro starts
-- [ ] Playwright: Intro present on first arrival with Hero in the page, absent on second load in the session, absent under reduced motion, absent with JS disabled; existing tests remain stable
+- [x] Sequence as specified: typed `> aditya --mitra` with block cursor, glyphs collapse into the Monogram, colour flash, black clears in horizontal bands, Hero greeting box lands last; built with Motion
+- [x] The Hero is in the page from first paint beneath the overlay
+- [x] Plays once per browser session; skipped under reduced motion; overlay absent with JavaScript disabled; no flash of uncovered Hero before the Intro starts
+- [x] Playwright: Intro present on first arrival with Hero in the page, absent on second load in the session, absent under reduced motion, absent with JS disabled; existing tests remain stable
