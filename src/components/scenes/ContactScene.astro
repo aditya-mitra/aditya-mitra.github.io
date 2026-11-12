@@ -104,18 +104,10 @@ const keys = rows.flatMap((row, r) => {
 
 <script>
   // Load the Toy only when the Contact Section nears the viewport.
+  import { loadWhenNear } from '../../scripts/shared';
+
   const scene = document.querySelector('[data-contact-scene]');
-  if (scene && 'IntersectionObserver' in window) {
-    const io = new IntersectionObserver(
-      (entries) => {
-        if (!entries.some((e) => e.isIntersecting)) return;
-        io.disconnect();
-        import('../../scripts/keyboard-toy');
-      },
-      { rootMargin: '0px 0px 50% 0px' },
-    );
-    io.observe(scene);
-  }
+  if (scene) loadWhenNear(scene, () => import('../../scripts/keyboard-toy'), '0px 0px 50% 0px');
 </script>
 
 <style>

@@ -1,13 +1,13 @@
 // The About Scene's moving parts, loaded only when the Section nears the viewport:
 // the scroll-linked zoom through the grid tunnel, and the draggable Toy.
 import { animate, scroll } from 'motion';
+import { reduceMotion } from './shared';
 
 const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v));
 
 export function start(scene: HTMLElement) {
-  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!reduced) tunnel(scene);
-  toy(scene, reduced);
+  if (!reduceMotion.matches) tunnel(scene);
+  toy(scene);
 }
 
 // As About scrolls up into view, fly through the portal: the tunnel grows past the edges
@@ -37,7 +37,7 @@ function tunnel(scene: HTMLElement) {
 
 // The Toy: drag the cube around the room's floor with a mouse or a finger. It shrinks as it
 // goes back towards the far wall, and when let go it slides on and settles with a spring.
-function toy(scene: HTMLElement, reduced: boolean) {
+function toy(scene: HTMLElement) {
   const el = scene.querySelector<HTMLElement>('[data-toy]')!;
   const stage = el.parentElement!;
   let x = 0;
@@ -78,7 +78,7 @@ function toy(scene: HTMLElement, reduced: boolean) {
     grab.t = event.timeStamp;
     x = nx;
     y = ny;
-    tilt = reduced ? 0 : clamp(grab.vx / 60, -18, 18);
+    tilt = reduceMotion.matches ? 0 : clamp(grab.vx / 60, -18, 18);
     render();
   });
 
@@ -87,7 +87,7 @@ function toy(scene: HTMLElement, reduced: boolean) {
     const { vx, vy } = grab;
     grab = null;
     const b = bounds();
-    if (reduced) {
+    if (reduceMotion.matches) {
       tilt = 0;
       render();
       return;

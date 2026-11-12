@@ -4,6 +4,8 @@
 // type lands in the readout. It never prevents default behaviour, never takes
 // focus, and ignores typing in form fields or with Ctrl, Alt or Meta held.
 
+import { reduceMotion } from './shared';
+
 const board = document.querySelector<SVGSVGElement>('[data-keyboard]');
 const readout = document.querySelector<HTMLElement>('[data-keyboard-readout]');
 const section = board?.closest('section');
@@ -12,7 +14,6 @@ if (board && readout && section) {
   const text = readout.querySelector<HTMLElement>('[data-testid="keyboard-readout"]')!;
   const line = text.parentElement!;
   const keyFor = (code: string) => board.querySelector<SVGGElement>(`[data-code="${code}"]`);
-  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
   let typed = '';
   let shift = false; // one-shot Shift from a clicked Shift key
   let caps = false;
@@ -95,7 +96,7 @@ if (board && readout && section) {
     [...board.querySelectorAll<SVGGElement>('[data-code]')].find(
       (k) => k.dataset.char === c.toLowerCase() || k.dataset.shift === c,
     ) ?? null;
-  if (reduceMotion) write(message);
+  if (reduceMotion.matches) write(message);
   else {
     let i = 0;
     const next = () => {

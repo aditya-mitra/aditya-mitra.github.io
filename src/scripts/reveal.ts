@@ -4,11 +4,11 @@
 // page loads is hidden first, so nothing already on screen blinks out, and
 // nothing is hidden at all without JavaScript or under reduced motion.
 import { animate, inView } from 'motion';
+import { reduceMotion } from './shared';
 
-const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const items = [...document.querySelectorAll<HTMLElement>('[data-reveal]')];
 
-if (!still) {
+if (!reduceMotion.matches) {
   const pending = items.filter((el) => el.getBoundingClientRect().top > innerHeight);
   for (const el of pending) {
     el.style.opacity = '0';

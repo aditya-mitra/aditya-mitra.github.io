@@ -29,6 +29,7 @@
   --text-label: clamp(1.25rem, 1.1rem + 0.6vw, 1.625rem);
   --text-heading: clamp(2.5rem, 1.6rem + 4vw, 5rem);
   --text-display: clamp(5rem, 2.2rem + 11vw, 11rem);
+  --text-about: clamp(5.5rem, 3rem + 14vw, 15rem); /* the giant About heading; its Scene clears it */
 
   /* Frame geometry */
   --frame-w: clamp(6px, 0.75vw, 12px); /* black border around the viewport */

@@ -2,12 +2,12 @@
 // button, arrow key or swipe. Without this script the cards are a plain list
 // (see the <noscript> styles in WorkCards.astro).
 import { animate } from 'motion/mini';
+import { reduceMotion } from './shared';
 
 const root = document.querySelector<HTMLElement>('[data-work-cards]');
 if (root) {
   const cards = [...root.querySelectorAll<HTMLElement>('[data-card]')];
   const counter = root.querySelector<HTMLElement>('[data-counter]')!;
-  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
   const ease = [0.22, 1, 0.36, 1] as const;
   let index = 0;
   let turn = 0;

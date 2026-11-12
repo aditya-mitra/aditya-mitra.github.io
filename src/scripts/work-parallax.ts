@@ -3,10 +3,10 @@
 // Cards, and settles in place once the Section reaches the top of the viewport.
 // Off under reduced motion (the heading then simply scrolls with the page).
 import { animate, scroll } from 'motion';
+import { reduceMotion } from './shared';
 
 const heading = document.querySelector<HTMLElement>('[data-work-heading]');
 const section = heading?.closest<HTMLElement>('section');
-const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
 
 if (heading && section) {
   let stop: (() => void) | undefined;

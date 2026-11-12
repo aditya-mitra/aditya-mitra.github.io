@@ -2,8 +2,9 @@
 // The switch cross-fades the whole page through a view transition (opacity
 // only), or happens at once where that is unsupported or motion is reduced.
 
+import { reduceMotion } from './shared';
+
 const root = document.documentElement;
-const reduced = matchMedia('(prefers-reduced-motion: reduce)');
 
 // Images that only appear in Green Mode (the Character's second expression)
 // are lazy; give those now on screen a moment to arrive so the cross-fade
@@ -28,7 +29,7 @@ for (const button of document.querySelectorAll<HTMLButtonElement>('[data-mode-to
       button.setAttribute('aria-pressed', String(on));
       return settle();
     };
-    if (document.startViewTransition && !reduced.matches) document.startViewTransition(apply);
+    if (document.startViewTransition && !reduceMotion.matches) document.startViewTransition(apply);
     else apply();
   });
 }

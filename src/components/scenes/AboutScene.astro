@@ -95,24 +95,16 @@ const cubeFaces = ['front', 'back', 'left', 'right', 'top', 'bottom'];
 
 <script>
   // Load the tunnel and the Toy only when About is half a screen away.
+  import { loadWhenNear } from '../../scripts/shared';
+
   const scene = document.querySelector<HTMLElement>('.about-scene');
-  if (scene) {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (!entries.some((entry) => entry.isIntersecting)) return;
-        observer.disconnect();
-        import('../../scripts/about-scene').then(({ start }) => start(scene));
-      },
-      { rootMargin: '50% 0px' },
-    );
-    observer.observe(scene);
-  }
+  if (scene) loadWhenNear(scene, () => import('../../scripts/about-scene').then(({ start }) => start(scene)));
 </script>
 
 <style>
   .about-scene {
-    /* Mirrors About.astro's heading size and grid gap, to find the clear stage. */
-    --heading-h: calc(clamp(5.5rem, 3rem + 14vw, 15rem) * 0.78);
+    /* About.astro's heading height and grid gap, to find the clear stage. */
+    --heading-h: calc(var(--text-about) * 0.78);
     --gap: clamp(1.5rem, 3vw, 2.5rem);
     --stage-top: calc(var(--frame-top) + var(--gutter) + var(--heading-h) + var(--gap));
     --toy: clamp(5.5rem, 3rem + 7vw, 10rem);
