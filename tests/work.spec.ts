@@ -1,14 +1,11 @@
 import { expect, test, type Locator, type Page } from '@playwright/test';
 
-// Expected values come from the spec's Work table and the looked-up public sites,
+// Expected values come from the spec's Work table and the looked-up GitHub repositories,
 // not from the content source.
 const cards = [
-  { code: 'FRM', company: 'Frontman AI', role: 'Founding Engineer', dates: 'June 2026 – Present', url: 'https://frontman.sh/' },
-  { code: 'CTN', company: 'Continue', role: 'Software Engineer', dates: 'July 2025 – May 2026', url: 'https://continue.dev/' },
-  { code: 'NAP', company: 'Napster / Ethereal Engine', role: 'Software Engineer', dates: 'July 2023 – June 2025', url: 'https://www.napster.com/' },
-  { code: 'QCM', company: 'Qualcomm', role: 'Engineering Intern', dates: 'January 2023 – June 2023', url: 'https://www.qualcomm.com/' },
-  { code: 'LMC', company: 'LimeChat', role: 'Software Engineer', dates: 'June 2022 – December 2022', url: 'https://www.limechat.ai/' },
-  { code: 'A4B', company: 'AI4Bharat', role: 'Research Fellow', dates: 'May 2022 – August 2022', url: 'https://ai4bharat.iitm.ac.in/' },
+  { code: 'FRM', company: 'Frontman AI', role: 'Founding Engineer', dates: 'June 2026 – Present', url: 'https://github.com/frontman-ai/frontman' },
+  { code: 'CTN', company: 'Continue', role: 'Software Engineer', dates: 'July 2025 – May 2026', url: 'https://github.com/continuedev/continue' },
+  { code: 'NAP', company: 'Napster / Ethereal Engine', role: 'Software Engineer', dates: 'July 2023 – June 2025', url: 'https://github.com/ir-engine/ir-engine' },
 ];
 
 const work = (page: Page) => page.getByRole('region', { name: 'Work' });
@@ -21,7 +18,7 @@ async function expectShowing(page: Page, n: number) {
   const card = cards[n - 1];
   await expect(carousel(page).getByRole('heading', { level: 3 })).toHaveText([card.company]);
   await expect(carousel(page).getByText(card.code, { exact: true })).toBeVisible();
-  await expect(carousel(page).getByText(`${n}/6`, { exact: true })).toBeVisible();
+  await expect(carousel(page).getByText(`${n}/3`, { exact: true })).toBeVisible();
 }
 
 async function expectCardContent(scope: Locator, card: (typeof cards)[number]) {
@@ -37,7 +34,7 @@ test.describe('Work Cards', () => {
     await carousel(page).scrollIntoViewIfNeeded();
   });
 
-  test('six Work Cards, newest first, each with Code, company, role, dates, highlight and Tags', async ({ page }) => {
+  test('three Work Cards, newest first, each with Code, company, role, dates, highlight and Tags', async ({ page }) => {
     for (const [i, card] of cards.entries()) {
       await expectShowing(page, i + 1);
       const item = carousel(page).getByRole('listitem').filter({ hasText: card.code });
@@ -46,7 +43,7 @@ test.describe('Work Cards', () => {
       expect(await item.getByRole('list', { name: 'Tags' }).getByRole('listitem').count()).toBeGreaterThanOrEqual(3);
       await next(page).click();
     }
-    await expectShowing(page, 1); // after the sixth the carousel comes round again
+    await expectShowing(page, 1); // after the third the carousel comes round again
   });
 
   test('highlights and Tags come from the resume', async ({ page }) => {
@@ -67,7 +64,7 @@ test.describe('Work Cards', () => {
     await expectShowing(page, 2);
     await previous(page).click();
     await previous(page).click();
-    await expectShowing(page, 6); // back from the first goes to the last
+    await expectShowing(page, 3); // back from the first goes to the last
   });
 
   test('the keyboard moves through the cards and the counter follows', async ({ page }) => {
@@ -105,7 +102,7 @@ test.describe('Work Cards', () => {
     await expectShowing(page, 1);
   });
 
-  test('"View work" opens the right public site in a new tab for every card', async ({ page }) => {
+  test('"View work" opens the right GitHub repository in a new tab for every card', async ({ page }) => {
     for (const card of cards) {
       const link = carousel(page).getByRole('link', { name: /View work/ });
       await expect(link).toHaveCount(1);
@@ -128,10 +125,10 @@ test.describe('Work Cards', () => {
 test.describe('Work Cards without JavaScript', () => {
   test.use({ javaScriptEnabled: false });
 
-  test('all six Work Cards are readable as a list, with no dead controls', async ({ page }) => {
+  test('all three Work Cards are readable as a list, with no dead controls', async ({ page }) => {
     await page.goto('/');
     const items = work(page).getByRole('group', { name: 'Work Cards' }).getByRole('listitem').filter({ has: page.getByRole('heading', { level: 3 }) });
-    await expect(items).toHaveCount(6);
+    await expect(items).toHaveCount(3);
     for (const [i, card] of cards.entries()) {
       const item = items.nth(i); // newest first
       await expectCardContent(item, card);

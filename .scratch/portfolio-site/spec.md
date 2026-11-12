@@ -52,11 +52,11 @@ Vocabulary in this spec follows `GLOSSARY.md`.
 21. As a visitor, I want a counter such as "2/6", so that I know where I am in the set.
 22. As a visitor on a touch device, I want to swipe between Work Cards, so that the carousel feels native.
 23. As a keyboard user, I want to operate the carousel with the keyboard, so that I can read every Work Card without a mouse.
-24. As a visitor, I want a "View work" button on each Work Card that opens the company or project's public site in a new tab, so that I can learn more without losing my place.
+24. As a visitor, I want a "View work" button on each Work Card that opens the project's GitHub repository in a new tab, so that I can learn more without losing my place.
 25. As a visitor, I want a giant "WORK" heading that moves at a different rate from the Scene as I scroll, so that the Section has depth.
 26. As a visitor, I want the Work Scene to show the Character at a desk with small agent-bots carrying tasks around, so that the Scene reflects what Aditya builds.
 27. As a visitor doing nothing, I want the Work Scene to keep moving on a loop, so that it feels alive.
-28. As a visitor with JavaScript disabled, I want all six Work Cards readable in the page, so that the content does not depend on the carousel.
+28. As a visitor with JavaScript disabled, I want all three Work Cards readable in the page, so that the content does not depend on the carousel.
 
 ### About
 
@@ -144,19 +144,16 @@ Vocabulary in this spec follows `GLOSSARY.md`.
 
 ### Work
 
-- Six Work Cards, newest first:
+- Three Work Cards, newest first:
 
 | Code | Company | Role | Dates |
 | --- | --- | --- | --- |
 | `FRM` | Frontman AI | Founding Engineer | June 2026 – Present |
 | `CTN` | Continue | Software Engineer | July 2025 – May 2026 |
 | `NAP` | Napster / Ethereal Engine | Software Engineer | July 2023 – June 2025 |
-| `QCM` | Qualcomm | Engineering Intern | January 2023 – June 2023 |
-| `LMC` | LimeChat | Software Engineer | June 2022 – December 2022 |
-| `A4B` | AI4Bharat | Research Fellow | May 2022 – August 2022 |
 
-- Each Work Card has a one-line highlight and Tags taken from the resume, a "View work" button that opens the company or project's public site in a new tab, and an "n/6" counter. The implementer looks up the correct public URLs.
-- The carousel has previous and next buttons, supports swipe and keyboard, and degrades to a readable list of all six cards without JavaScript.
+- Each Work Card has a one-line highlight and Tags taken from the resume, a "View work" button that opens the project's GitHub repository in a new tab (`frontman-ai/frontman`, `continuedev/continue`, `ir-engine/ir-engine`), and an "n/3" counter.
+- The carousel has previous and next buttons, supports swipe and keyboard, and degrades to a readable list of all three cards without JavaScript.
 - Scene: the Character at a desk with small agent-bots carrying tasks, on an idle loop. A giant "WORK" heading has scroll parallax.
 
 ### About
@@ -208,7 +205,7 @@ There is one seam: **the production build, served locally and driven through a r
 Through that seam:
 
 - **Browser behaviour**, with Playwright at a mobile and a desktop viewport:
-  - All four Sections render in order with the agreed content: the greeting and intro text, six Work Cards with their Codes, the Roster, the Honours in the Ticker, the three contact links.
+  - All four Sections render in order with the agreed content: the greeting and intro text, three Work Cards with their Codes, the Roster, the Honours in the Ticker, the three contact links.
   - The Intro plays on first arrival, is absent on a second load in the same session, and is absent under reduced motion. The Hero is present in the page while the Intro is showing.
   - The Mode Toggle turns Green Mode on and off and reports its state.
   - The Work carousel moves forward and back by button and by keyboard, and the counter follows.

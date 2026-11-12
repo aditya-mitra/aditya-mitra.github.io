@@ -11,7 +11,7 @@ export interface WorkCard {
   /** One line, taken from the resume. */
   highlight: string;
   tags: string[];
-  /** Public site of the company or project; opens in a new tab. */
+  /** The project's GitHub repository; opens in a new tab. */
   url: string;
 }
 
@@ -109,7 +109,7 @@ export const site = {
         highlight:
           'Leading engineering of an open-source, browser-based AI agent, from system design and backend to agent-driven browser automation.',
         tags: ['AI Agents', 'Browser Automation', 'System Design', 'Open Source'],
-        url: 'https://frontman.sh/',
+        url: 'https://github.com/frontman-ai/frontman',
       },
       {
         code: 'CTN',
@@ -119,7 +119,7 @@ export const site = {
         highlight:
           'Core maintainer of the open-source Continue VS Code extension and CLI agent; built a multi-agent subagent framework with parallel execution and cross-agent communication.',
         tags: ['Multi-Agent Systems', 'LLM Integration', 'VS Code Extension', 'CLI Agent', 'TypeScript'],
-        url: 'https://continue.dev/',
+        url: 'https://github.com/continuedev/continue',
       },
       {
         code: 'NAP',
@@ -129,37 +129,7 @@ export const site = {
         highlight:
           'Built core frontend, backend and platform features for the Ethereal Engine 3D environment: a mobile-ready 3D viewer, the studio file browser, Stripe billing and the shared design system.',
         tags: ['3D Engine', 'Design System', 'Tailwind CSS', 'CI/CD', 'Stripe'],
-        url: 'https://www.napster.com/',
-      },
-      {
-        code: 'QCM',
-        company: 'Qualcomm',
-        role: 'Engineering Intern',
-        dates: 'January 2023 – June 2023',
-        highlight:
-          'Delivered internal analytics dashboards used by 5+ departments and automated raw-data ingestion into MongoDB.',
-        tags: ['Flask', 'MongoDB', 'Angular', 'Analytics'],
-        url: 'https://www.qualcomm.com/',
-      },
-      {
-        code: 'LMC',
-        company: 'LimeChat',
-        role: 'Software Engineer',
-        dates: 'June 2022 – December 2022',
-        highlight:
-          'Built the WordPress plugin connecting WooCommerce stores to LimeChat, onboarding 6 new clients, and cut chatbot flow setup effort by 65%.',
-        tags: ['WordPress', 'WooCommerce', 'AI Chatbots', 'API Integration'],
-        url: 'https://www.limechat.ai/',
-      },
-      {
-        code: 'A4B',
-        company: 'AI4Bharat',
-        role: 'Research Fellow',
-        dates: 'May 2022 – August 2022',
-        highlight:
-          'Trained transformer-based transliteration models across 8 Indic language pairs and maintained an open-source annotation platform used by about 200 language experts daily.',
-        tags: ['Transformers', 'Indic Transliteration', 'Python', 'Open Source'],
-        url: 'https://ai4bharat.iitm.ac.in/',
+        url: 'https://github.com/ir-engine/ir-engine',
       },
     ] satisfies WorkCard[],
   },
