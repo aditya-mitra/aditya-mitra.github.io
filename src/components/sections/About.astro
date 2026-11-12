@@ -1,5 +1,5 @@
 ---
-// About Section: the bio card with the Roster, and the scoreboard with the Ticker of Honours.
+// About Section: the bio card with the Roster, and the scoreboard with the Ticker of Passions.
 // The Scene and its Toy (ticket 07) sit behind this content. The layout keeps a clear
 // "stage" for them: the right-hand column on desktop, a gap of --about-stage above the
 // card on mobile. Nothing is placed there, so pointer events reach the Toy.
@@ -7,9 +7,9 @@ import AboutScene from '../scenes/AboutScene.astro';
 import { site } from '../../data/site';
 
 const { about } = site;
-const count = String(about.honours.length).padStart(2, '0');
+const count = String(about.passions.length).padStart(2, '0');
 // The Ticker loops by sliding one copy's width; the extra copies fill wide screens
-// and are hidden from assistive technology, so each Honour is read once.
+// and are hidden from assistive technology, so each Passion is read once.
 const spareCopies = [1, 2];
 ---
 
@@ -29,19 +29,19 @@ const spareCopies = [1, 2];
 
   <div class="scoreboard on-ink" data-reveal>
     <div class="scoreboard__board">
-      <h3 id="honours-heading" class="scoreboard__label">{about.honoursHeading}</h3>
+      <h3 id="passions-heading" class="scoreboard__label">{about.passionsHeading}</h3>
       <span class="scoreboard__count" aria-hidden="true">{count}</span>
     </div>
     <div class="ticker">
       <div class="ticker__track">
-        <ul class="ticker__list" aria-labelledby="honours-heading">
-          {about.honours.map((honour) => <li>{honour}</li>)}
+        <ul class="ticker__list" aria-labelledby="passions-heading">
+          {about.passions.map((passion) => <li>{passion}</li>)}
         </ul>
         {
           spareCopies.map(() => (
             <ul class="ticker__list ticker__list--spare" aria-hidden="true">
-              {about.honours.map((honour) => (
-                <li>{honour}</li>
+              {about.passions.map((passion) => (
+                <li>{passion}</li>
               ))}
             </ul>
           ))
@@ -197,7 +197,7 @@ const spareCopies = [1, 2];
     white-space: nowrap;
   }
 
-  /* A diamond between Honours. */
+  /* A diamond between Passions. */
   .ticker__list li::after {
     content: '';
     flex: none;
@@ -215,7 +215,7 @@ const spareCopies = [1, 2];
     }
   }
 
-  /* Reduced motion: the Ticker stands still and wraps so every Honour is on screen. */
+  /* Reduced motion: the Ticker stands still and wraps so every Passion is on screen. */
   @media (prefers-reduced-motion: reduce) {
     .ticker {
       padding-inline: 1rem;
@@ -241,7 +241,7 @@ const spareCopies = [1, 2];
       white-space: normal;
     }
 
-    /* The diamond becomes a bullet in front of each Honour. */
+    /* The diamond becomes a bullet in front of each Passion. */
     .ticker__list li {
       flex-basis: 100%;
       align-items: baseline;

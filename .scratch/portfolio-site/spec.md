@@ -62,7 +62,7 @@ Vocabulary in this spec follows `GLOSSARY.md`.
 
 29. As a visitor, I want a short bio of Aditya, so that I understand his focus and background.
 30. As a visitor, I want a Roster of the companies and open-source ecosystems he has worked with, so that I can see the breadth of his experience.
-31. As a visitor, I want a Ticker of Honours scrolling beside a scoreboard, so that his recognitions are shown in the playful style of the reference.
+31. As a visitor, I want a Ticker of Passions scrolling beside a scoreboard, so that his passions are shown in the playful style of the reference.
 32. As a visitor, I want a scroll-driven transition that zooms through a grid tunnel into the About Scene, so that entering the Section feels like an event.
 33. As a visitor, I want the About Scene to be a wireframe 3D room, so that it reflects his XR and 3D-engine work.
 34. As a visitor, I want something in the About Scene I can drag around, so that I have a Toy to play with.
@@ -108,7 +108,7 @@ Vocabulary in this spec follows `GLOSSARY.md`.
 
 ### Ownership
 
-62. As Aditya, I want all copy, Work Cards, Roster, Honours and contact links held in one content source, so that I can edit the site without touching layout.
+62. As Aditya, I want all copy, Work Cards, Roster, Passions and contact links held in one content source, so that I can edit the site without touching layout.
 63. As Aditya, I want the site to deploy to GitHub Pages automatically when I push to `main`, so that publishing takes no manual steps.
 64. As Aditya, I want my resume PDF and API key kept out of the repository and the published site, so that private details stay private.
 65. As Aditya, I want bun as the package manager, so that the project matches my tooling.
@@ -159,7 +159,7 @@ Vocabulary in this spec follows `GLOSSARY.md`.
 ### About
 
 - A card with a bio rewritten from the resume's profile summary, and the Roster: Frontman AI, Continue, Napster, Ethereal Engine, Qualcomm, LimeChat, AI4Bharat, Rocket.Chat.
-- A scoreboard with the Ticker of Honours: Open source wizard, Framework fanatic, GPU accelerated UI enthusiast, Serial bug fixer, Agent skills optimizer, Idea to production producer, SaaS director.
+- A scoreboard with the Ticker of Passions: Open source wizard, Framework fanatic, GPU accelerated UI enthusiast, Serial bug fixer, Agent skills optimizer, Idea to production producer, SaaS director.
 - Scene: a scroll-linked grid tunnel that zooms into a wireframe 3D room. Toy: a draggable object in the room.
 
 ### Contact
@@ -182,7 +182,7 @@ Vocabulary in this spec follows `GLOSSARY.md`.
 
 ### Content source
 
-- One content module holds all copy, the Work Cards, the Roster, the Honours, the contact links and the optional booking URL. Layout reads from it; nothing is hard-coded in markup.
+- One content module holds all copy, the Work Cards, the Roster, the Passions, the contact links and the optional booking URL. Layout reads from it; nothing is hard-coded in markup.
 
 ### Identity and metadata
 
@@ -205,7 +205,7 @@ There is one seam: **the production build, served locally and driven through a r
 Through that seam:
 
 - **Browser behaviour**, with Playwright at a mobile and a desktop viewport:
-  - All four Sections render in order with the agreed content: the greeting and intro text, three Work Cards with their Codes, the Roster, the Honours in the Ticker, the three contact links.
+  - All four Sections render in order with the agreed content: the greeting and intro text, three Work Cards with their Codes, the Roster, the Passions in the Ticker, the three contact links.
   - The Intro plays on first arrival, is absent on a second load in the same session, and is absent under reduced motion. The Hero is present in the page while the Intro is showing.
   - The Mode Toggle turns Green Mode on and off and reports its state.
   - The Work carousel moves forward and back by button and by keyboard, and the counter follows.

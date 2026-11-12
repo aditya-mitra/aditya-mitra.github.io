@@ -69,9 +69,9 @@ The list of companies and open-source ecosystems Aditya has worked with, shown i
 _Avoid_: Clients, experience list
 
 **Ticker**:
-The scrolling line of Honours beside the scoreboard in the About Section.
+The scrolling line of Passions beside the scoreboard in the About Section.
 _Avoid_: Marquee, awards bar
 
-**Honour**:
-A recognition or credential shown in the Ticker, e.g. Open source wizard or Serial bug fixer.
-_Avoid_: Award, achievement
+**Passion**:
+A playful title shown in the Ticker, e.g. Open source wizard or Serial bug fixer.
+_Avoid_: Honour, award, achievement

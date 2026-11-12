@@ -153,8 +153,8 @@ export const site = {
       'AI4Bharat',
       'Rocket.Chat',
     ],
-    honoursHeading: 'Honours',
-    honours: [
+    passionsHeading: 'Passions',
+    passions: [
       'Open source wizard',
       'Framework fanatic',
       'GPU accelerated UI enthusiast',

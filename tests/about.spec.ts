@@ -11,7 +11,7 @@ const roster = [
   'Rocket.Chat',
 ];
 
-const honours = [
+const passions = [
   'Open source wizard',
   'Framework fanatic',
   'GPU accelerated UI enthusiast',
@@ -22,12 +22,12 @@ const honours = [
 ];
 
 const about = (page: Page) => page.getByRole('region', { name: 'About' });
-const ticker = (page: Page) => about(page).getByRole('list', { name: 'Honours' });
-const firstHonourX = async (page: Page) =>
+const ticker = (page: Page) => about(page).getByRole('list', { name: 'Passions' });
+const firstPassionX = async (page: Page) =>
   (await ticker(page).getByRole('listitem').first().boundingBox())!.x;
 // The Ticker itself never settles, so scroll to the still heading beside it.
 const scrollToScoreboard = (page: Page) =>
-  about(page).getByRole('heading', { level: 3, name: 'Honours' }).scrollIntoViewIfNeeded();
+  about(page).getByRole('heading', { level: 3, name: 'Passions' }).scrollIntoViewIfNeeded();
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/');
@@ -48,28 +48,28 @@ test('the Roster lists the eight companies and ecosystems', async ({ page }) => 
   for (const item of await list.getByRole('listitem').all()) await expect(item).toBeVisible();
 });
 
-test('the Ticker reads out each of the seven Honours exactly once', async ({ page }) => {
+test('the Ticker reads out each of the seven Passions exactly once', async ({ page }) => {
   // Role queries see what assistive technology sees: duplicated ticker content must not show up.
-  await expect(ticker(page).getByRole('listitem')).toHaveText(honours);
+  await expect(ticker(page).getByRole('listitem')).toHaveText(passions);
   await expect(about(page).getByRole('listitem').filter({ hasText: 'Serial bug fixer' })).toHaveCount(1);
-  await expect(about(page).getByRole('heading', { level: 3, name: 'Honours' })).toBeVisible();
+  await expect(about(page).getByRole('heading', { level: 3, name: 'Passions' })).toBeVisible();
 });
 
 test('the Ticker scrolls on its own', async ({ page }) => {
   await scrollToScoreboard(page);
-  const before = await firstHonourX(page);
+  const before = await firstPassionX(page);
   await page.waitForTimeout(500);
-  expect(await firstHonourX(page)).toBeLessThan(before - 5);
+  expect(await firstPassionX(page)).toBeLessThan(before - 5);
 });
 
 test.describe('with reduced motion', () => {
   test.use({ contextOptions: { reducedMotion: 'reduce' } });
 
-  test('the Ticker is still and every Honour is on screen', async ({ page }) => {
+  test('the Ticker is still and every Passion is on screen', async ({ page }) => {
     await scrollToScoreboard(page);
-    const before = await firstHonourX(page);
+    const before = await firstPassionX(page);
     await page.waitForTimeout(500);
-    expect(await firstHonourX(page)).toBe(before);
+    expect(await firstPassionX(page)).toBe(before);
 
     const width = page.viewportSize()!.width;
     for (const item of await ticker(page).getByRole('listitem').all()) {
@@ -83,9 +83,9 @@ test.describe('with reduced motion', () => {
 test.describe('without JavaScript', () => {
   test.use({ javaScriptEnabled: false });
 
-  test('the bio, Roster and Honours are all readable', async ({ page }) => {
+  test('the bio, Roster and Passions are all readable', async ({ page }) => {
     await expect(about(page)).toContainText("I'm an engineer who builds agentic AI");
     await expect(about(page).getByRole('list', { name: 'Worked with' }).getByRole('listitem')).toHaveText(roster);
-    await expect(ticker(page).getByRole('listitem')).toHaveText(honours);
+    await expect(ticker(page).getByRole('listitem')).toHaveText(passions);
   });
 });
