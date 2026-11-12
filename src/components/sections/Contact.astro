@@ -1,6 +1,6 @@
 ---
-// Contact Section: the curved sign-off headline, the email address as the main
-// call to action, and the LinkedIn and GitHub links, over the Contact Scene.
+// Contact Section: the curved sign-off headline and one card per contact link
+// (email, then the profiles), over the Contact Scene.
 //
 // Room for ticket 09: the content is packed at the top and the Section keeps
 // `--contact-scene-room` of empty height below it for the keyboard Scene, which
@@ -10,7 +10,7 @@ import ContactScene from '../scenes/ContactScene.astro';
 import { site } from '../../data/site';
 
 const { contact } = site;
-const { email, linkedin, github } = contact.links;
+const links = Object.values(contact.links);
 const headline = contact.heading.toUpperCase();
 ---
 
@@ -36,24 +36,19 @@ const headline = contact.heading.toUpperCase();
       </svg>
     </h2>
 
-    <a class="cta" href={email.href} data-reveal>
-      <span class="cta__top">
-        <span class="cta__label">{email.label}</span>
-        <svg class="arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <path d="M3 12h17M13 5l7 7-7 7"></path>
-        </svg>
-      </span>
-      <span class="cta__address" data-address>{email.text}</span>
-    </a>
 
     <ul class="profiles">
       {
-        [linkedin, github].map((link) => (
+        links.map((link) => (
           <li data-reveal>
-            <a class="profile" href={link.href} target="_blank" rel="noopener noreferrer">
+            <a
+              class="profile"
+              href={link.href}
+              {...(link.external && { target: '_blank', rel: 'noopener noreferrer' })}
+            >
               <span class="profile__label">{link.label}</span>
               <span class="profile__text">{link.text}</span>
-              <span class="visually-hidden">{contact.newTab}</span>
+              {link.external && <span class="visually-hidden">{contact.newTab}</span>}
               <svg class="arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                 <path d="M6 18 18 6M8 6h10v10" />
               </svg>
@@ -122,7 +117,6 @@ const headline = contact.heading.toUpperCase();
 
   /* Links share one look: a bordered block with a hard shadow that the block
      sinks into when pressed. */
-  .cta,
   .profile {
     display: grid;
     border: var(--line) solid var(--ink);
@@ -135,33 +129,6 @@ const headline = contact.heading.toUpperCase();
     transition: transform 0.14s ease-out;
   }
 
-  .cta {
-    container-type: inline-size;
-    gap: 0.1em;
-    padding: clamp(0.875rem, 2vw, 1.5rem) clamp(1rem, 2.6vw, 2.25rem) clamp(1rem, 2.2vw, 1.75rem);
-    background: var(--ink);
-    color: var(--field);
-    box-shadow: var(--shadow) var(--shadow) 0 var(--field-lo);
-    --focus: var(--ink);
-  }
-
-  .cta__top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: var(--text-label);
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    color: var(--paper);
-  }
-
-  /* Sized from the block's own width so the address always fits on one line. */
-  .cta__address {
-    font-size: clamp(0.9rem, 9.8cqw, 5.75rem);
-    font-weight: 900;
-    line-height: 0.95;
-    white-space: nowrap;
-  }
 
   .arrow {
     width: 1.1em;
@@ -207,13 +174,14 @@ const headline = contact.heading.toUpperCase();
       grid-template-columns: 1fr 1fr;
     }
 
-    .profiles__wide {
+    /* An odd card out at the end spans the row. */
+    .profiles__wide,
+    .profiles > li:last-child:nth-child(odd) {
       grid-column: 1 / -1;
     }
   }
 
   @media (hover: hover) {
-    .cta:hover,
     .profile:hover {
       transform: translate(-2px, -2px);
     }
@@ -223,16 +191,11 @@ const headline = contact.heading.toUpperCase();
       color: var(--field);
     }
 
-    .cta:hover .arrow {
-      transform: translateX(0.25em);
-    }
-
     .profile:hover .arrow {
       transform: translate(0.12em, -0.12em);
     }
   }
 
-  .cta:active,
   .profile:active {
     transform: translate(var(--shadow), var(--shadow));
   }
@@ -292,7 +255,6 @@ const headline = contact.heading.toUpperCase();
       animation: none;
     }
 
-    .cta,
     .profile,
     .arrow {
       transition: none;

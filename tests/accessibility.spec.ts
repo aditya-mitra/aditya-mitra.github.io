@@ -78,9 +78,9 @@ test('tabbing visits every control from top to bottom, each with a visible, unco
     stops.push(stop);
   }
   const names = stops.map((s) => s.name);
-  // Frame, then a Work Card's link and the carousel buttons, then the three contact links.
+  // Frame, then a Work Card's link and the carousel buttons, then the five contact links.
   expect(names.length, names.join(' | ')).toBeGreaterThanOrEqual(10);
-  expect(names.at(-1), names.join(' | ')).toMatch(/github/i);
+  expect(names.at(-1), names.join(' | ')).toMatch(/bluesky/i);
 
   for (const stop of stops) {
     expect(stop, `${stop.name} shows focus`).toMatchObject({ outline: true, onScreen: true, uncovered: true });

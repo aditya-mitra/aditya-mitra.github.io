@@ -19,50 +19,46 @@ test('the Contact Section signs off with a "Ready to ship!" heading', async ({ p
   expect(box!.x + box!.width).toBeLessThanOrEqual(width);
 });
 
-test('the Contact Section offers exactly three contact links with the right destinations', async ({ page }) => {
+const profiles = [
+  { name: /linkedin/i, href: 'https://www.linkedin.com/in/aditya--mitra/' },
+  { name: /github/i, href: 'https://github.com/aditya-mitra' },
+  { name: /^x\b/i, href: 'https://x.com/adityamitrax' },
+  { name: /bluesky/i, href: 'https://bsky.app/profile/adityamitra.bsky.social' },
+];
+
+test('the Contact Section offers the email and four profile links with the right destinations', async ({ page }) => {
   const contact = page.getByRole('region', { name: 'Contact' });
-  await expect(contact.getByRole('link')).toHaveCount(3);
+  await expect(contact.getByRole('link')).toHaveCount(5);
 
   const email = contact.getByRole('link', { name: /temporaray\.ot831@aleeas\.com/ });
   await expect(email).toBeVisible();
   await expect(email).toHaveAttribute('href', 'mailto:temporaray.ot831@aleeas.com');
   await expect(email).not.toHaveAttribute('target', '_blank');
 
-  const linkedin = contact.getByRole('link', { name: /linkedin/i });
-  await expect(linkedin).toBeVisible();
-  await expect(linkedin).toHaveAttribute('href', 'https://www.linkedin.com/in/aditya--mitra/');
-
-  const github = contact.getByRole('link', { name: /github/i });
-  await expect(github).toBeVisible();
-  await expect(github).toHaveAttribute('href', 'https://github.com/aditya-mitra');
-
-  for (const external of [linkedin, github]) {
-    await expect(external).toHaveAttribute('target', '_blank');
-    await expect(external).toHaveAttribute('rel', /noopener/);
+  for (const { name, href } of profiles) {
+    const link = contact.getByRole('link', { name });
+    await expect(link).toBeVisible();
+    await expect(link).toHaveAttribute('href', href);
+    await expect(link).toHaveAttribute('target', '_blank');
+    await expect(link).toHaveAttribute('rel', /noopener/);
   }
 });
 
-test('the email address is the largest of the contact links and fits the viewport', async ({ page }) => {
+test('the email card looks like the other contact cards and fits the viewport', async ({ page }) => {
   const contact = page.getByRole('region', { name: 'Contact' });
   const email = contact.getByRole('link', { name: /temporaray/ });
+  const linkedin = contact.getByRole('link', { name: /linkedin/i });
   await email.scrollIntoViewIfNeeded();
-  const area = async (name: RegExp) => {
-    const b = (await contact.getByRole('link', { name }).boundingBox())!;
-    return b.width * b.height;
-  };
-  expect(await area(/temporaray/)).toBeGreaterThan(await area(/linkedin/i));
-  expect(await area(/temporaray/)).toBeGreaterThan(await area(/github/i));
 
-  const box = (await email.boundingBox())!;
-  expect(box.x).toBeGreaterThanOrEqual(0);
-  expect(box.x + box.width).toBeLessThanOrEqual(page.viewportSize()!.width);
-  // One line: the address is never broken across lines.
-  const lines = await email.evaluate((el) => {
-    const range = document.createRange();
-    range.selectNodeContents(el.querySelector('[data-address]') ?? el);
-    return new Set([...range.getClientRects()].map((r) => Math.round(r.top))).size;
-  });
-  expect(lines).toBe(1);
+  const look = (el: Element) => {
+    const s = getComputedStyle(el);
+    return [s.backgroundColor, s.color, s.borderTopWidth, s.fontSize, s.boxShadow];
+  };
+  expect(await email.evaluate(look)).toEqual(await linkedin.evaluate(look));
+  const emailBox = (await email.boundingBox())!;
+  expect(emailBox.height).toBeCloseTo((await linkedin.boundingBox())!.height, -1);
+  expect(emailBox.x).toBeGreaterThanOrEqual(0);
+  expect(emailBox.x + emailBox.width).toBeLessThanOrEqual(page.viewportSize()!.width);
 });
 
 test('there is no "Book a video call" link while the booking URL is unset', async ({ page }) => {

@@ -180,6 +180,18 @@ export const site = {
         href: 'https://github.com/aditya-mitra',
         external: true,
       },
+      x: {
+        label: 'X',
+        text: 'x.com/adityamitrax',
+        href: 'https://x.com/adityamitrax',
+        external: true,
+      },
+      bluesky: {
+        label: 'Bluesky',
+        text: 'adityamitra.bsky.social',
+        href: 'https://bsky.app/profile/adityamitra.bsky.social',
+        external: true,
+      },
     } satisfies Record<string, ContactLink>,
     // "Book a video call" is rendered only when this is set.
     bookingUrl: undefined as string | undefined,

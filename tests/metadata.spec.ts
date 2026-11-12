@@ -69,7 +69,12 @@ test('structured data describes Aditya as a Person, without a phone number', asy
   expect(data.jobTitle).toBe('Founding Engineer');
   expect(data.url).toBe(SITE);
   expect(data.image).toBe(await meta(page, 'og:image'));
-  expect(data.sameAs).toEqual(['https://www.linkedin.com/in/aditya--mitra/', 'https://github.com/aditya-mitra']);
+  expect(data.sameAs).toEqual([
+    'https://www.linkedin.com/in/aditya--mitra/',
+    'https://github.com/aditya-mitra',
+    'https://x.com/adityamitrax',
+    'https://bsky.app/profile/adityamitra.bsky.social',
+  ]);
 
   expect(data).not.toHaveProperty('telephone');
   expect(raw).not.toMatch(/telephone|tel:/i);

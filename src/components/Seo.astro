@@ -7,7 +7,7 @@ import { site } from '../data/site';
 const { title, description, shareImage } = site.meta;
 // Link previews only follow absolute URLs.
 const image = new URL(shareImage.path, site.url).href;
-const { linkedin, github } = site.contact.links;
+const { linkedin, github, x, bluesky } = site.contact.links;
 
 // No phone number, by design: only what the page itself shows.
 const person = {
@@ -18,7 +18,7 @@ const person = {
   description,
   url: site.url,
   image,
-  sameAs: [linkedin.href, github.href],
+  sameAs: [linkedin.href, github.href, x.href, bluesky.href],
 };
 ---
 
