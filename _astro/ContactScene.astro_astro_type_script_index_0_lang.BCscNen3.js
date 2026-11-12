@@ -1,0 +1,2 @@
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["_astro/keyboard-toy.DDTCplVg.js","_astro/shared.po1Qjajx.js"])))=>i.map(i=>d[i]);
+import{t as e}from"./shared.po1Qjajx.js";import{t}from"./preload-helper.DygEbaNj.js";var n=document.querySelector(`[data-contact-scene]`);n&&e(n,()=>t(()=>import(`./keyboard-toy.DDTCplVg.js`),__vite__mapDeps([0,1])),`0px 0px 50% 0px`);

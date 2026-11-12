@@ -1,0 +1,1 @@
+var e=matchMedia(`(prefers-reduced-motion: reduce)`);function t(e,t,n=`50% 0px`){let r=new IntersectionObserver(e=>{e.some(e=>e.isIntersecting)&&(r.disconnect(),t())},{rootMargin:n});r.observe(e)}export{e as n,t};

@@ -1,0 +1,2 @@
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["_astro/about-scene.BVtIC7VL.js","_astro/animate.C5v4leMh.js","_astro/resolve-elements.C6BpS2-M.js","_astro/scroll.U70sng7R.js","_astro/shared.po1Qjajx.js"])))=>i.map(i=>d[i]);
+import{t as e}from"./shared.po1Qjajx.js";import{t}from"./preload-helper.DygEbaNj.js";var n=document.querySelector(`.about-scene`);n&&e(n,()=>t(async()=>{let{start:e}=await import(`./about-scene.BVtIC7VL.js`);return{start:e}},__vite__mapDeps([0,1,2,3,4])).then(({start:e})=>e(n)));
