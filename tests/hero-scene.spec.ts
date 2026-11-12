@@ -1,4 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
+import { capture, changedPixels, colourShift } from './support/pixels';
 
 // The Hero Scene: the Character in front of layered clouds, idle motion and cursor parallax.
 
@@ -53,15 +54,34 @@ test.describe('the Character', () => {
   });
 });
 
-// The Scene is the Hero's aria-hidden backdrop; its clouds are the SVGs inside it.
-const scene = (page: Page) => hero(page).locator('[aria-hidden="true"]').first();
-const box = async (page: Page, which: 'character' | number) => {
-  const el = which === 'character' ? character(page) : scene(page).locator('svg').nth(which);
-  const b = (await el.boundingBox())!;
-  return { x: Math.round(b.x * 10) / 10, y: Math.round(b.y * 10) / 10 };
+// The Scene as the visitor sees it: the Character picture, the far clouds
+// (the darker shade, --field-lo) and the near clouds (the lighter, --field-hi).
+const skipIntro = (page: Page) => page.addInitScript(() => sessionStorage.setItem('intro', 'seen'));
+const heroShot = async (page: Page) => capture(page, (await hero(page).boundingBox())!);
+const characterBox = async (page: Page) => (await character(page).boundingBox())!;
+const around = (b: { x: number; y: number; width: number; height: number }, pad = 24) => ({
+  x: b.x - pad,
+  y: b.y - pad,
+  width: b.width + pad * 2,
+  height: b.height + pad * 2,
+});
+
+/** How far the Character and the far and near clouds move, in pixels rightwards, while `act` runs. */
+const movement = async (page: Page, act: () => Promise<unknown>) => {
+  const [c0, a] = [await characterBox(page), await heroShot(page)];
+  await act();
+  const [c1, b] = [await characterBox(page), await heroShot(page)];
+  const ignore = [around(c0), around(c1)]; // the Character moves on its own
+  return {
+    character: { x: Math.round(c1.x - c0.x), y: Math.round(c1.y - c0.y) },
+    far: await colourShift(page, a, b, 'var(--field-lo)', ignore),
+    near: await colourShift(page, a, b, 'var(--field-hi)', ignore),
+  };
 };
-const sceneAnimations = (page: Page) =>
-  scene(page).evaluate((root) =>
+
+/** Keyframed properties of the animations running in the Hero. */
+const heroAnimations = (page: Page) =>
+  hero(page).evaluate((root) =>
     document
       .getAnimations()
       .filter((a) => a.playState === 'running' && root.contains((a.effect as KeyframeEffect).target))
@@ -71,16 +91,19 @@ const freezeIdle = (page: Page) =>
   page.evaluate(() => document.getAnimations().forEach((a) => a instanceof CSSAnimation && a.pause()));
 
 test.describe('idle motion', () => {
+  test.beforeEach(async ({ page }) => {
+    await skipIntro(page);
+  });
+
   test('the clouds drift and the Character bobs, animating only transform and opacity', async ({ page }) => {
     await page.goto('/');
-    const before = [await box(page, 'character'), await box(page, 0), await box(page, 2)];
-    await page.waitForTimeout(1200);
-    const after = [await box(page, 'character'), await box(page, 0), await box(page, 2)];
-    expect(after[0].y).not.toBe(before[0].y); // bob
-    expect(after[1].x).toBeLessThan(before[1].x); // back clouds drift left
-    expect(after[2].x).toBeLessThan(before[2].x); // front clouds drift left
+    await expect(character(page)).toBeVisible();
+    const moved = await movement(page, () => page.waitForTimeout(1200));
+    expect(moved.character.y).not.toBe(0); // bob
+    expect(moved.far).toBeLessThan(0); // far clouds drift left
+    expect(moved.near).toBeLessThan(0); // near clouds drift left
 
-    const props = new Set((await sceneAnimations(page)).flat());
+    const props = new Set((await heroAnimations(page)).flat());
     for (const p of ['offset', 'easing', 'composite', 'computedOffset']) props.delete(p);
     expect(props.size).toBeGreaterThan(0);
     expect([...props].filter((p) => p !== 'transform' && p !== 'opacity')).toEqual([]);
@@ -89,33 +112,38 @@ test.describe('idle motion', () => {
   test('is off when the visitor prefers reduced motion', async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.goto('/');
-    expect(await sceneAnimations(page)).toEqual([]);
-    const before = await box(page, 'character');
+    await expect(character(page)).toBeVisible();
+    expect(await heroAnimations(page)).toEqual([]);
+    const before = await heroShot(page);
     await page.waitForTimeout(800);
-    expect(await box(page, 'character')).toEqual(before);
+    expect(await changedPixels(page, before, await heroShot(page))).toBe(0);
   });
 });
 
 test.describe('cursor parallax', () => {
+  test.beforeEach(async ({ page }) => {
+    await skipIntro(page);
+  });
+
   const sweep = async (page: Page) => {
     const { width, height } = page.viewportSize()!;
     await page.mouse.move(width * 0.05, height * 0.5);
     await page.waitForTimeout(900);
-    const left = [await box(page, 'character'), await box(page, 0), await box(page, 2)];
-    await page.mouse.move(width * 0.95, height * 0.5, { steps: 4 });
-    await page.waitForTimeout(900);
-    const right = [await box(page, 'character'), await box(page, 0), await box(page, 2)];
-    return left.map((l, i) => right[i].x - l.x);
+    const moved = await movement(page, async () => {
+      await page.mouse.move(width * 0.95, height * 0.5, { steps: 4 });
+      await page.waitForTimeout(900);
+    });
+    return [moved.character.x, moved.far, moved.near];
   };
 
   test('shifts the Character and the cloud layers by different amounts on pointer devices', async ({ page, isMobile }) => {
     test.skip(isMobile, 'touch devices have no cursor');
     await page.goto('/');
     await freezeIdle(page);
-    const [char, back, front] = await sweep(page);
+    const [char, far, near] = await sweep(page);
     expect(Math.abs(char)).toBeGreaterThan(10);
-    expect(Math.abs(front)).toBeGreaterThan(Math.abs(back) + 10); // nearer layers move further
-    expect(Math.sign(char)).not.toBe(Math.sign(front)); // the Character and the clouds part
+    expect(Math.abs(near!)).toBeGreaterThan(Math.abs(far!) + 10); // nearer layers move further
+    expect(Math.sign(char)).not.toBe(Math.sign(near!)); // the Character and the clouds part
   });
 
   test('stays still on touch devices', async ({ page, isMobile }) => {

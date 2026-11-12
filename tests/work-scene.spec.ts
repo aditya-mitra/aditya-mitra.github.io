@@ -1,32 +1,33 @@
 import { expect, test, type Page } from '@playwright/test';
+import { capture, changedPixels } from './support/pixels';
 
 // The Work Scene (the Character at a desk, agent-bots carrying tasks) and the
 // giant "WORK" heading with scroll parallax.
 
 const work = (page: Page) => page.getByRole('region', { name: 'Work' });
 const heading = (page: Page) => work(page).getByRole('heading', { level: 2, name: 'Work' });
-// The Scene is the Section's aria-hidden backdrop.
-const scene = (page: Page) => work(page).locator(':scope > [aria-hidden="true"]').first();
+// The Scene is the Section's backdrop; its Character is the picture in the Section.
+const character = (page: Page) => work(page).locator('img[src*="character"]:visible');
 
 const skipIntro = (page: Page) => page.addInitScript(() => sessionStorage.setItem('intro', 'seen'));
 
-/** Keyframed properties of the CSS animations running inside the Scene. */
-const sceneAnimations = (page: Page) =>
-  scene(page).evaluate((root) =>
+/** Keyframed properties of the animations running in the Work Section. */
+const workAnimations = (page: Page) =>
+  work(page).evaluate((root) =>
     document
       .getAnimations()
       .filter((a) => a.playState === 'running' && root.contains((a.effect as KeyframeEffect).target))
       .map((a) => (a.effect as KeyframeEffect).getKeyframes().flatMap((k) => Object.keys(k))),
   );
 
-/** Positions of the Scene's moving parts, rounded to the pixel. */
-const partPositions = (page: Page) =>
-  scene(page).evaluate((root) =>
-    [...root.querySelectorAll('svg g, svg path, svg rect')].map((el) => {
-      const b = el.getBoundingClientRect();
-      return `${Math.round(b.x)},${Math.round(b.y)}`;
-    }),
-  );
+/** What the visitor sees of the Work Section. */
+const workShot = async (page: Page) => capture(page, (await work(page).boundingBox())!);
+
+/** Scrolls the Work Section into view and lets its content finish rising into place. */
+const showWork = async (page: Page) => {
+  await work(page).scrollIntoViewIfNeeded();
+  await page.waitForTimeout(1500);
+};
 
 /** Scrolls so the top of the Work Section sits `fraction` of a viewport below the top of the viewport. */
 const scrollWorkTo = async (page: Page, fraction: number) => {
@@ -37,10 +38,10 @@ const scrollWorkTo = async (page: Page, fraction: number) => {
   await page.waitForTimeout(400);
 };
 
-/** How far the heading sits below the Scene's top edge. */
+/** How far the heading sits below the top edge of its Section, and so of the Scene behind it. */
 const headingOffset = async (page: Page) => {
   const h = (await heading(page).boundingBox())!;
-  const s = (await scene(page).boundingBox())!;
+  const s = (await work(page).boundingBox())!;
   return h.y - s.y;
 };
 
@@ -49,28 +50,25 @@ test.describe('the Work Scene', () => {
     await skipIntro(page);
   });
 
-  test('is a hand-drawn inline SVG backdrop with the Character, hidden from assistive technology', async ({ page }) => {
+  test('is a drawn backdrop with the Character, hidden from assistive technology', async ({ page }) => {
     await page.goto('/');
     await work(page).scrollIntoViewIfNeeded();
-    await expect(scene(page)).toHaveAttribute('aria-hidden', 'true');
-    expect(await scene(page).locator('svg').count()).toBeGreaterThan(0);
-    await expect(scene(page).locator('img[src*="character"]:visible')).toHaveCount(1);
+    await expect(character(page)).toHaveCount(1);
     const tree = await work(page).ariaSnapshot();
     expect(tree).not.toMatch(/\bimg\b|graphics/i);
     // The Scene sits in the Section, visible beside or below the Work Cards.
-    const box = (await scene(page).boundingBox())!;
-    expect(box.height).toBeGreaterThan(200);
+    const box = (await character(page).boundingBox())!;
+    expect(box.height).toBeGreaterThan(100);
   });
 
   test('keeps moving on an idle loop, animating only transform and opacity', async ({ page }) => {
     await page.goto('/');
-    await work(page).scrollIntoViewIfNeeded();
-    const before = await partPositions(page);
+    await showWork(page);
+    const before = await workShot(page);
     await page.waitForTimeout(1000);
-    const after = await partPositions(page);
-    expect(after.filter((p, i) => p !== before[i]).length).toBeGreaterThan(3);
+    expect(await changedPixels(page, before, await workShot(page))).toBeGreaterThan(500);
 
-    const props = new Set((await sceneAnimations(page)).flat());
+    const props = new Set((await workAnimations(page)).flat());
     for (const p of ['offset', 'easing', 'composite', 'computedOffset']) props.delete(p);
     expect(props.size).toBeGreaterThan(0);
     expect([...props].filter((p) => p !== 'transform' && p !== 'opacity')).toEqual([]);
@@ -79,11 +77,11 @@ test.describe('the Work Scene', () => {
   test('is still when the visitor prefers reduced motion', async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.goto('/');
-    await work(page).scrollIntoViewIfNeeded();
-    expect(await sceneAnimations(page)).toEqual([]);
-    const before = await partPositions(page);
+    await showWork(page);
+    expect(await workAnimations(page)).toEqual([]);
+    const before = await workShot(page);
     await page.waitForTimeout(800);
-    expect(await partPositions(page)).toEqual(before);
+    expect(await changedPixels(page, before, await workShot(page))).toBe(0);
   });
 });
 
