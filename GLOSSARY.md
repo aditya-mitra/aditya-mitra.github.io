@@ -7,8 +7,12 @@ Aditya Mitra's single-page portfolio: one scrolling page that introduces him, sh
 ### Page structure
 
 **Frame**:
-The black border around the viewport together with the fixed top bar holding the Monogram and the Let's Talk cell.
-_Avoid_: Header, navbar, nav (the top bar carries no section links)
+The black border around the viewport together with the fixed top bar holding the Monogram, the Section Links (desktop only) and the Let's Talk cell.
+_Avoid_: Header, navbar
+
+**Section Links**:
+The Work, About and Contact cells beside Let's Talk in the top bar, each jumping to its Section. Desktop only.
+_Avoid_: Nav, menu
 
 **Section**:
 One of the four full-width parts of the page, in order: Hero, Work, About, Contact.

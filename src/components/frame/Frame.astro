@@ -1,10 +1,11 @@
 ---
 // The Frame: the black border around the viewport plus the fixed top bar.
 // It only arranges its parts; each part is its own component in this folder.
-// The top bar carries no section links.
+// On desktop the top bar carries the Section Links beside "Let's talk".
 import MonogramLink from './MonogramLink.astro';
 import LetsTalk from './LetsTalk.astro';
 import ModeToggle from './ModeToggle.astro';
+import SectionLinks from './SectionLinks.astro';
 import { site } from '../../data/site';
 ---
 
@@ -12,6 +13,7 @@ import { site } from '../../data/site';
 <header class="top-bar">
   <MonogramLink />
   <ModeToggle />
+  <SectionLinks />
   <LetsTalk />
 </header>
 <div class="frame-border" aria-hidden="true"></div>

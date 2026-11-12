@@ -57,6 +57,14 @@ export const site = {
   frame: {
     monogramLabel: 'Aditya Mitra – back to top',
     letsTalk: { text: "Let's talk", href: `mailto:${email}` },
+    sectionLinks: {
+      label: 'Sections',
+      links: [
+        { text: 'Work', href: '#work' },
+        { text: 'About', href: '#about' },
+        { text: 'Contact', href: '#contact' },
+      ],
+    },
     skipLink: 'Skip to content',
     // The Mode Toggle shows `text`; screen readers hear `text` + `hidden`.
     modeToggle: { text: 'Green', hidden: ' Mode' },

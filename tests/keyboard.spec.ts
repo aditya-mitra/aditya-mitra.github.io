@@ -16,8 +16,9 @@ const focused = (page: import('@playwright/test').Page) =>
     };
   });
 
-test('tabbing starts with the skip link, then the Monogram, the Mode Toggle and "Let\'s talk", each with a visible focus indicator', async ({ page }) => {
-  const expected = ['Skip to content', 'Aditya Mitra – back to top', 'Green Mode', "Let's talk"];
+test('tabbing starts with the skip link, then the Monogram, the Mode Toggle, the Section Links (desktop) and "Let\'s talk", each with a visible focus indicator', async ({ page }, info) => {
+  const sections = info.project.name === 'mobile' ? [] : ['Work', 'About', 'Contact'];
+  const expected = ['Skip to content', 'Aditya Mitra – back to top', 'Green Mode', ...sections, "Let's talk"];
   for (const name of expected) {
     await page.keyboard.press('Tab');
     expect(await focused(page)).toEqual({ name, outline: true, onScreen: true });

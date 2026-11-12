@@ -32,7 +32,7 @@ Vocabulary in this spec follows `GLOSSARY.md`.
 7. As a visitor, I want a black border around the viewport and a fixed top bar, so that the page has the framed, poster-like look of the reference.
 8. As a visitor, I want the Monogram in the top bar, so that I always know whose site this is.
 9. As a visitor, I want a "Let's talk" cell in the top bar at all times, so that I can start an email from anywhere on the page.
-10. As a visitor, I want the top bar to carry no section links, so that it stays minimal.
+10. As a visitor on desktop, I want Work, About and Contact links beside "Let's talk" in the top bar, so that I can jump to any Section.
 11. As a visitor, I want the Monogram to take me back to the top of the page, so that I can return to the Hero quickly.
 
 ### Hero
@@ -91,7 +91,7 @@ Vocabulary in this spec follows `GLOSSARY.md`.
 
 49. As a visitor, I want hover and press feedback on every interactive element, so that the page feels responsive.
 50. As a visitor, I want Sections to animate into view as I scroll, so that the page unfolds.
-51. As a visitor, I want native scrolling, so that scrolling behaves as it does everywhere else on my device.
+51. As a visitor, I want native scrolling, with in-page links (the Monogram, the Section Links) gliding smoothly to their target unless I prefer reduced motion, so that scrolling behaves as it does everywhere else on my device and jumps never disorient me.
 52. As a visitor who prefers reduced motion, I want idle loops, parallax and scroll-linked animation turned off, so that the page is calm.
 53. As a visitor on a low-powered phone, I want Toys to load only when I scroll near them, so that the page stays fast.
 54. As a visitor who never touches a Toy, I want to lose nothing, so that the content never depends on play.
@@ -120,13 +120,13 @@ Vocabulary in this spec follows `GLOSSARY.md`.
 - Astro, static output, no UI framework. Plain CSS.
 - bun is the package manager and script runner.
 - Motion (motion.dev, vanilla API) for sequenced, scroll-linked and spring animation: the Intro, Section reveals, the tunnel transition, the Work carousel. CSS animation for idle loops (clouds, bob, Ticker, agent-bots). Only `transform` and `opacity` are animated.
-- Native scrolling. No smooth-scroll library, no GSAP, no Rive.
+- Native scrolling. In-page links glide via CSS `scroll-behavior: smooth`, off under `prefers-reduced-motion: reduce`. No smooth-scroll library, no GSAP, no Rive.
 - Fonts are self-hosted: Gasoek One for the display greeting and Codes, Alumni Sans for headings and labels, and a free or system face for body text. Latin subset only, with `font-display: swap` and preloading of what the Hero needs.
 
 ### Page structure
 
 - One page at `/`. Section order: Hero, Work, About, Contact, then the footer.
-- The Frame is a black border around the viewport plus a fixed top bar with the Monogram on the left and the "Let's talk" cell on the right. The cell is a `mailto:` link. There are no section links.
+- The Frame is a black border around the viewport plus a fixed top bar with the Monogram on the left and, on the right, the Section Links (Work, About, Contact; desktop only, hidden below 48rem) followed by the "Let's talk" cell. The cell is a `mailto:` link.
 - Every Section has one Scene. Scenes are hand-written inline SVG so that each part can be animated separately, and are hidden from assistive technology.
 - Layout is fluid, with type and borders sized by `clamp()` as in the reference. Mobile stacks the Hero (Character above greeting) and moves the Mode Toggle into the top bar.
 
@@ -213,7 +213,7 @@ Through that seam:
   - The Mode Toggle turns Green Mode on and off and reports its state.
   - The Work carousel moves forward and back by button and by keyboard, and the counter follows.
   - Each "View work" link and each contact link has the right destination; external links open in a new tab.
-  - Absence checks: no phone number, no section links in the Frame, no link to `/lab` or to a Services section, no "Book a video call" while the booking URL is unset.
+  - Absence checks: no phone number, no link to `/lab` or to a Services section, no "Book a video call" while the booking URL is unset.
   - With JavaScript disabled, all content is readable and nothing covers it.
 - **Lighthouse**, mobile preset, against the same served build: Performance, Accessibility, Best Practices and SEO each 95 or higher.
 

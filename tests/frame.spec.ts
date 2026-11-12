@@ -25,13 +25,72 @@ test('the Frame carries a "Let\'s talk" cell that starts an email', async ({ pag
   await expect(cell).toBeInViewport();
 });
 
-test('the Frame carries no section links', async ({ page }) => {
+test('on desktop the Frame carries Work, About and Contact links beside "Let\'s talk", each jumping to its Section', async ({ page }, info) => {
+  const nav = page.getByRole('banner').getByRole('navigation', { name: 'Sections' });
+  if (info.project.name === 'mobile') {
+    await expect(nav).toBeHidden();
+    return;
+  }
+  const letsTalk = page.getByRole('banner').getByRole('link', { name: "Let's talk" });
+  const links = ['Work', 'About', 'Contact'].map((name) => nav.getByRole('link', { name, exact: true }));
+  const boxes = [];
+  for (const link of [...links, letsTalk]) {
+    await expect(link).toBeVisible();
+    boxes.push((await link.boundingBox())!);
+  }
+  for (let i = 1; i < boxes.length; i++) {
+    expect(boxes[i].x).toBeGreaterThan(boxes[i - 1].x); // left to right, ending with "Let's talk"
+    expect(Math.abs(boxes[i].y - boxes[0].y)).toBeLessThan(2);
+  }
+
+  for (const [i, name] of ['Work', 'About', 'Contact'].entries()) {
+    await links[i].click();
+    await expect(page).toHaveURL(new RegExp(`#${name.toLowerCase()}$`));
+    await expect(page.getByRole('region', { name })).toBeInViewport();
+  }
+});
+
+test('the Frame carries no Services or Lab links', async ({ page }) => {
   const banner = page.getByRole('banner');
-  await expect(banner.getByRole('link')).toHaveCount(2); // Monogram and "Let's talk" only
-  await expect(banner.getByRole('navigation')).toHaveCount(0);
-  for (const name of ['Work', 'About', 'Contact', 'Services', 'Lab']) {
+  for (const name of ['Services', 'Lab']) {
     await expect(banner.getByRole('link', { name, exact: true })).toHaveCount(0);
   }
+});
+
+test('in-page links glide to their target rather than jump', async ({ page }) => {
+  await page.getByRole('region', { name: 'Contact' }).scrollIntoViewIfNeeded();
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(200);
+  const start = await page.evaluate(() => window.scrollY);
+
+  // Record scrollY every frame from the click until the page reaches the top.
+  const path = page.evaluate(
+    () =>
+      new Promise<number[]>((resolve) => {
+        const seen: number[] = [];
+        const tick = () => {
+          seen.push(window.scrollY);
+          if (window.scrollY === 0 || seen.length > 300) resolve(seen);
+          else requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      }),
+  );
+  await page.getByRole('banner').getByRole('link', { name: /Aditya Mitra/ }).click();
+  const seen = await path;
+  expect(seen.at(-1)).toBe(0);
+  expect(seen.filter((y) => y > 0 && y < start).length).toBeGreaterThan(2); // passed through the page on the way
+});
+
+test.describe('when the visitor prefers reduced motion', () => {
+  test.use({ contextOptions: { reducedMotion: 'reduce' } });
+
+  test('in-page links jump straight to their target', async ({ page }) => {
+    await page.getByRole('region', { name: 'Contact' }).scrollIntoViewIfNeeded();
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(200);
+
+    await page.getByRole('banner').getByRole('link', { name: /Aditya Mitra/ }).click();
+    expect(await page.evaluate(() => window.scrollY)).toBe(0);
+  });
 });
 
 test('the Frame draws a black border around the viewport', async ({ page }) => {

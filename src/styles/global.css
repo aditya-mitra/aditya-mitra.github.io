@@ -116,3 +116,10 @@ button {
   border: 0;
 }
 
+
+/* In-page links (Monogram, Section Links, skip link) glide to their target. */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
