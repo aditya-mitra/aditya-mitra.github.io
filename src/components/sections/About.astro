@@ -7,7 +7,6 @@ import AboutScene from '../scenes/AboutScene.astro';
 import { site } from '../../data/site';
 
 const { about } = site;
-const count = String(about.passions.length).padStart(2, '0');
 // The Ticker loops by sliding one copy's width; the extra copies fill wide screens
 // and are hidden from assistive technology, so each Passion is read once.
 const spareCopies = [1, 2];
@@ -30,7 +29,6 @@ const spareCopies = [1, 2];
   <div class="scoreboard on-ink" data-reveal>
     <div class="scoreboard__board">
       <h3 id="passions-heading" class="scoreboard__label">{about.passionsHeading}</h3>
-      <span class="scoreboard__count" aria-hidden="true">{count}</span>
     </div>
     <div class="ticker">
       <div class="ticker__track">
@@ -155,17 +153,6 @@ const spareCopies = [1, 2];
   .scoreboard__label {
     font-size: clamp(2rem, 1.5rem + 2vw, 3.25rem);
     letter-spacing: 0.04em;
-  }
-
-  .scoreboard__count {
-    padding: 0.18em 0.22em 0.1em;
-    background: var(--field);
-    color: var(--ink);
-    border-radius: calc(var(--radius) * 0.6);
-    font-family: var(--font-display);
-    font-size: clamp(2.25rem, 1.6rem + 2.6vw, 4rem);
-    line-height: 0.9;
-    font-variant-numeric: tabular-nums;
   }
 
   .ticker {
