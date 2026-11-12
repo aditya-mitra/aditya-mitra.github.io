@@ -165,7 +165,7 @@ export const site = {
 
   contact: {
     label: 'Contact',
-    heading: 'Ready to ship?',
+    heading: 'Ready to ship!',
     links: {
       email: { label: 'Email', text: email, href: `mailto:${email}`, external: false },
       linkedin: {

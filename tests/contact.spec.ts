@@ -4,11 +4,11 @@ test.beforeEach(async ({ page }) => {
   await page.goto('/');
 });
 
-test('the Contact Section signs off with a "Ready to ship?" heading', async ({ page }) => {
+test('the Contact Section signs off with a "Ready to ship!" heading', async ({ page }) => {
   const contact = page.getByRole('region', { name: 'Contact' });
   const heading = contact.getByRole('heading', { level: 2 });
   await expect(heading).toHaveCount(1);
-  await expect(heading).toHaveAccessibleName(/^ready to ship\?$/i);
+  await expect(heading).toHaveAccessibleName(/^ready to ship!$/i);
 
   // The headline a sighted visitor sees is on screen and inside the page width.
   await heading.scrollIntoViewIfNeeded();
