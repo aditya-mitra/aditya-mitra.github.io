@@ -54,7 +54,12 @@ const focusStop = (page: Page) =>
     return {
       name: (el.getAttribute('aria-label') ?? el.textContent ?? '').trim().replace(/\s+/g, ' ').slice(0, 40),
       fixed: !!el.closest('header') || style.position === 'fixed',
-      pageY: rect.top + scrollY,
+      // Layout position on the page, unaffected by any animation in flight.
+      pageY: (() => {
+        let y = 0;
+        for (let e: HTMLElement | null = el; e; e = e.offsetParent as HTMLElement | null) y += e.offsetTop;
+        return Math.round(y);
+      })(),
       outline: style.outlineStyle !== 'none' && parseFloat(style.outlineWidth) >= 2,
       onScreen: rect.bottom > 0 && rect.top < innerHeight && rect.right > 0 && rect.left < innerWidth,
       uncovered: !!hit && (el === hit || el.contains(hit)),

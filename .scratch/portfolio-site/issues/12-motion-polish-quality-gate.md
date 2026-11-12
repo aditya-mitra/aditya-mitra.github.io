@@ -4,13 +4,13 @@
 
 **Blocked by:** 02, 03, 04, 05, 06, 07, 08, 09, 10, 11
 
-**Status:** ready-for-agent
+**Status:** resolved
 
 Spec: `.scratch/portfolio-site/spec.md`. Vocabulary: `GLOSSARY.md`.
 
-- [ ] Sections animate into view on scroll (Motion); hover and press feedback on every interactive element
-- [ ] Under reduced motion, idle loops, parallax and scroll-linked animation are all off across the page
-- [ ] One h1, sensible heading order, labelled landmarks, all Scenes hidden from assistive technology, visible focus and logical tab order across the whole page
-- [ ] With JavaScript disabled, all content is readable and nothing covers it
-- [ ] Lighthouse mobile preset: Performance, Accessibility, Best Practices and SEO each 95 or higher, enforced by the script
-- [ ] Full Playwright suite green at both viewports; whole-page feel reviewed by eye against the reference captures and rough edges fixed
+- [x] Sections animate into view on scroll (Motion); hover and press feedback on every interactive element
+- [x] Under reduced motion, idle loops, parallax and scroll-linked animation are all off across the page
+- [x] One h1, sensible heading order, labelled landmarks, all Scenes hidden from assistive technology, visible focus and logical tab order across the whole page
+- [x] With JavaScript disabled, all content is readable and nothing covers it
+- [x] Lighthouse mobile preset: Performance, Accessibility, Best Practices and SEO each 95 or higher, enforced by the script
+- [x] Full Playwright suite green at both viewports; whole-page feel reviewed by eye against the reference captures and rough edges fixed
