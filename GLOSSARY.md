@@ -73,5 +73,5 @@ The scrolling line of Honours beside the scoreboard in the About Section.
 _Avoid_: Marquee, awards bar
 
 **Honour**:
-A recognition or credential shown in the Ticker, e.g. Meta XROS Fellow 2023 or GSoC 2021.
+A recognition or credential shown in the Ticker, e.g. Open source wizard or Serial bug fixer.
 _Avoid_: Award, achievement

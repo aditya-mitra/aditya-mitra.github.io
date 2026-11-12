@@ -155,11 +155,13 @@ export const site = {
     ],
     honoursHeading: 'Honours',
     honours: [
-      'Meta XROS Fellow 2023 (Top 100 of 10,000+)',
-      'Google Summer of Code 2021',
-      'Continue core maintainer',
-      '20+ model providers integrated',
-      'B.Tech Computer Science (KIIT)',
+      'Open source wizard',
+      'Framework fanatic',
+      'GPU accelerated UI enthusiast',
+      'Serial bug fixer',
+      'Agent skills optimizer',
+      'Idea to production producer',
+      'SaaS director',
     ],
   },
 

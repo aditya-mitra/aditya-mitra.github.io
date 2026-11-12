@@ -12,11 +12,13 @@ const roster = [
 ];
 
 const honours = [
-  'Meta XROS Fellow 2023 (Top 100 of 10,000+)',
-  'Google Summer of Code 2021',
-  'Continue core maintainer',
-  '20+ model providers integrated',
-  'B.Tech Computer Science (KIIT)',
+  'Open source wizard',
+  'Framework fanatic',
+  'GPU accelerated UI enthusiast',
+  'Serial bug fixer',
+  'Agent skills optimizer',
+  'Idea to production producer',
+  'SaaS director',
 ];
 
 const about = (page: Page) => page.getByRole('region', { name: 'About' });
@@ -46,10 +48,10 @@ test('the Roster lists the eight companies and ecosystems', async ({ page }) => 
   for (const item of await list.getByRole('listitem').all()) await expect(item).toBeVisible();
 });
 
-test('the Ticker reads out each of the five Honours exactly once', async ({ page }) => {
+test('the Ticker reads out each of the seven Honours exactly once', async ({ page }) => {
   // Role queries see what assistive technology sees: duplicated ticker content must not show up.
   await expect(ticker(page).getByRole('listitem')).toHaveText(honours);
-  await expect(about(page).getByRole('listitem').filter({ hasText: 'Google Summer of Code 2021' })).toHaveCount(1);
+  await expect(about(page).getByRole('listitem').filter({ hasText: 'Serial bug fixer' })).toHaveCount(1);
   await expect(about(page).getByRole('heading', { level: 3, name: 'Honours' })).toBeVisible();
 });
 

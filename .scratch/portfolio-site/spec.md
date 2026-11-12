@@ -159,7 +159,7 @@ Vocabulary in this spec follows `GLOSSARY.md`.
 ### About
 
 - A card with a bio rewritten from the resume's profile summary, and the Roster: Frontman AI, Continue, Napster, Ethereal Engine, Qualcomm, LimeChat, AI4Bharat, Rocket.Chat.
-- A scoreboard with the Ticker of Honours: Meta XROS Fellow 2023 (Top 100 of 10,000+), Google Summer of Code 2021, Continue core maintainer, 20+ model providers integrated, B.Tech Computer Science (KIIT).
+- A scoreboard with the Ticker of Honours: Open source wizard, Framework fanatic, GPU accelerated UI enthusiast, Serial bug fixer, Agent skills optimizer, Idea to production producer, SaaS director.
 - Scene: a scroll-linked grid tunnel that zooms into a wireframe 3D room. Toy: a draggable object in the room.
 
 ### Contact
