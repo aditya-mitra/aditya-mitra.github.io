@@ -1,6 +1,7 @@
-# Builds the site with bun and publishes dist/ to GitHub Pages on every push to main.
-# Repository setting required once: Settings > Pages > Source = "GitHub Actions".
-name: Deploy to GitHub Pages
+# Builds the site with bun on every push to main, then publishes dist/ two ways:
+# - GitHub Pages: pushed to the gh-pages branch (Settings > Pages > Source = "Deploy from a branch", gh-pages, /).
+# - Netlify: aditya-mitra.netlify.app, using the NETLIFY_AUTH_TOKEN_V2 and NETLIFY_SITE_ID_V2 secrets.
+name: Deploy
 
 on:
   push:
@@ -8,12 +9,10 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 concurrency:
-  group: pages
+  group: deploy
   cancel-in-progress: true
 
 jobs:
@@ -28,16 +27,46 @@ jobs:
       - run: bun run build
         env:
           ASTRO_TELEMETRY_DISABLED: 1
-      - uses: actions/upload-pages-artifact@v3
+      # Jekyll would drop Astro's _astro/ folder.
+      - run: touch dist/.nojekyll
+      - uses: actions/upload-artifact@v4
         with:
+          name: dist
           path: dist
+          include-hidden-files: true
 
-  deploy:
+  github_pages:
     needs: build
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
+      - uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: dist
+          clean: true
+
+  netlify:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
+      - uses: nwtgck/actions-netlify@v3.0
+        with:
+          publish-dir: dist
+          production-branch: main
+          production-deploy: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: 'Deploying at aditya-mitra.netlify.app - ${{ github.event.head_commit.message }}'
+          enable-pull-request-comment: false
+          enable-commit-comment: true
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN_V2 }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID_V2 }}
+        timeout-minutes: 5
