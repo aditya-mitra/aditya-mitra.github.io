@@ -1,6 +1,6 @@
 # Portfolio site: single-page portfolio for Aditya Mitra
 
-Status: ready-for-agent
+Status: resolved
 
 ## Problem Statement
 
