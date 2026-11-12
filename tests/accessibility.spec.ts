@@ -72,7 +72,7 @@ test('tabbing visits every control from top to bottom, each with a visible, unco
   const stops: Awaited<ReturnType<typeof focusStop>>[] = [];
   for (let i = 0; i < 40; i++) {
     await page.keyboard.press('Tab');
-    await page.waitForTimeout(700); // focus scrolls smoothly into view
+    await page.waitForTimeout(700); // let the Section reveal it scrolls into finish
     const stop = await focusStop(page);
     if (stop.isBody || (i > 0 && stop.name === stops[0].name)) break;
     stops.push(stop);

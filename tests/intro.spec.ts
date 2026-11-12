@@ -93,12 +93,13 @@ test('the page can be clicked while the Intro plays', async ({ page }) => {
 });
 
 test.describe('when the visitor prefers reduced motion', () => {
-  test.use({ reducedMotion: 'reduce' });
+  test.use({ contextOptions: { reducedMotion: 'reduce' } });
 
   test('the Intro is skipped and the page shows immediately', async ({ page }) => {
-    await page.goto('/');
-    await expect(greeting(page)).toBeVisible();
-    await expect(command(page)).toBeHidden();
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
+    // Checked once, at once: a played Intro would be on screen right now.
+    expect(await command(page).isVisible()).toBe(false);
+    expect(await greeting(page).isVisible()).toBe(true);
     expect(await centrePixel(page)).not.toEqual([0, 0, 0]);
   });
 });
